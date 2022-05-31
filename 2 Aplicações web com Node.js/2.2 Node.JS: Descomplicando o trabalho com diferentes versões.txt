@@ -1,0 +1,69 @@
+Acho que todos já passamos pelo problema de ter que trabalhar com várias versões de alguma ferramenta, bem foi isso que aconteceu com o Node.JS, e que me fez escrever como podemos trabalhar com versões diferentes do Node.JS na mesma máquina de maneira simples e rápida com um ou dois comandos no terminal apenas.
+
+
+O problema das versões
+
+Precisei utilizar a versão 10 do Node.JS, para ser mais exato a versão 10.16.3 para fazer algumas atualizações em um projeto que já tinha feito a um tempo atrás.
+
+Porém, eu estava usando o Node.JS na versão 13.5.0, porque eu estava testando e experimentando algumas coisas novas que tem nessa versão, contudo não vamos falar sobre o que há de novo em cada versão do Node.JS aqui, isso é assunto para outros artigos.
+
+Bem como você já deve ter imaginado, tive alguns obstáculos nesse momento, eu poderia remover a versão mais atual e instalar a versão anterior que era a usada no projeto, porém eu ainda gostaria de continuar a testar algumas coisas na nova versão, e então o que fazer? A resposta é NVM.
+
+
+O que é o NVM?
+
+O NVM ou Node Version Manager é um gerenciador de versões do Node.JS, bem como vocês já podem imaginar ele é responsável por gerenciar as versões instaladas na nossa máquina de desenvolvimento.
+
+O NVM foi criado “instalado por usuário e invocado por shell”, ou seja, tudo é feito nele usando o terminal do seu sistema e temos algumas opções como sh, dash, ksh, zsh, bash, que atende quase todos os desenvolvedores e desenvolvedoras, e também pode ser usado em sistemas Unix, macOS, e no Windows WSL.
+
+O que devemos realmente entender é que o NVM pode baixar várias versões diferentes do Node.JS na nossa máquina. Agora que já sabemos o que é o NVM, vamos por a mão na massa!
+
+
+Experimentando o NVM
+
+Como já mencionei é muito simples utilizar o NVM, porém antes precisamos instalá-lo na máquina, para isso poderíamos usar o comando:
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+
+E esse comando tentará adicionar o seguinte conteúdo:
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+No nosso arquivo de usuário, que geralmente é ~/.bash_profile, ~/.zshrc, ~/.profile, ou ~/.bashrc, se já estiver no arquivo, então tudo certo, podemos usar. Se não, você pode adicionar manualmente. E pode também acessar a documentação na página do repositório oficial do GitHub que vai encontrar mais opções lá.
+
+Tudo pronto, e depois disso como podemos usar o NVM, é simples, como mencionei antes, podemos executar o comando nvm ls-remote para listar as versões do Node.JS:
+
+versões listadas no node.js
+https://www.alura.com.br/artigos/assets/descomplicando-o-trabalho/imagem-1.png
+
+E para fazer o download de uma versão específica, podemos usar o comando nvm install <versão> como na imagem abaixo:
+
+download de uma versão específica no node.js
+https://www.alura.com.br/artigos/assets/descomplicando-o-trabalho/imagem-2.png
+
+Mas já que podemos ter várias versões na nossa máquina, nada mais justo do que sermos capazes de listar essas versões, e para isso usamos o comando nvm ls:
+
+comando nvm ls
+https://www.alura.com.br/artigos/assets/descomplicando-o-trabalho/imagem-3.png
+
+Mas meu problema era que eu estava usando a versão 13.5.0 e queria usar a 10.16.3, que já fiz o download anteriormente, então podemos usar o comando use v10.16.3 para ativar essa versão:
+
+comando de ativação da versão 10.16.3
+https://www.alura.com.br/artigos/assets/descomplicando-o-trabalho/imagem-4.png
+
+
+Para saber mais
+
+Porque não usar Docker?
+
+Atualmente a moda é usar o Docker, e realmente é muito bom, facilitam as coisas, porém você pode pensar, porque então não usá-lo para manter versões diferentes do Node.JS na máquina? Bom, mesmo o Docker facilitando muito as coisas, o NVM consegue nesse cenário facilitar mais ainda.
+
+Com o Docker, teríamos que executar um container para cada versão diferente do Node.JS, fora o tamanho das imagens que teremos que fazer o download e deixar na nossa máquina. E particularmente acho bem mais simples usar o comando nvm ls-remote para listar todas as versões disponíveis e use v13.5.0 para usar uma determinada versão, como veremos a seguir.
+
+
+Conclusão
+
+Que legal o NVM não é? Nesse artigo, entendemos o que é o NVM e porque ele facilita muito a vida de desenvolvedores e desenvolvedoras Node.JS, que precisam lidar com versões diferentes do mesmo, constantemente. E temos um ganho de produtividade muito significativo.
+
+Aqui vimos um pouco sobre o NVM, mas se está aqui, então você pode gostar da formação de Node.JS da Alura, então corre lá, tenho certeza que você vai gostar e já está com o ambiente prontinho para começar.

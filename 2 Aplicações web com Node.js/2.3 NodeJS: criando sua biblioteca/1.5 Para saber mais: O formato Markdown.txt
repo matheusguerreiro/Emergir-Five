@@ -1,0 +1,7 @@
+O formato Markdown, com extensão .md, é uma linguagem de marcação para a escrita de textos com marcadores simples de formatação que são convertidos em HTML. Hoje em dia utilizamos recursos do Markdown em plataformas de comunicação e de streaming como o Slack e o Discord, além de ser a linguagem usada para arquivos README e em gerenciadores de conteúdo, como os blogs.
+
+A vantagem do Markdown sobre o HTML é principalmente a legibilidade; os marcadores de formatação são simples e não prejudicam a leitura do texto, o que não acontece com um texto 100% formatado com tags HTML.
+
+Se tiver curiosidade de conhecer mais a utilização desta linguagem, a documentação completa do Markdown está disponível aqui (em inglês).
+
+https://www.markdownguide.org/getting-started/

@@ -1,0 +1,57 @@
+[00:00] No vídeo anterior estávamos conversando sobre o npm, sobre o que são pacotes, bibliotecas, frameworks, como utilizamos esse código disponibilizado através do npm nos nossos projetos, vamos dar uma olhada melhor sobre como isso funciona.
+
+[00:16] Então o nosso projeto por enquanto ele só tem aqui uma linha de console.log, mas a medida que vamos trabalhando vai ficando muito mais coisa para exibirmos no terminal, que hoje por enquanto, só estamos exibindo agora essa mensagem.
+
+[00:30] Vamos escrever agora um pouco mais de código para ver melhor como isso vai funcionar, eu vou deixar esse console.log aqui, vou criar uma const paragrafo = ‘’, ela vai levar uma string e eu vou escrever dentro dessa string que vai ser um ’Texto retornado por uma função’;.
+
+[00:51] Então agora preciso criar uma função para retornar esse texto, vamos lá, então function texto(string) vai receber uma string de texto e vai nos retornar essa string que vai ser recebida por parâmetro {return string;} e aqui já criamos a função, a primeira parte.
+
+[01:10] Agora precisamos executar essa função, chamar ela com algum parâmetro, então eu vou executar a função texto, e ela vai levar como parâmetro o texto, a string que tem dentro da variável constante parágrafo, texto(paragrafo);.
+
+[01:28] Então ela vai rodar, ela vai retornar e para conseguirmos exibir essa informação no console, eu vou englobar aqui a chamada da função por um console.log, e se voltarmos no terminal e executar de novo node index.js, vamos começar, texto retornado por uma função, se continuarmos escrevendo e continuar exibindo tudo no console, começamos a ter muito texto, muita coisa para ver.
+
+[01:58] Existe uma biblioteca que nos ajuda a identificar pedaços de texto em especial, então naquele mar de coisas que eu vou retornar no console.log eu quero encontrar com facilidade um texto específico, quero ver se minha função foi executada e exibiu o texto certo.
+
+[02:17] Temos uma biblioteca para isso, o npm tem uma biblioteca para isso, como que fazemos para utilizar então o código que outra pessoa já criou, pensando nesse problema? Vamos dar o comando npm install o nome da biblioteca, no caso, o nome dessa biblioteca é chalk, significa giz, giz de cera em inglês, eu mandei instalar, ele instalou.
+
+[02:46] E vamos lá no nosso projeto ver o que que aconteceu, o que aconteceu? Que apareceu dentro da pasta do projeto, na raiz da pasta, uma outra pasta chamada “node_modules”, a pasta “node_modules” é a pasta onde tem todo o código que baixamos, que instalamos quando demos o comando npm install chalk, que por enquanto é a única lib, é o único pacote que temos instalado.
+
+[03:19] E por que que isso acontece? Porque cada pacote, cada programa que é criado, ele utiliza, ele vai utilizando outros, então criamos uma cadeia de programas que utilizam programas, que utilizam programas, e aí o chalk para funcionar, vemos aqui a pasta da biblioteca que instalamos dentro da pasta de “node_modules”, se você quiser acessar depois e dar uma olhada, você vai ver como ela é escrita, só que vai estar disponível para você.
+
+[03:47] E ela abaixa também junto com ela várias outras pequenas libs que também estavam lá no npm e que são utilizadas em conjunto, então o “node_modules”, é a pasta onde tem todos os binários, todos os executáveis que tudo que instalamos no nosso projeto, utiliza.
+
+[04:05] E essa pasta ela tem tendência a ficar muito grande, porque tudo que instalamos traz, então instalamos uma dependência, ela traz outras dependências com elas, começam a ficar muito grande.
+
+[04:16] E primeira coisa a se fazer quando criamos, depois que criamos o projeto e viu que a pasta “node_modules” apareceu aqui, é criar um arquivo chamado “.gitignore” e dentro desse arquivo “.gitignore”, vamos escrever “node_modules”, que é o nome dessa pasta e eu vou salvar.
+
+[04:42] Por que que fazemos isso? Porque esses arquivos aqui, do “node_modules”, uma que a pasta fica gigante, quanto maior for o projeto, outra é que não tem necessidade de subir essa pasta para o seu repositório no GitHub, porque toda vez que você instalar o projeto no seu computador, o npm vai automaticamente no repositório central deles e vai puxar esses arquivos de volta, então é muito importante criarmos isso aqui porque você não quer que esse tamanho de pasta aqui vá junto com seus arquivos lá nos seus commits do GitHub.
+
+[05:12] Podemos fechar agora o arquivo “.gitignore” e agora o que vamos fazer com essa biblioteca? Lembra que instalamos, vamos olhar o que ela faz aqui no npm, instalamos essa biblioteca para nos ajudar a localizar textos no meio de todos os nossos console.log como que isso acontece?
+
+[05:36] Temos que para descobrir como uma biblioteca funciona, acessamos a documentação dela e vai ter normalmente exemplos de código dizendo, olha para essa biblioteca funcionar, você vai instalar a biblioteca, aumentar um pouco o texto aqui, você vai instalar a biblioteca com comando que já demos, e aí casos de uso, temos que chamar a biblioteca no nosso arquivo node, vou inclusive copiar essa linha que está na tela, const chalk = require(“chalk”) que isso quer dizer que o arquivo que vamos usar, ele vai puxar essa biblioteca.
+
+[06:18] Então no nosso arquivo “index.js” que é o único que temos, sempre lá no começo do arquivo, nas primeiras linhas, nós require, nós invocamos, chamamos aqui essa biblioteca, o Node por padrão quando ele vê essa linha ele vai olhar aqui na pasta “node_modules” pela referência do nome que demos, então colocamos chalk aqui ele vai procurar por uma pasta na “node_modules” com o mesmo nome e vai executar o que estiver dentro dela.
+
+[06:49] E o que que essas pastas, essas bibliotecas trazem para nós? Elas nos trazem métodos próprios, ou seja, elas trazem comandos, códigos próprios que aí descobrimos na documentação como que utilizamos, no caso do chalk ele está dizendo aqui, você chama a biblioteca aqui com chalk.blue que é azul, então eu estou supondo aqui que se eu usar esse formato aqui, tudo que eu colocar dentro das aspas depois de blue vai ficar com a cor azul no console.
+
+[07:19] Vamos fazer um teste aqui com o nosso console.log, então vamos chamar a biblioteca com console.log(chalk.blue‘vamos começar!’) e envolver o texto que queremos que fique azul, por parênteses, voltando no terminal, vamos limpar no terminal e rodar novamente, node index.js e o texto ficou em azul e o restante que estava dentro da função continua branco.
+
+[07:49] Então aqui acabamos de instalar a nossa primeira biblioteca, nosso primeiro pacote de dados, pacote de comandos, pacote de dados fica parecendo coisas do celular, então vamos utilizar aqui a denominação biblioteca, ou dependência.
+
+[08:08] E muito importante, como que sabemos quais são as bibliotecas, quais são os códigos extras que estão instalados, que o nosso projeto está usando? O arquivo “package.json”, além de ser um arquivo de configuração, ele tem toda a história, ele tem uma lista, ele é a lista telefônica do nosso projeto onde conseguimos encontrar tudo que precisamos, então ele tem o nome, depois podemos colocar o link no GitHub para ele, colocamos o nome de quem desenvolveu, qual que é a licença.
+
+[08:44] E ele adicionou aqui entre a linha 12 e a linha 14, mais uma propriedade chamada de dependencies, dependências e dentro dela colocou chalk e o valor dela aqui, dessa propriedade ”chalk”: “^4.1.2” são três números, que é o número da versão, então para cada dependência, para cada pacote que instalamos no nosso projeto, vai para o arquivo “package.json”, o nome dele na listagem de dependências e qual que é a versão que esse projeto está utilizando.
+
+[09:18] Se não passamos nenhum versão na hora que escrevemos o npm install, ele vai pegar a última versão e instalar para nós, vamos dar uma olhada, o nosso “package.json”, ainda está pequeno, vamos dar uma olhada em um projeto um pouco maior.
+
+[09:34] Se viermos dentro do GitHub do Express, que é aquele framework grande que eu falei do Node, ele também tem um arquivo “package.json”, e como ele é um projeto de código aberto, temos acesso a todo o código dele, podemos entrar, podemos fazer melhorias, sugestões.
+
+[09:51] E vamos dar uma olhada no arquivo “package.json” desse projeto que é um projeto grande, ele tem o nome, ele tem a versão, ele está na versão 4.17.1, autores, quem está fazendo contribuição, qual que é a licença, qual que é o repositório dele, e a página oficial deles, quais são as palavras-chaves relacionadas a esse projeto.
+
+[10:13] E olha aqui a pasta de dependências, olha tudo isso aqui, quantas bibliotecas, quantos outros pedaços de código disponíveis no npm esse projeto utiliza, então o que tem aqui listado na pasta de dependências são justamente outros programas que pegamos pronto e incluímos no nosso código.
+
+[10:36] Então o projeto grande como o Express pode ter uma lista enorme deles, e na parte de devDependencies também, é a parte das dependências que são utilizadas somente durante o desenvolvimento, e dependencies que são as utilizadas em produção. Não precisamos prestar muita atenção nesse detalhe, vamos vendo isso um pouco mais com calma durante o curso.
+
+[10:59] Então tudo isso aqui é biblioteca, tudo são pacotes, são pedaços de dados disponibilizados através dos repositórios do npm, então tem essa parte de scripts que vamos ver um pouco mais para frente também, tudo isso para dizer que muitas vezes quando vamos executar alguma tarefa, outra pessoa já teve que executar essa tarefa de código, já criou a biblioteca e já disponibilizou para outras pessoas utilizarem, porque é assim que a comunidade Dev funciona.
+
+[11:26] E podemos utilizar esses pedaços de código e colaborar com eles também quando ficamos um pouco mais experiente, então agora que já instalamos nossa primeira dependência, já sabemos o que é a pasta “node_modules” e como que utilizamos, o que é esse tal de arquivo “package.json”, vamos continuar escrevendo porque o nosso problema ainda precisa ser resolvido.

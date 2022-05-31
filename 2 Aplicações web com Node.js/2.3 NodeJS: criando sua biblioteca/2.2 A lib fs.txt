@@ -1,0 +1,55 @@
+[00:00] Então agora que já criamos o esqueleto do nosso projeto, já instalamos algumas dependências, já temos aqui um arquivo “package.json” que vamos mexer nele, vamos alterar ele durante o curso, já podemos começar a codar, a pensar no nosso problema.
+
+[00:14] Vamos dar uma relembrada então, temos que acessar arquivos escritos no formato markdown e então percorrer esses arquivos, em busca de estruturas de links, lembrando que os links no formato markdown ele sempre tem a mesma cara, são colchetes e depois parênteses.
+
+[00:39] Vamos lá então, vamos começar pegando um arquivo com o JavaScript, e depois vemos como trabalhamos dentro desse aqui, então como faz para que o JavaScript, para que o nosso programa, acesse arquivos que estão dentro do nosso computador em outras pastas?
+
+[00:59] Tanto faz, a forma ela vai ser a mesma para acessar um arquivo que está aqui dentro da mesma pasta do projeto, como é o caso do modelo que eu deixei aqui, ou um arquivo em qualquer outra parte do computador, vai ser a mesma lógica.
+
+[01:11] E vamos usar para isso uma outra lib chamada FS, file system, ou sistema de arquivos, essa biblioteca ela não precisa ser instalada, o chalk precisa ser instalado através de npm install chalk, como fizemos anteriormente porque foi desenvolvido por terceiros, terceiras pessoas, agora a biblioteca FS, então eu vou escrever aqui embaixo de chalk const fs = require(“fs”), não precisamos instalar com npm install porque FS já é uma biblioteca que vem, que o Node já tem internamente, só precisamos chamar essa biblioteca, ela é nativa.
+
+[01:54] FS, file system, é uma biblioteca que ela é muito comum em linguagem de programação, e ela trabalha nesse contexto, de acessar arquivos ler arquivos, acessar diretórios, então agora que já chamamos ela aqui no nosso arquivo, vamos dar uma olhada na documentação do Node, eu deixei aberta já aqui no navegador.
+
+[02:18] A documentação normalmente ela tem a parte de descrição da API, depois vai ter exemplos, tutoriais, então aqui é um exemplo de como ler arquivos em Node, como readFiles em node, e temos uns exemplos de uso dessa biblioteca FS, no caso, como queremos ler um arquivo, vamos usar o método readFile, vou aumentar um pouco o texto aqui, que é, ler arquivos.
+
+[02:44] Toda vez que acessamos uma biblioteca, instala, vai usar um código, temos que entender como que utilizamos, quais são os métodos que utilizamos e o que precisamos passar para o método para ele funcionar da forma correta.
+
+[02:58] Então já chamamos FS aqui com o fs = require(‘fs’);, como está na documentação, e agora vamos utilizar esse método chamado, read File, então se lermos aqui, fs.readFile(file, [encoding], [call-back]) e os parâmetros que o readFile pede, ele pede o primeiro que é o file, ele coloca embaixo aqui, file, arquivos, se você quiser ativar o recurso de tradução automática do seu navegador, você pode fazer tranquilamente, só toma cuidado que as vezes ele traduz algumas coisas que não deveria, mas file é arquivo, e path é caminho, normalmente vai estar traduzido dessa forma.
+
+[03:36] Então ele diz aqui que file é uma string com o caminho do arquivo, vamos falar bastante sobre caminho durante esse curso, mas por enquanto só vamos ficar com essa informação, então o primeiro parâmetro é uma string, de um caminho de arquivo.
+
+[03:50] O segundo é encoding, encodamento normalmente do texto que vamos trabalhar, normalmente trabalhamos com utf-8, então já temos essa informação, e o terceiro parâmetro que o readFile precisa é o callback, é a função que precisa ser chamada de volta, callback quando acessa readFile e readFile lê o arquivo, o que fazemos com ele? Passamos esse arquivo para uma função para ir manejar da forma que queremos.
+
+[04:16] Então vamos lá, voltar no nosso arquivo aqui, eu vou apagar as partes que fizemos anteriormente que eram só testes, vou deixar o chalk porque vamos usar ele bastante, vamos ver bastante informação no terminal, no console.
+
+[04:29] Vamos então criar uma função, uma function para podermos usar o método FS, então vou chamar essa função de function pegaArquivo que é literalmente que vamos fazer, e o que pegaArquivo() precisa receber?
+
+[04:43] Basicamente ele vai precisar receber o arquivo, de onde vem esse arquivo, então vamos passar como parâmetro dessa função o (caminhoDoArquivo){}, e agora aqui dentro da função, chamamos fs.readFile() e lembrando, o primeiro parâmetro é justamente uma string com o caminhoDoArquivo, que vamos passar como o parâmetro da função.
+
+[05:08] O segundo é o encoding, podemos passar isso de algumas maneiras na utf-8, podemos passar como parâmetro o encoding = ’utf-8’, ou podemos fazer de uma segunda forma, que é a que eu acho que fica mais organizado, o código fica mais legível, que é criar uma const dentro da função, chamar ela de const encoding = ‘utf-8’, e no parâmetro da função, readFile do método readFile() só passamos aqui a nossa variável enconding.
+
+[05:45] O terceiro parâmetro é a função callback que vamos passar aqui o que que queremos fazer com esse arquivo uma vez que ele for lido, vamos dar uma olhada novamente na documentação, que ela tem mais uma informação importante para nós, que no caso eu já tinha lido até o fim mas é sempre bom ler a documentação até o fim porque às vezes perdemos alguma coisa importante.
+
+[06:06] No caso aqui a documentação está falando para nós como que essa função deve ser escrita, função callback, os parâmetros que a função callback tem que receber, é o primeiro parâmetro é chamado aqui na documentação de err.data erro, normalmente quando você vê err ou e, quer dizer erro, então o primeiro parâmetro vai tratar, vai falar sobre o que acontece se der erro nessa leitura, e o segundo parâmetro data de dado, vai tratar do sucesso.
+
+[06:40] Só que o que acontece aqui? Ainda não previmos no nosso código o que vai acontecer de der erro em nada, então vamos deixar essa parte do erro para ser resolvida um pouco mais para frente e vamos nos concentrar em tentar pegar o arquivo e ver o que acontece no sucesso.
+
+[06:57] Como que fazemos então para o JavaScript ignorar o primeiro parâmetro? Porque se escrevermos nossa função só abrindo aqui parênteses e passando data, passando dados, o JavaScript vai considerar dados como sendo o primeiro parâmetro, porque lembra é só um nome que passamos.
+
+[07:18] Então ele vai considerar que é o primeiro parâmetro, parâmetro de erro, e não é isso que queremos, como fazemos então para que o JavaScript ignore o primeiro parâmetro e vá direto para o segundo? Usamos underline, então (_, data) =>{}, agora não precisamos por enquanto passar o que acontece no erro, vamos lidar só com o sucesso.
+
+[07:43] Eu vou trocar o nome de data aqui por texto, para ficar um pouco mais claro o que que estamos recebendo, estamos recebendo texto, JavaScript está me avisando aqui que eu esqueci de passar a seta da nossa arrow function, da nossa função seta, então agora já passei.
+
+[08:00] Vamos então começar como sempre começamos, só pedindo para dar um console.log() no sucesso se conseguir carregar o arquivo, exibir o conteúdo desse arquivo no console, um conteúdo de texto no console.
+
+[08:12] Eu vou usar o console.log(chalk.green(texto)) aqui pedir para ele exibir em verde o texto, que é o que vai ser resolvido aqui na função, então já temos a função pegaArquivo, dentro dela readFile com todos os parâmetros que a função está pedindo, agora só falta pedir para o JavaScript executar essa função.
+
+[08:35] Então ele vai executar pegaArquivo() o quepassamos como parâmetro do pegaArquivo precisamos passar uma string com um caminho, então já temos um arquivo aqui dentro, dentro da pasta arquivos, “texto1.md”, como está dentro do nosso projeto, está aqui dentro da mesma pasta externa, então passo pegaArquivo(‘./arquivos/texto1.md’).
+
+[09:07] Então agora já estamos executando a função, passando aqui o caminho do arquivo como parâmetro da função externa da que está sendo chamada, é o mesmo que vai ser repassado para dentro de readFile uma string encoding também está aqui, e a callback function, a função que vai ser chamada de volta ignorando por enquanto a parte de erro, só lidando com a parte do sucesso.
+
+[09:34] Então recebeu o texto, estamos chamando o parâmetro de sucesso de texto, vai só exibir no console, agora salvamos e podemos executar, vamos lá no terminal, já estou na pasta correta, então eu chamo o node index.js para rodar para mim, para executar, o arquivo “index.js”.
+
+[09:54] E aqui em verde estamos vendo o texto, vamos conferir, mas é o “texto1.md”, então agora, já podemos pegar o texto que está vindo através do caminho, salvar em uma variável, e fazer o que precisamos fazer com ele, que é fazer o JavaScript percorrer os caracteres e encontrar o padrão que queremos.
+
+[10:18] Mas antes disso, vamos refatorar para lidar com erro, porque é sempre super importante sabermos o que acontece em caso de erro e o sistema tem que ser capaz de avisar o que aconteceu, qual foi o erro, olha deu erro, aconteceu isso, não podemos deixar os erros passarem como dizemos, silenciosamente, porque se der algo errado ficamos sem saber o que aconteceu com o nosso problema, então vamos fazer isso.

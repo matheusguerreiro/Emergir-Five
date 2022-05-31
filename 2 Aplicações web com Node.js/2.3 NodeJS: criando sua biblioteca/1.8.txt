@@ -1,0 +1,15 @@
+Quando programamos um projeto Javascript com NodeJS, muito provavelmente nosso código ficará espalhado por diversos arquivos que funcionarão separadamente. Um recurso possibilita que arquivos .js sejam "enxergados'' por outros arquivos.
+
+Marque as alternativas corretas em relação ao tema:
+
+Podemos usar o formato de exportação de módulos conhecido como CommonJS, no qual explicitamos que determinada função será exportada, ou seja, ficará visível para outros arquivos .js no seguinte formato:
+
+module.exports = function mensagem(mensagem) {
+ return mensagem;
+};
+
+  Alternativa correta! Usando a padronização CommonJS ou CJS, exportamos funções entre módulos marcando-as com o module.exports.
+
+
+Um arquivo .js é entendido como um módulo independente e para trabalhar com esses módulos com o NodeJS usamos a função require().
+  Alternativa correta! É isso mesmo! Para ter acesso a algum recurso definido em outro módulo .js, utilizamos a função require(), invocando-a no arquivo em que desejamos usar o recurso.
