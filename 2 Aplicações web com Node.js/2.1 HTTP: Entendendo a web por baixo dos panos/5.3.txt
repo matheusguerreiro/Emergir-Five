@@ -1,0 +1,29 @@
+Abaixo há um exemplo de uma requisição e resposta, usando a ferramenta telnet. Através dele, acessamos www.caelum.com.br na porta padrão 80.
+
+https://s3.amazonaws.com/caelum-online-public/http/telnet-http.png
+
+O telnet estabelece apenas uma conexão TCP (protocolo de rede que roda abaixo do HTTP) e permite que enviemos dados em cima dessa conexão, através do terminal. Uma vez a conexão estabelecida, basta escrever no terminal e os dados serão enviados automaticamente para o servidor. Para o servidor realmente entender os dados, devemos respeitar a sintaxe do protocolo HTTP!
+
+Nesse exemplo digitamos no terminal:
+
+GET / HTTP/1.1
+HOST: www.caelum.com.br
+
+E a resposta do servidor segue logo abaixo:
+
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Vary: Accept-Encoding,User-Agent
+Content-Language: pt-br
+Date: Mon, 01 Jun 2015 21:00:20 GMT
+Server: Google Frontend
+Cache-Control: private
+
+Agora, baseado nesses dados, qual foi o método HTTP e código da resposta?
+
+GET e 200
+  Alternativa correta!
+
+O método HTTP é GET e o código da resposta é 200.
+
+Lembrando que o método define a ação ou intenção da requisição HTTP (GET é igual a receber). O código da resposta dá uma dica ao cliente se a requisição foi um sucesso ou não, e qual foi o problema em caso de falha. O código 200 significa que tudo deu certo!

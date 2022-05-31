@@ -1,0 +1,45 @@
+2
+
+No desenvolvimento Web, para requisição e envio de dados através de formulários, quais são os métodos HTTP que são mais utilizados pelos desenvolvedores no dia a dia?
+
+GET e POST
+
+Os métodos GET e POST são de longe os métodos mais utilizados no desenvolvimento web, mas porque isso?
+
+A resposta está no próprio HTML. Por padrão, as páginas HTML fazem apenas requisições do tipo GET ou POST. Para o tipo POST especificamente, precisamos fazer uso da tag form, configurando o atributo method como POST, ao invés do seu valor padrão que é GET. O outro caso é quando usamos a tag a que cria um link de uma página para outra, fazendo com o que o navegador execute uma requisição do tipo GET.
+
+Para fazer requisições usando métodos como PUT ou DELETE, precisamos fazer com código JavaScript.
+
+
+3
+
+Leia abaixo as afirmações sobre o protocolo.
+
+Marque todas as afirmações verdadeiras:
+
+Requisições HTTP podem ser enviadas através de qualquer aplicativo/software que entenda o protocolo.
+  Afirmação correta , o HTTP não depende do navegador. Aliás, o tempo todo o nosso celular usa o HTTP para enviar requisições através de aplicativos!
+
+HTTP é totalmente independente do formato dos dados.
+  Afirmação correta pois HTTP não depende de um formato especifico!
+
+HTTP pode trafegar tanto dados binários quanto dados textuais.
+  Afirmação correta pois HTTP pode trafegar dados binários como imagens e dados textuais como HTML ou CSS!
+
+
+4
+
+O protocolo HTTP envia dados em texto puro e já estudamos sobre as implicações disso em questões de segurança. Vimos inclusive como o HTTPS lida com isso.
+
+Em alguns momentos se faz necessário avisar na própria requisição um formato específico esperado para a resposta.
+
+De que forma podemos especificar o formato que esperamos que seja devolvido?
+
+Pelo cabeçalho Accept.
+
+Através dele podemos usar algum formato específico como:
+
+Accept: text/html, Accept: text/css, Accept: application/xml, Accept: application/json, Accept:image/jpeg e Accept: image/*COPIAR CÓDIGO
+Ou até mesmo não definir nenhum formato específico colocando:
+
+Accept: */*

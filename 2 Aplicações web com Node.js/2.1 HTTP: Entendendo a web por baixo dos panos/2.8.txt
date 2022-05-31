@@ -1,0 +1,11 @@
+O que você aprendeu nesse capítulo?
+
+Por padrão, os dados são trafegados como texto puro na web.
+Apenas com HTTPS a Web é segura
+O protocolo HTTPS nada mais é do que o protocolo HTTP mais uma camada adicional de segurança, a TLS/SSL
+O tipo de criptografia de chave pública/chave privada
+O que são os certificados digitais
+Certificados possuem identidade e validade
+As chaves públicas estão no certificado, a chave privada fica apenas no servidor
+O que é uma autoridade certificadora
+O navegador utiliza a chave pública para criptografar os dados

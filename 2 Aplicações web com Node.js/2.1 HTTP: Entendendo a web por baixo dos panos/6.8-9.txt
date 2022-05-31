@@ -1,0 +1,27 @@
+Como, por exemplo, podemos enviar uma requisição usando o método GET para carregarmos a página que exibe informações sobre o usuário de número 2? Devemos passar o parâmetro id com o valor 2. Como por exemplo:
+
+http://meusite.com.br/usuario?id=2
+
+Uma outra forma de fazer seria passar os valores na própria URL! Veja o exemplo:
+
+http://meusite.com.br/usuario/2
+
+Mas tem um probleminha, não estamos dizendo explicitamente que o valor 2 realmente representa o id. Quando um parâmetro irá receber um certo valor, devemos combinar com o servidor (com o desenvolvedor da aplicação). Neste caso, foi combinado que o parâmetro recebido seria equivalente ao id passado antes.
+
+Vamos ver um exemplo prático, em um serviço que retorna informações sobre um endereço de um determinado CEP? Acesse a URL: http://viacep.com.br/ws/20040030/json
+
+A resposta será todas as informações do CEP da Caelum Rio, como complemento, número e bairro, formatadas em JSON. Isso significa que foi combinado com o servidor, que o primeiro valor passado depois de ws deve ser o CEP e logo após, o formato em que os dados deverão chegar. No nosso caso, JSON. Tudo bem? :)
+
+Experimente agora trocar para o CEP de sua casa e para outro formato de dados, como por exemplo, XML.
+
+
+Já falamos bastante sobre os métodos (ou verbos) HTTP, GET e POST. Esses dois são utilizados na grande maioria das aplicações web, e fazem parte do dia a dia do desenvolvedor, no entanto existem diversos outros métodos.
+
+Se o GET foi criado para receber dados, e o POST para adicionar algo no servidor, será que não existe algo para apagar e atualizar?
+
+A resposta é sim, e os métodos se chamam DELETE e PUT.
+
+Novamente esses métodos normalmente não são utilizados quando se trata de uma aplicação web, e são mais importantes quando o assunto é Web Services.
+
+Agora vem a pergunta, você já ouviu falar de Web Services?
+

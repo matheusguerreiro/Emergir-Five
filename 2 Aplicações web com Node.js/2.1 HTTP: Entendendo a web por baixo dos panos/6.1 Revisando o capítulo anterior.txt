@@ -1,0 +1,12 @@
+No capítulo anterior vimos que ao efetuar uma requisição do tipo GET para http://www.alura.com.br recebíamos do servidor uma resposta de status code 301 e nessa resposta estava especificado o cabeçalho Location = https://www.alura.com.br.
+
+Já vimos que esse código 301 indica para quem fez a requisição, no nosso caso o browser, que ele deve fazer um redirecionamento para o endereço especificado no cabeçalho Location da resposta, ou seja, para a página com HTTPS.
+
+Ao realizar uma nova requisição para o novo endereço recebemos a indicação que deu tudo certo com a requisição através do status code 200 e no corpo da resposta o conteúdo, HTML, a ser renderizado pelo browser. Lembrando que, no HTML há dependências para outros recursos como imagens, arquivos de estilo etc, isso faz com que várias outras requisições e respostas sejam realizadas para que a página seja renderizada corretamente pelo cliente navegador.
+
+Identificamos assim que o status code do HTTP tem uma forte relação com o que aconteceu no processamento do pedido. Podíamos inclusive catalogá-los como a seguir:
+
+2XX -> Respostas de sucesso
+3XX -> Mensagem de redirecionamento
+4XX -> Respostas de erro do cliente
+5XX -> Respostas de erro do servidor

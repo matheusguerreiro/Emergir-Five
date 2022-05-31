@@ -1,0 +1,9 @@
+O que aprendemos nesse capítulo?
+
+URL são os endereços da Web
+Uma URL começa com o protocolo (por exemplo https://) seguido pelo domínio (www.alura.com.br)
+Depois do domínio pode vir a porta, se não for definida é utilizada a porta padrão desse protocolo
+Após o domínio:porta, é especificado o caminho para um recurso (/course/introducao-html-css)
+Um recurso é algo concreto na aplicação que queremos acessar
+
+https://s3.amazonaws.com/caelum-online-public/http/http-url.png

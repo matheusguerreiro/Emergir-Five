@@ -1,0 +1,7 @@
+O que você aprendeu nesse capítulo?
+
+O protocolo HTTP segue o modelo Requisição-Resposta
+Sempre o cliente inicia a comunicação
+Uma requisição precisa ter todas as informações para o servidor gerar a resposta
+HTTP é stateless, não mantém informações entre requisições
+As plataformas de desenvolvimento usam sessões para guardar informações entre requisições

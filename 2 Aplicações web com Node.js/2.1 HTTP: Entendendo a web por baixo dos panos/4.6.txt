@@ -1,0 +1,8 @@
+Qual dessas alternativas é verdadeira?
+
+Uma comunicação com HTTP sempre é iniciada pelo cliente que manda uma requisição ao servidor esperando por uma resposta.
+  Alternativa correta!
+
+É importante lembrarmos que a comunicação sempre começa com o cliente: é ele quem pede as informações. O servidor responde apenas o que foi requisitado e nunca inicia a comunicação :)
+
+No HTTP: Request -> espera -> Resposta

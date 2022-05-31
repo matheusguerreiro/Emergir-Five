@@ -1,0 +1,12 @@
+Com base na família de erros que você aprendeu no curso, marque a alternativa correta:
+
+200, 203, 207 -> Respostas de Sucesso
+
+300, 301, 302 -> Mensagem de redirecionamento
+
+401, 404, 405 -> Respostas de erro do cliente
+
+500, 502, 503 -> Respostas de erro do servidor
+
+
+Correto!

@@ -1,0 +1,12 @@
+Sobre as características do HTTPS, selecione todas as opções abaixo que estejam corretas:
+
+A chave privada fica apenas no lado do servidor.
+  Exato, a chave privada é utilizada para descriptografar os dados que foram criptografados com a chave pública, por isso ela é importante e deve ficar apenas em posse do servidor.
+
+O certificado prova a identidade e tem validade.
+  Correto, todo certificado tem uma data validade e serve para provar a identidade entre o cliente e o servidor.
+
+O certificado guarda a chave pública.
+  Perfeito, é no certificado digital que encontramos a chave pública utilizada para criptografar os nossos dados.
+
+Lembrando o HTTP não utiliza criptografia nenhuma e é inseguro! Para deixar a web segura devemos usar o HTTPS sempre.

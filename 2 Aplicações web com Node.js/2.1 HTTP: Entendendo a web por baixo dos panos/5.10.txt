@@ -1,0 +1,7 @@
+Nesse capítulo, trabalhamos com depuração de uma requisição HTTP, vimos que ela pode ser feita somente com recursos do próprio browser, através do console de depuração.
+
+Vimos também que existem métodos quando fazemos uma requisição, por enquanto só trabalhamos com método HTTP GET, que é utilizado quando estamos pedindo alguma coisa, quando queremos receber algo.
+
+Além disso, quando recebemos uma resposta, ela contém cabeçalhos, como Location.
+
+Por último, vimos os códigos de resposta HTTP, como 200, 301, 404 e 500, para analisar de fato o que aconteceu com a nossa requisição.

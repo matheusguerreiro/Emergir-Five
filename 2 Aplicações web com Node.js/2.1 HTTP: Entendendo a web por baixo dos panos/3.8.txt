@@ -1,0 +1,14 @@
+Veja a URL a seguir:
+
+http://g1.globo.com/index.html
+
+Qual é o nome do recurso?
+
+/index.html
+  Alternativa correta, o recurso é aquilo que vem depois do domínio/.
+
+No início da web, os recursos, na grande maioria, eram arquivos com a extensão .html ou .htm. Até hoje existem vários recursos que são arquivos na web. Mas reparem que a Alura não funciona dessa maneira. Em nenhum momento você acessa um arquivo no Alura. Por exemplo, para ver um curso, você usa a URL:
+
+https://cursos.alura.com.br/course/introducao-html-css
+
+Isso é um pouco mais legível e possui a vantagem que a URL não diz nada a respeito do formato. A URL não fica amarrada ao formato HTML.

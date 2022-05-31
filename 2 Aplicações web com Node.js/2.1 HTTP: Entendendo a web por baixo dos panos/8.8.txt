@@ -1,0 +1,4 @@
+O que é o Server Push no HTTP/2?
+
+O servidor pode empurrar para o clientes certos recursos antes mesmo de serem solicitados, pois ele consegue analisar o HTML e ver o que mais é preciso para carregar a página fazendo com que não seja necessário gastar tempo pedindo todos os outros recursos.
+  Correto, o servidor pode empurrar certas respostas para o cliente antes mesmo delas serem requisitadas.

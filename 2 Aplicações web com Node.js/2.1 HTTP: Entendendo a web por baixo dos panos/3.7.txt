@@ -1,0 +1,16 @@
+Veja a URL abaixo:
+
+smb://server/download/videos/http.mp4
+
+Nesse exemplo, como se chama o protocolo?
+
+smb
+  Correto, o protocolo especificado na URL se chama smb (aquilo que vem antes do ://)
+
+O protocolo especificado nessa URL se chama smb.
+
+Lembrando que a URL sempre começa com o nome do protocolo:
+
+https://s3.amazonaws.com/caelum-online-public/http/http-url.png
+
+O protocolo smb realmente existe e é a abreviação de Server Message Block. Ele é utilizado para compartilhar arquivos dentro de uma rede local.

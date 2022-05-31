@@ -1,0 +1,12 @@
+Agora já sabemos que existe um cliente, o navegador, como Chrome e Firefox, e um servidor, a Alura. Para definir as regras de comunicação entre cliente e servidor, existe o protocolo HTTP.
+
+Também já sabemos que o servidor usa alguma plataforma, como PHP, Java, .Net ou outros. Qual plataforma realmente é utilizada? Não é tão fácil de descobrir, pois o HTTP, de propósito, não está focado em alguma plataforma específica e esconde isso de nós. Bom, eu não vou esconder nada e vou contar para vocês que a Alura usa a plataforma Java e o servidor concreto se chama Tomcat.
+
+Também já falamos que o SQL é uma linguagem para consultar o banco de dados. Alura usa SQL para acessar o banco de dados MySQL.
+
+Com essas informações já temos uma breve ideia da arquitetura da Alura!
+
+Cliente  <--- HTTP ---> Servidor Java  <--- SQL ---> Banco de dados
+Visualizando:
+
+https://s3.amazonaws.com/caelum-online-public/http/arquitetura_alura.png

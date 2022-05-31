@@ -1,0 +1,6 @@
+Qual das informações abaixo é verdadeira?
+
+Uma requisição sempre deve ser enviada com todas as informações necessárias, o que faz uma requisição ser sempre independente das demais.
+  Alternativa correta!
+
+Todas as informações necessárias sempre devem estar contidas na requisição que será enviada, tornando-a independente das demais.

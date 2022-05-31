@@ -1,0 +1,31 @@
+6
+
+Veja a seguinte URL:
+
+http://alura.com.br/cursos/23/exercicios
+Supondo que você esteja acessando esse recurso através de uma requisição HTTP GET com o cabeçalho Accept: application/xml, o que se espera que aconteça?
+
+Na resposta recebemos os exercícios do curso 23 no formato XML.
+Correto, pois GET tem a semântica de receber dados e o formato foi definido por meio do cabeçalho Accept.
+
+Resumindo, ao enviar um HTTP GET:
+
+http://alura.com.br/cursos/23/exerciciosCOPIAR CÓDIGO
+Devemos receber os exercícios do curso 23 no formato XML.
+
+É importante mencionar que isso é o esperado, mas o que realmente acontece depende da implementação do servidor. O protocolo HTTP define uma semântica, mas o servidor pode ou não obedecê-la! Também pode ser que o servidor atenda um formato como JSON, mas não trabalhe com XML.
+
+
+7
+
+Sabemos que o domínio da Alura é:
+
+cursos.alura.com.br
+
+Você entrou na equipe de desenvolvedores da Alura e precisa definir o recurso para atualizar uma parte do exercício com a id 3 do curso http. Qual método HTTP e qual URL você escolheria?
+
+PATCH e http://cursos.alura.com.br/cursos/http/exercicios/3
+
+Correto, PATCH é utilizado para atualização parcial do recurso que foi definido expressivamente: /cursos/http/exercicios/3
+
+Apesar do PATCH fazer parte da especificação e atender corretamente a essa questão, o método mais utilizado para essa finalidade é o PUT.

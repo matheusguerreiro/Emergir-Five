@@ -1,0 +1,41 @@
+2
+
+Dado o que vimos neste capítulo, aponte quais dos motivos abaixo foram importantes quando decidiram criar uma nova versão do protocolo HTTP, que já estava tão concretizado e estabelecido na Web.
+
+Com o crescimento do número de dispositivos móveis conectados a Web, é cada vez mais importante que a quantidade de dados trafegada seja a menor possível, afinal este tipo de dispositivo não costuma ter uma conexão com muita banda larga. O protocolo HTTP/2 traz diversas tecnologias para diminuir o tamanho das requisições.
+  Correto, o HTTP/2 possui diversas tecnologias de compactação de sua requisição. Isto acaba sendo muito útil para clientes móveis, visto que a maioria das redes mobile ainda não são de grande qualidade.
+
+Por padrão, no protocolo HTTP versão 1.1 não é necessário o uso da camada de segurança TSL/SSL. Como hoje em dia trafegamos muitos dados críticos na Web, como senhas, logins e dados bancários, um protocolo atualizado que faz uso dessa segurança parece quase uma necessidade.
+  Correto, com o HTTP/2 o uso de HTTPS acaba sendo obrigatório, e esta é uma das grandes vantagens do uso desta nova atualização do protocolo.
+
+Apesar do protocolo HTTP/1.1 ter sido de extrema importância para a Web ao longo de vários anos, como toda boa tecnologia, é necessário um update. A nova versão do HTTP veio para adequar este protocolo tão famoso a um mundo onde temos muito mais dados sendo trafegados na rede, e a velocidade de acesso e segurança do usuário se tornam bastante importantes.
+
+
+
+3
+
+Para que serve a tecnologia HPACK implementada no protocolo HTTP/2 ?
+
+Para comprimir os Headers da comunicação HTTP, deixando-os mais leves.
+  Exato, a tecnologia HPACK é especialista em comprimir os Headers da requisições/respostas HTTP, deixando as mais leves.
+
+O HPACK é uma tecnologia especializada em comprimir os Headers das comunicações HTTP/2. Como toda requisição HTTP acompanha algum header por padrão, uma tecnologia de compressão embutida no protocolo é demasiadamente útil para economizar dados trafegados.
+
+
+4
+
+Selecione as afirmativas verdadeiras sobre as versões 1.1 e 2.0 do protocolo HTTP:
+
+No HTTP/1.1 o Gzip não é nativo do protocolo, no HTTP/2 ele já vem por padrão.
+
+Correto, o Gzip vem nativamente no protocolo HTTP/2.
+
+Alternativa correta
+No HTTP/2 o uso do HTTPS é obrigatório, no HTTP/1.1 não.
+
+Correto, o HTTP/2 reforça bastante o uso do HTTPS, ao contrário do HTTP/1.1 em que isto era opcional. Apesar de não ser obrigatório em sua especificação, os browsers não suportam o HTTP/2 sem HTTPS, o que acaba fazendo com que o seu uso seja exclusivo em modo criptografado.
+
+Alternativa correta
+No HTTP/2 os dados são trafegados em binário, no HTTP/1.1 eles são trafegados como texto.
+
+Correto, uma das principais mudanças é que agora no HTTP/2 os dados são trafegados em binário e não mais em texto puro.

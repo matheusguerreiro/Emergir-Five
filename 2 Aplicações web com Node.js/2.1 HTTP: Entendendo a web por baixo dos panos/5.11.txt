@@ -1,0 +1,10 @@
+HTTP é o protocolo mais utilizado na internet e há muita documentação disponível. Segue um link que explica os códigos HTTP de forma divertida: httpstatusdogs ou se você preferir gatos httpcats
+
+https://httpstatusdogs.com/
+https://http.cat/
+
+Espero que goste :)
+
+Opinião do instrutor
+
+Além de se aprender de forma divertida com os cachorrinhos, você pode conferir uma documentação mais completa e detalhada neste link: https://httpstatuses.com/

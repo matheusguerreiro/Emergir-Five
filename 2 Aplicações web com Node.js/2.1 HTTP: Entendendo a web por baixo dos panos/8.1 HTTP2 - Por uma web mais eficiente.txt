@@ -1,0 +1,93 @@
+Até agora sempre usamos o browser para realizar uma requisição. Mas podemos realizar fora dele usando a linha de comando por exemplo. Um programa famoso para isso é o CURL. No Linux e MacOS ele já vem instalado por padrão.
+
+Caso esteja usando o Windows é necessário a instalação dele. O download deve ser feito por aqui: https://curl.haxx.se/download.html
+
+Para realizar e depurar uma requisição via CURL podemos simplesmente executar no terminal o seguinte comando:
+
+curl -v www.caelum.com.br
+
+Uma saída típica dele seria:
+
+Fabios-MacBook-Pro:~ fabiopimentel$ curl -v www.caelum.com.br 
+* Rebuilt URL to: www.caelum.com.br/
+*   Trying 172.217.29.51...
+* Connected to www.caelum.com.br (172.217.29.51) port 80 (#0)
+> GET / HTTP/1.1
+> Host: www.caelum.com.br
+> User-Agent: curl/7.49.1
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< Content-Type: text/html; charset=utf-8
+< Vary: Accept-Encoding,User-Agent
+< Content-Language: pt-br
+< Content-Type: text/html;charset=UTF-8
+< X-DNS-Prefetch-Control: on
+< X-Cloud-Trace-Context: 3e5e270ee3ab1e79f81b10d2cdef53cd
+< Date: Fri, 24 Mar 2017 19:20:12 GMT
+< Server: Google Frontend
+< Content-Length: 95776
+< 
+       <!DOCTYPE html>
+    <html class="no-js"lang="pt-br"> <head> <title>Caelum | Cursos de Java, .NET, Android, PHP, Scrum, HTML, CSS e JavaScript </title>
+    …
+Pode-se notar pela saída que temos logo no começo as informações do request efetuado:
+
+> GET / HTTP/1.1
+> Host: www.caelum.com.br
+> User-Agent: curl/7.49.1
+> Accept: */*
+`
+E após essas infos temos o cabeçalho da resposta obtida pelo servidor:
+
+< HTTP/1.1 200 OK
+< Content-Type: text/html; charset=utf-8
+< Vary: Accept-Encoding,User-Agent
+< Content-Language: pt-br
+< Content-Type: text/html;charset=UTF-8
+< X-DNS-Prefetch-Control: on
+< X-Cloud-Trace-Context: 3e5e270ee3ab1e79f81b10d2cdef53cd
+< Date: Fri, 24 Mar 2017 19:20:12 GMT
+< Server: Google Frontend
+< Content-Length: 95776COPIAR CÓDIGO
+Logo depois vem o corpo da resposta (HTML da página requisitada):
+
+ <!DOCTYPE html> <html class="no-js"lang="pt-br"> <head> <title>Caelum | Cursos de Java, .NET, Android, PHP, Scrum, HTML, CSS e JavaScript </title>  <meta name="viewport"content="width=device-width,initial-scale=1"> <meta name="format-detection"content="telephone=no"> <meta name="referrer"content="origin">   <meta name="description"content="A Caelum tem os cursos de Java, Scrum, Web, Front-end, PHP, .NET e Mobile mais reconhecidos no mercado, com didática diferenciada e instrutores qualificados.">    <link rel="canonical"href="https://www.caelum.com.br/">     <style>.calendario .sem-turmas,.calendario-compacto .mais-turmas,.fm-message.fm-warning{font-style:italic}COPIAR CÓDIGO
+Em resumo o output apresentando pelo CURL possui essa divisão:
+
+IMAGEM CURL AQUI
+https://s3.amazonaws.com/caelum-online-public/http/images/08/curl.png
+
+#HTTP/2
+
+O protocolo que estamos trabalhando até agora foi especificado na década de 90 e de lá até hoje muitas alterações foram feitas até na forma como usamos a internet.
+
+Com a chegada do mundo mobile novas preocupações apareceram e otimizações são cada vez mais necessárias para uma boa performance. Por isso uma mudança foi necessária e em 2015 depois de alguns anos de especificações e reuniões surgiu a versão 2 desse protocolo.
+
+A nova versão é batizada de HTTP/2 e tem como página principal de documentação e referência essa: <a href="https://http2.github.io/">https://http2.github.io/</a>.
+
+A nova versão do protocolo HTTP traz mudanças fundamentais para a Web. Recursos fantásticos que vão melhorar muito a performance da Web além de simplificar a vida dos desenvolvedores.
+
+No HTTP 1.1, para melhorar a performance, habilitamos o GZIP no servidor para comprimir os dados das respostas. É uma excelente prática, mas que precisa ser habilitada explicitamente. No HTTP/2, o GZIP é padrão e obrigatório.
+
+É como se a gente passasse a ter a resposta assim:
+
+IMAGEM GZIP
+https://s3.amazonaws.com/caelum-online-public/http/images/08/gzip.png
+
+Mas, se você já olhou como funciona uma requisição HTTP, vai notar que só GZIPar as respostas resolve só metade do problema. Tanto o request quanto o response levam vários cabeçalhos (headers) que não são comprimidos no HTTP 1.1 e ainda viajam em texto puro.
+
+Já na nova versão, os headers passam a ser binários:
+
+IMAGEM BINÁRIO
+https://s3.amazonaws.com/caelum-online-public/http/images/08/binario.png
+
+Além de binários eles são comprimidos usando um algoritmo chamado HPACK. Isso diminui bastante o volume de dados trafegados nos headers.
+
+IMAGEM HPACK
+https://s3.amazonaws.com/caelum-online-public/http/images/08/hpack.png
+
+Além de todas essas otimizações para melhorar a performance ainda houve uma preocupação com segurança exigindo TLS por padrão também.
+
+IMAGEM TLS
+https://s3.amazonaws.com/caelum-online-public/http/images/08/tls.png

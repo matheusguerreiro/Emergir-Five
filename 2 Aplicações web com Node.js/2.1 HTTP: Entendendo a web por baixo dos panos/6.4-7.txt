@@ -1,0 +1,74 @@
+4
+
+Vamos testar o envio de parâmetros através da requisição, fazendo uma busca no Google pela palavra Alura.
+
+Para isso, na URI do Google, vamos enviar na requisição o parâmetro q com o valor Alura. Ou seja: google.com.br/search?q=Alura
+
+Ao entrar nessa URI, qual método HTTP foi usado?
+
+GET.
+  Quando passamos os parâmetros da requisição na URL, estamos fazendo uso do método GET. O que é super útil quando precisamos repetir a requisição com os mesmos parâmetros :)
+
+
+5
+
+Vimos que podemos enviar parâmetros em uma URL. Então, qual é a forma correta de enviá-los?
+
+http://calculadordeimc.com.br/?peso=44&altura=1.50
+
+Quando enviamos parâmetros na URL, devemos iniciar pelo ?, o nome do parâmetro e um =, para separar o nome do parâmetro do seu valor:
+
+?nome_do_parametro=seu_valor
+
+Quando usamos mais do que, um parâmetro devemos usar & para separá-los:
+
+?nome_do_parametro=seu_valor&nome_do_outro_param=valor
+
+
+6
+
+Veja os dados da requisição:
+
+AQUI /vendas?ano=2014 HTTP/1.1
+HOST: www.vendasfuturas.com.br
+
+Qual método HTTP devemos colocar no lugar de AQUI para a requisição funcionar corretamente?
+
+GET
+
+GET é normalmente usado para pesquisas, mas isso depende um pouco de como a plataforma e o desenvolvedor usam esse método. Na vida real, vocês vão encontrar muitos exemplos que usam requisições do tipo GET, não só para pesquisas.
+
+O protocolo HTTP define que o GET deve ser utilizado apenas para acessar os dados, mas HTTP, como protocolo, não pode impedir o desenvolvedor de fazer algo diferente. Por exemplo, veja a requisição a seguir:
+
+GET /vendas/remove?id=53 HTTP/1.1
+HOST: www.vendasfuturas.com.br
+
+Usamos GET, mas repare que o nome do recurso muda a intenção do método HTTP. O recurso se chama /vendas/remove, ou seja, queremos apagar a venda com a identificação 53, usando o método GET!
+
+O protocolo HTTP define apenas algumas regras entre cliente e servidor. O que o servidor realmente faz depende da implementação, ok?
+
+OBS: Se tiver com código 500 na cabeça, abra uma pergunta no fórum :)
+
+
+7
+
+Seguem os dados da requisição para efetuar o login na plataforma Alura:
+
+POST /signin/ HTTP/1.1        
+HOST: https://www.alura.com.br
+Content-Type: application/x-www-form-urlencoded
+
+email=nico.steppat%40caelum.com.br&senha=totalmentesecretaCOPIAR CÓDIGO
+Por que foi utilizado o método POST?
+
+Usamos POST para incluir os parâmetros no corpo da requisição.
+
+Utilizando o método GET, tanto o login quanto a senha seriam passados como parâmetro na URL, coisa que não queremos que aconteça. O método POST deixa os parâmetros no corpo da requisição, assim evita que informações importantes, como a senha, fiquem explícitas na URL.
+
+Usando o método GET, a URL ficaria:
+
+GET /signin/?email=nico.steppat@caelum.com.br&senha=totalmentesecreta HTTP/1.1        
+HOST: https://www.alura.com.br
+
+Logo, o POST foi utilizado para que se enviasse os valores do formulário no corpo da requisição.
+

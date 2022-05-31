@@ -1,0 +1,13 @@
+8
+
+O HTTP não é o único protocolo de comunicação que existe. Aliás, existem milhares de protocolos no mundo de TI, no entanto o HTTP é de longe o mais popular.
+
+Na lista abaixo, há um item que não representa um protocolo para internet.
+
+Qual é exatamente? Pesquise se for necessário.
+
+SQL
+
+Um banco de dados cuida dos dados de uma aplicação, é parecido com uma planilha de Excel. O SQL ajuda muito a acessar esses dados.
+
+Um banco de dados não se preocupa em como os dados serão visualizados, ele só administra os dados! Aqui na Alura, o banco de dados guarda informações sobre os usuários, cursos, perguntas, respostas, etc.

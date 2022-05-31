@@ -1,0 +1,5 @@
+REST é um padrão arquitetural para comunicações entre aplicações
+Ele aproveita a estrutura do HTTP
+Recursos são definidos via URI
+Operações com métodos HTTP(GET/POST/PUT/DELETE)
+Cabeçalhos(Accept/Content-Type) são usados para especificar as representações(JSON,XML,...)

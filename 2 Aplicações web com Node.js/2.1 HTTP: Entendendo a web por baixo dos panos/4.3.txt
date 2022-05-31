@@ -1,0 +1,6 @@
+O que é uma sessão HTTP?
+
+É o tempo que o cliente utiliza um web app.
+  Alternativa correta!
+
+Uma sessão HTTP nada mais é que um tempo que o cliente permanece ativo no sistema! Isso é parecido com uma sessão no cinema. Uma sessão, nesse contexto, é o tempo que o cliente usa a sala no cinema para assistir a um filme. Quando você sai da sala, termina a sessão. Ou seja, quando você se desloga, a Alura termina a sua sessão.

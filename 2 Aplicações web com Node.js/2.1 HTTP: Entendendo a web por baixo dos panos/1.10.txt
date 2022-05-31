@@ -1,0 +1,6 @@
+O que você aprendeu nesse capítulo?
+
+A arquitetura Cliente-Servidor
+Um protocolo é um conjunto de regras
+HTTP é um protocolo que define as regras de comunicação entre cliente e servidor na internet.
+HTTP é o protocolo mais importante da Internet

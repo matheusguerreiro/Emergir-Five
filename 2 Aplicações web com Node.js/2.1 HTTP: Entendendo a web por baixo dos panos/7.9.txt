@@ -1,0 +1,11 @@
+Em alguns cabeçalhos do HTTP devemos especificar algum formato. Os formatos são chamados na documentação de MIME types. E na definição do cabeçalho usamos a seguinte estrutura: tipo/subtipo. São tipos conhecidos:
+
+text, image, application, audio e videoCOPIAR CÓDIGO
+E alguns subtipos:
+
+text -> text/plain, text/html, text/css, text/javascriptCOPIAR CÓDIGO
+image -> image/gif, image/png, image/jpegCOPIAR CÓDIGO
+audio -> audio/midi, audio/mpeg, audio/webm, audio/ogg, audio/wavCOPIAR CÓDIGO
+video -> video/mp4COPIAR CÓDIGO
+application -> application/xml,  application/pdfCOPIAR CÓDIGO
+Para conhecer outros formatos aceitos você pode acessar aqui: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types

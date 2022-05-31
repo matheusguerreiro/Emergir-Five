@@ -1,0 +1,5 @@
+Quando estamos autenticados em algum sistema, como a Alura, é necessário sempre enviar o e-mail e senha a cada requisição?
+
+Opinião do instrutor
+
+Quando enviamos uma requisição HTTP, todos os dados para que ela seja respondida devem ser enviados. Mas e o e-mail e a senha? Quando o login é feito, a Alura tem certeza de que um usuário existe e gera uma identificação quase aleatória pra esse usuário, lembra? E esse número fica salvo em um arquivo especial, chamado cookie, que é gerado e enviado por cada site :)

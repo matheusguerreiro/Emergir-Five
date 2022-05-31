@@ -1,0 +1,3 @@
+O que acontece com nossos dados quando usamos HTTP , ou seja sem a letra S ao final?
+
+Os dados são transportados em texto puro para o servidor, visível para qualquer um.

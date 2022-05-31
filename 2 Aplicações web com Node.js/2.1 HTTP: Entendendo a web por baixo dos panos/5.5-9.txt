@@ -1,0 +1,120 @@
+5
+
+Qualquer resposta HTTP possui um número que informa sobre o status da requisição.
+
+Qual dos códigos abaixo indica que a requisição foi bem sucedida?
+
+200
+  Alternativa correta!
+
+O código 200 significa OK, ou Sucesso, que não houve nenhum problema no processamento da requisição e ela foi bem sucedida.
+
+Existem mais códigos que começam com 2xx. No entanto 200 é de longe o mais utilizado, principalmente no desenvolvimento de uma aplicação web.
+
+Na documentação oficial, se diz a respeito da classe de códigos que começam com 2xx:
+
+2xx - Resposta bem sucedida!
+
+Essa classe de códigos de status indica que a ação solicitada pelo cliente foi recebida, compreendida, aceita e processada com êxito.
+
+A tabela completa de mensagens HTTP pode ser vista em: https://www.w3schools.com/tags/ref_httpmessages.asp.
+
+
+6
+
+Vimos que há diversos códigos HTTP. Vendo os códigos abaixo, qual deles representa algum problema gerado no servidor?
+
+500
+  Alternativa correta!
+
+A classe 5xx significa que houve algum problema no servidor.
+
+Por exemplo: 500 - Internal Server Error, ou outro famoso: 503 - Service Unavailable.
+
+O código 500 acontece com frequência quando estamos desenvolvendo uma aplicação web e, ao testar, percebemos que erramos algo na lógica que gerou um problema no servidor.
+
+
+7
+
+Abra uma nova aba no navegador e tente acessar: http://g1.globo.com/algo-que-nao-existe
+
+Qual foi o código da resposta?
+
+Obs: Você precisa depurar a requisição HTTP para descobrir o código da resposta.
+
+404
+  Alternativa correta!
+
+404 é o código clássico que indica que o recurso não foi encontrado. Em geral, a classe 4xx indica que o cliente errou algo na requisição.
+
+Segue um outro exemplo da classe 4xx, tente acessar: https://s3.amazonaws.com/caelum-online-public/http/qq.png
+
+Nesse caso o código de resposta é 403(não permitido): o cliente não tem a permissão.
+
+
+8
+
+Repare os cabeçalhos da requisição e resposta:
+
+https://s3.amazonaws.com/caelum-online-public/http/telnet-http-302-v2.png
+
+Seguem 4 afirmações:
+
+1) O código da resposta é 302.
+
+2) O recurso solicitado é /cursos/.
+
+3) O cliente não recebeu a resposta.
+
+4) O servidor está pedindo um redirecionamento.
+
+Avalie as afirmações e escolha a resposta correta:
+
+Apenas as afirmativas 1 e 4 são verdadeiras.
+  Alternativa correta!
+
+1) O código da resposta é 302.
+
+Correto, o código aparece na resposta. O código 302 significa Movido Temporariamente.
+2) O recurso solicitado é /cursos/.
+
+Errado, pois na requisição aparece: GET /treinamento HTTP/1.1.
+3) O cliente não recebeu a resposta.
+
+Errado, pois foi enviada sim uma resposta para o cliente.
+4) O servidor está pedindo um redirecionamento.
+
+Correto, na resposta aparece o cabeçalho Location, que define o redirecionamento para http://www.caelum.com.br/cursos/.
+Portanto, as afirmativas 1 e 4 são verdadeiras.
+
+
+9
+
+Já vimos 3 classes do protocolo HTTP: 2xx, 4xx e 5xx.
+
+https://s3.amazonaws.com/caelum-online-public/http/classe-http-1.png
+
+Para que existem os códigos 3xx?
+
+Redirecionamento.
+  Alternativa correta!
+
+A classe do código 3xx é relacionada com o redirecionamento.
+
+https://s3.amazonaws.com/caelum-online-public/http/classe-http-2.png
+
+Nesse caso, o cliente (navegador) deve tomar medidas extras para concluir o pedido. Normalmente são utilizados os códigos 301 ou 302, junto com o cabeçalho de resposta Location.
+
+Por exemplo, veja a requisição, tentando acessar a Alura através do protocolo HTTP (sem S):
+
+GET / HTTP/1.1
+HOST: www.alura.com.br
+
+Na resposta, recebemos o código 301 e o cabeçalho Location para enviar uma nova requisição, usando o protocolo HTTPS:
+
+HTTP/1.1 301 Moved Permanently
+Server: nginx/1.6.2
+Date: Tue, 02 Jun 2015 19:37:44 GMT
+Content-Type: text/html
+Content-Length: 184
+Location: https://www.alura.com.br/
