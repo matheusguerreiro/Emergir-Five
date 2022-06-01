@@ -1,11 +1,12 @@
 /* 
- *  npm init -y
- *  add "type": "module" inside package.json
- *  npm install chalk
- *  import chalk from 'chalk'
- *  .gitignore
- *  import fs from 'fs'
- *  erro
+ * npm init -y
+ * add "type": "module" inside package.json
+ * npm install chalk
+ * import chalk from 'chalk'
+ * .gitignore
+ * import fs from 'fs'
+ * erro
+ * regex
  */
 
 import chalk from 'chalk';
@@ -39,7 +40,7 @@ async function pegaArquivo(caminhoDoArquivo) {
   const encoding = 'utf-8'
   try {
     const conteudoDoArquivo = await fs.promises.readFile(caminhoDoArquivo, encoding)
-    console.log(extraiLinks(conteudoDoArquivo))
+    return extraiLinks(conteudoDoArquivo)
   } catch (erro) {
     trataErro(erro)
   }
@@ -52,8 +53,7 @@ function extraiLinks(texto) {
   while ((temp = regex.exec(texto)) !== null) {
     arrayResultados.push({[temp[1]]: temp[2]})
   }
-  return arrayResultados
+  return arrayResultados.length === 0 ? chalk.red('não há links') : arrayResultados
 }
 
-pegaArquivo('./arquivos/texto1.md')
-
+export default pegaArquivo

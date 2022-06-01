@@ -1,0 +1,49 @@
+[00:00] Vamos refatorar o nosso código para deixar tudo um pouco mais organizado especialmente aqui no arquivo “cli.js” que é o ponto de entrada da aplicação. O que que podemos fazer então aqui? Eu vou importar em “cli.js” const chalk, eu vou importa a biblioteca chalk que estávamos utilizando um pouco lá anteriormente no começo do curso, então const chalk = require(“chalk“);, para podermos também colorir a saída lá, continuar colorindo lá a saída para o nosso terminal.
+
+[00:35] E agora onde estávamos só passando, chamando a função pegaArquivo dentro do controle.log(), vamos criar uma função já para organizar as possibilidades de saída, se colocamos o caminho certo, se vamos colocar alguma opção, etc., const caminho = process.argv; continua no lugar.
+
+[00:58] Mas agora eu vou criar uma function, eu vou chamar essa function processaTexto(caminho) e ela vai receber um caminho de arquivo, vou deixar por extenso o parâmetro para lembrarmos bem o que é,
+
+[01:12] Aí sim dentro dessa function eu vou criar uma const vou chamar de resultado, e essa const vai ser, ela vai retornar o resultado de pegaArquivo da nossa função pegaArquivo, recebendo caminho no índice 2, como parâmetro, como estávamos fazendo anteriormente, só que agora como vamos receber via parâmetro, o caminho tem que ser caminhoDeArquivo que vamos receber de fora a string, com o caminhoDeArquivo que vai ser utilizado.
+
+[01:49] Executou o pegaArquivo, passou o caminho certo, vai retornar um array de resultados, vamos exibir esse resultado no console.log(), eu vou passar a primeira informação aqui dentro de console.log(chalk.yellow(“lista de links”), ) ai eu não vou usar o chalk vou só retornar resultado.
+
+[02:23] Agora podemos executar ao invés do console.log(pegaArquivo()), executamos a função processaTexto() passando como parâmetro dela, o caminho, esse caminho aqui se refere aquele array que está vindo de process.argv.
+
+[02:49] Então executamos a processaTexto(caminho), ela recebe um array, esse caminho de arquivo aqui que está esperando chegar é o array, e o índice 2 vai ser o endereço do arquivo que a função pegaArquivo está esperando receber no “index.js”, recebeu salvou em resultado, exibimos resultado no console.log precedido aqui de uma string que eu chamei de ’lista de links’, só para o usuário saber o que está retornando, e colorir aqui a nossa lista de links com amarelo usando o chalk.
+
+[03:23] Nós podemos inclusive voltar “index.js” e deletar a linha que chamava, que executava a função que ela estava comentada, vamos rodar isso e vê se está tudo funcionando, vamos no terminal, node cli.js ./arquivos/texto1.md.
+
+[03:50] Agora lembra que eu falei anteriormente que tinha aparecido promise pending, que íamos lidar no futuro, o futuro chegou, vamos ver o que é promise pending que está aparecendo aqui junto com lista de links.
+
+[04:08] Se voltarmos no nosso projeto, vamos ver que a promessa ela está aqui junto da string ’lista de links’, então ela está se referindo ao que tem em const resultado da onde está vindo então aquele array que está sendo exibido no console?
+
+[04:26] Se voltarmos na função pegaArquivo na linha 22, o resultado de extraiLinks que é a função que faz a parte da expressão regular, ela está retornando ainda em um console.log, então independente do que for, vai ser sempre exibido isso aqui no console porque pedimos um console.log para o resultado dessa função.
+
+[04:49] Então o que que vamos fazer aqui? Vamos tirar o console.log() passar para um return, porque agora queremos só que essa função pegaArquivo retorne o resultado de extraiLinks e agora é o arquivo “cli.js” que tem que ser responsável por fazer esse meio de campo com a interface, então ele que tem que exibir.
+
+[05:12] Se voltarmos no terminal, tentar rodar novamente, agora só temos uma promessa que está pendente, e agora? Da mesma forma que precisamos usar promessas anteriormente, o que vamos precisar fazer aqui é esperar que resultado fique pronto.
+
+[05:36] Então alguma coisa está acontecendo entre chamarmos, executar a função pegaArquivo e a linha 8 onde já exibimos o console não está esperando, o console que está na linha 8, não está esperando o resultado de pegaArquivo terminar de acontecer, por isso que ele está exibindo uma promessa pendente.
+
+[05:56] Então vamos fazer é pegar a função processaTexto botar na frente dela a palavra-chave async, olha estamos falando para o JavaScript, essa função é async, vai ter coisas dentro dela que você precisa esperar terminar de acontecer, o JavaScript precisa esperar terminar de acontecer é justamente o resultado, o retorno da função pegaArquivo.
+
+[06:18] Então antes de chamar pegaArquivo de executar, colocamos a palavra-chave await, vamos testar novamente no terminal, vou limpar o terminal, rodar, e agora não tem mais promessa pendente, a promessa se cumpriu e lista de links, exibi, depois dela o nosso array com os objetos que esperávamos receber.
+
+[06:42] O que podemos fazer agora, antes de passar para frente, é voltar na função extraiLinks, e pedir para essa função dar um retorno para o nosso usuário, caso o arquivo não tenha nenhum link, por enquanto ele não está fazendo nada, ele só está tentando executar o regex.exec em algum arquivo que achamos que tem link, e se não tiver, como fazemos?
+
+[07:09] Se não existir nenhum link no texto, isso vai significar que o nosso array de resultados, ele vai permanecer um array vazio, um array vazio, é um array com length, com tamanho, com comprimento de 0, então length, arrayResultados.length === 0; quer dizer que não tem nenhum texto dentro da string.
+
+[07:36] Então podemos arrumar o retorno da linha 11, ao invés de só return arrayResultados, vamos criar aqui uma condicional para se array de resultados for igual a 0, colocamos uma interrogação e vamos criar aqui um ternário, para darmos as duas condições, se for === 0 vamos retornar só uma string dizendo ’não há links’ : e se tiver links retornamos arrayResultados.
+
+[08:12] Esse aqui só para lembrarmos é um operador ternário, ou seja, é um if ternário, é um tipo de if, isso aqui é uma expressão que recebe 3, trabalha com três operadores, então o que estamos fazendo aqui é uma comparação se arrayResultados.length === 0 ele vai retornar true, ou false, se for true é a primeira opção antes dos dois pontos, retornamos só uma string dizendo ’não há links’.
+
+[08:46] Se ao contrário, arrayResultados.length === 0 for false, ou seja, se tiver pelo menos uma informação, um índice dentro desse array, vamos retornar o array como estava antes.
+
+[08:58] Agora podemos fazer um teste, eu vou modificar o texto1.md, vou por enquanto dar só um “Ctrl + X”, em toda parte que tem links, salvar só para fazermos um primeiro teste, e agora podemos rodar novamente com node cli.js ./arquivos/texto1.md passando o caminho, e ele retornou não há links.
+
+[09:21] Vamos voltar, dar um “Ctrl + Z” na parte que foi apagada aqui de texto1.md, ele voltou a ser o que ele era, fazemos um novo teste para ver se a outra parte do ternário está funcionando, mesmo comando, node cli.js ./arquivos/texto1.md, ’lista de links’ voltou a funcionar.
+
+[09:41] Então o que fizemos foi basicamente separar as responsabilidades de cada função, então agora a parte de exibir, exibir as informações na interface, ela está toda na parte do nosso código que lida com interface, e a função de pegar arquivo, de extrair links faz só essa parte de, ou pegar arquivo, ou extrair links, e está tudo mais separado.
+
+[10:10] O que vamos fazer agora é mais um pouco de refatoração e vamos criar alguns scripts para agilizarmos o nosso desenvolvimento, então vamos lá.

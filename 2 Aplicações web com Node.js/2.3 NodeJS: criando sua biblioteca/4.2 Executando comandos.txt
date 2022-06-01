@@ -1,0 +1,39 @@
+[00:00] Nesse momento a funcionalidade principal da biblioteca que é pegar um arquivo externo, através do readFile e retornar para nós um array com os links, já está feita, vamos cuidar da parte da validação de links um pouco mais para frente.
+
+[00:17] Mas agora o que temos que fazer é pensar em como o usuário vai rodar essa lib, essa biblioteca, porque nós por enquanto estamos, para codarmos acessamos, chamamos o node para executar o “index.js”, estamos dentro da pasta do projeto e tudo bem.
+
+[00:34] Mas o usuário ele não vai fazer isso, ele vai simplesmente instalar a biblioteca e vai chamar ela através do nome da biblioteca, passando o caminho do arquivo, então nome-lib ./caminho/arquivo.md e tem que funcionar.
+
+[00:51] Como então que fazemos para funcionar essa parte de linha de comando no JavaScript, vamos voltar no nosso código e criar um outro arquivo na raiz do projeto mesmo, vamos chamar esse arquivo de “cli.js”, cli é command line interface, interface de linha de comando, na verdade nada mais é do que o nosso terminal que é a interface onde inserimos, onde fazemos o input de comandos na linha de comando.
+
+[01:23] E o que vai fazer esse arquivo “cli.js”, ele vai ser a porta, vai ser a porta de entrada da nossa aplicação ao invés de index.js que é como está acontecendo agora.
+
+[01:36] Vamos fazer um primeiro teste para ver como que isso vai funcionar, eu vou no arquivo cli.js, vou criar um arquivo, vou chamar de const caminho =, eu vou chamar um método do JavaScript aqui do Node, que não precisa instalar a biblioteca, é só chamarmos ela, é const caminho = process.argv;.
+
+[01:57] E como sempre quando precisamos testar alguma coisa, console.log(caminho), vamos ver o que vai trazer isso para nós lá no terminal, então vamos voltar no terminal, node, agora eu vou pedir para o node executar node cli.js, vamos lá.
+
+[02:17] O que que ele retornou para nós, um array com dois caminhos de arquivos, o primeiro caminho de arquivo, está se referindo ao endereço onde estão os arquivos binários do node, os executáveis, que o node usa para rodar.
+
+[02:34] E o segundo é um outro caminho de arquivo com que chamamos de caminho absoluto do arquivo cli.js, o caminho absoluto é o caminho que vai desde o diretório raiz do computador, então que que podemos concluir? Que o primeiro índice aqui desse array, o zero, ele está acessando o endereço, o caminho absoluto também onde estão os arquivos que fazem o node rodar, por isso que queremos executar ele com comando node, e em seguida acessou o caminho do cli e nos trouxe de volta.
+
+[03:09] Vamos fazer mais um teste então, eu vou chamar de novo o node para executar “cli.js”, em seguida eu vou escrever, teste, no terminal, só isso, vamos ver o que retorna então, agora o array de retorno está voltando os dois endereços, os dois caminhos de arquivos, e o último índice é teste, é uma string justamente com a palavra que eu escrevi aqui.
+
+[03:35] Vamos pensar então voltando no nosso projeto, lá no arquivo “index.js”, a função pegaArquivo, que é que está fazendo todo o processo de buscar o arquivo localmente no computador e extrair os links, ela está sendo executada na última linha, recebendo uma string, onde eu passei, hard code, eu passei meio que na marra ali um caminho de arquivo, que é o caminho justamente da pasta que deixamos como teste dentro do diretório do projeto mesmo.
+
+[04:09] Então se voltarmos no terminal, executar novamente node cli.js e depois passar ./arquivos/texto1.md, o que que vai retornar? Mesma coisa, um array com os dois primeiros caminhos que já tínhamos visto, e olha só o último índice do array o que trouxe, justamente uma string ”./arquivos/texto1.md”, que é justamente, a string que a nossa função pegaArquivo está esperando receber.
+
+[04:49] E o que que concluímos? Que podemos passar isso aqui, passar o caminho a partir da linha de comando, podemos pegar ele com process.argv; e passar isso aqui ”./arquivos/texto1.md” para dentro da função pegaArquivo como parâmetro, então vamos fazer isso para testar.
+
+[05:12] Primeira coisa que temos que fazer, eu vou comentar a chamada da função de executar a função pegaArquivo que está dentro do “index.js”, e vou exportar esse módulo, então module.exports = pegaArquivo; só pegaArquivo, sem fechar parênteses, só passando o nome da função.
+
+[05:36] Agora no arquivo cli.js, vamos importar esse módulo com const pegaArquivo = require(“./index”);, aqui o autocompletar até nos sugere, certo então já exportamos ali a função, importamos ela dentro de “cli.js”, eu vou deixar o console.log(), mas agora, o que vamos exibir nesse console, antes estávamos exibindo o caminho, só o resultado de process.argv, que é a função que está pegando, o que está sendo escrito na linha de comando.
+
+[06:27] O que eu vou passar agora para console.log(), é pegaArquivo, vou pedir para ele executar a função pegaArquivo e o que eu vou passar como parâmetro para essa função? No lugar daquela string que já tava sendo hard coded, vamos passar caminho, vamos voltar no terminal, passamos caminho, no índice 2, que o primeiro índice é o 0, segundo é o 1, e o terceiro é o 2.
+
+[06:55] Então voltando em “cli.js” vamos passar como parâmetro de pegaArquivo() o caminho[2], no índice 2, agora salvamos, voltamos no terminal, vou limpar o terminal e executamos node cli.js e aí o terceiro parâmetro que é o caminho do arquivo ./arquivos/texto1.md, tem que trazer de novo aquele array de objetos e ok.
+
+[07:27] Ele nos trouxe o array com os nossos objetos igual, da mesma forma que estávamos fazendo anteriormente, vamos já ver o que é esse promise pending aqui, não precisamos preocupar com ele agora, mas o que conseguimos fazer é passar para linha de comando a responsabilidade de passar o caminho do arquivo para dentro da nossa função pegaArquivo.
+
+[07:57] Então é super comum usarmos a linha de comando para executar comandos, executar arquivos, passar caminhos, etc., e é uma coisa super comum também passar parâmetros para as bibliotecas, então estamos passando aqui por exemplo, como informação adicional para a biblioteca funcionar, estamos passando o caminho do arquivo onde ela vai funcionar, e dá para passar outros ainda.
+
+[08:24] Aqui o princípio do process.argv já pegamos mas ainda tem alguma refatoração aqui para deixar adicionarmos umas funcionalidades, deixar que o ponto de entrada da aplicação um pouco mais organizado, então vamos fazer isso em seguida.

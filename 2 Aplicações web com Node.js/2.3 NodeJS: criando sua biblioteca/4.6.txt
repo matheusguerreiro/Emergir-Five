@@ -1,0 +1,6 @@
+Quando desenvolvemos com NodeJS e precisamos buscar alguma informação do terminal, temos a função process.argv que nos retorna uma array de strings com a instalação do NodeJS e o caminho do arquivo .js em execução nas duas primeiras posições. Imagine que vamos usar o terminal para desenvolver um componente que deve receber o parâmetro --execute e em seguida, --now.
+
+Assinale a opção que indica como recuperar somente as informações passadas em sequência no terminal.
+
+Como o resultado da execução do process.argv é um array, podemos utilizar process.argv[2] e process.argv[3] respectivamente.
+  Alternativa correta! Por se tratar de um array de string podemos capturar o retorno das posições 2 e 3 normalmente.

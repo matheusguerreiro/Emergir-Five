@@ -1,0 +1,6 @@
+Nessa aula, você aprendeu:
+
+A utilizar a interface de linha de comando e como aplicamos a lib process do JavaScript para capturar e utilizar os dados informados no terminal em nosso código;
+A organizar o código separando em arquivos as funções que lidam com entrada e saída de dados das funções que processam os links;
+Como fazer estes diversos arquivos conversarem entre si através da exportação e importação de módulos com module.exports e require();
+Que scripts são instruções que usamos para automatizar tarefas e como escrever nossos próprios scripts, incluí-los no arquivo de configuração package.json e utilizá-los para executar comandos no terminal.
