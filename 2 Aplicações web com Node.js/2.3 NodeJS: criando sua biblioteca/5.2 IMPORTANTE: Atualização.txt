@@ -1,0 +1,48 @@
+Durante esta aula, utilizaremos a dependência node-fetch para fazer requisições às URLs que serão extraídas dos textos.
+
+Durante o desenvolvimento do curso foi utilizada a versão 2.6.1 dessa dependência. Algum tempo depois, foi lançada a versão 3 do node-fetch, e como acontece em mudanças “maiores” de versão - por exemplo, de v2 para v3 - a v3 tem algumas modificações que podem “quebrar” o código desenvolvido com versões anteriores.
+
+Falaremos um pouco mais sobre como funciona o versionamento semântico na atividade Faça Como Eu Fiz da aula 6.
+
+Se você instalar o node-fetch com o comando npm install node-fetch (ou a sua variante npm i node-fetch), verifique no arquivo package.json qual a versão instalada. No repositório do curso, você verá a seguinte informação:
+
+ "dependencies": {
+   "chalk": "^4.1.2",
+   "node-fetch": "^2.6.1"
+ },
+ 
+Se, após a instalação no seu projeto, a versão começar com 3, por exemplo:
+
+ "dependencies": {
+   "chalk": "^4.1.2",
+   "node-fetch": "^3.1.0"
+ },
+ 
+Você pode receber a seguinte mensagem de erro no terminal ao tentar rodar a aplicação:
+
+internal/modules/cjs/loader.js:1080
+      throw new ERR_REQUIRE_ESM(filename, parentPath, packageJsonPath);
+      ^
+
+Error [ERR_REQUIRE_ESM]: Must use import to load ES Module: /<endereço-local-do-seu-projeto>/node_modules/node-fetch/src/index.js
+require() of ES modules is not supported.
+
+Esse erro acontece porque o node-fetch, a partir da v3, não oferece mais suporte à importação e exportação de módulos utilizando a sintaxe CJS (Common JS), que utiliza o método require(), substituindo pela sintaxe ESM (ECMAScript Modules) que utiliza import e export.
+
+Mais importante, como resolver?
+
+Existe um workaround que pode ser feito para que não seja necessário alterar a importação e exportação de todo o projeto, direto do guia de upgrade do node-fetch v3.
+
+No arquivo http-validacao.js, substitua na primeira linha do arquivo:
+
+const fetch = require('node-fetch');
+
+Por:
+
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
+Teste novamente o projeto, o erro deve desaparecer.
+
+Agradecemos o aluno Marcus que caiu nesse problema - que é bastante comum em desenvolvimento com JS - e trouxe a solução para o nosso fórum a partir deste tópico do Stack Overflow, que por sua vez saiu do próprio upgrade guide da dependência.
+
+Bons estudos!

@@ -1,0 +1,49 @@
+[00:00] A próxima funcionalidade que tem que ser desenvolvida é a validação dos links, ou seja, já temos uma lista de links que foram pegas aqui no readFile, vou abrir o “texto1.md”, então o que tem que ser feito? O código tem que acessar cada um dos 5 links do nosso exemplo, e dizer, retornar uma informação se eles estão validados ou não.
+
+[00:25] Mas se formos pensar que essa biblioteca ela vai rodar a partir do terminal, como que o JavaScript vai acessar, porque não vai ter navegador envolvido, como é que vai acessar e ver no navegador se está válido, se o link existe ou não, para isso vamos usar os códigos de respostas http ou http status codes.
+
+[00:49] Você provavelmente já se deparou com pelo menos um desses códigos que é o mais famoso dele que é o 404, não encontrado, porém, todas as requisições que são feitas, por exemplo, toda vez que você acessa um link usando o navegador, cliquei lá em “www.gatinhos.com”, o computador cliente, chamamos de cliente, comunicação cliente-servidor, o computador que está fazendo a requisição através do navegador, ele vai fazer uma requisição para o servidor onde é guardada a informação de gatinhos.com.br e vai receber uma resposta.
+
+[01:29] Vemos a resposta no navegador como o que aparece visualmente na tela, porém existem muitas outras informações, e elas podem ser acessada através do inspect, do inspetor de código, das ferramentas de desenvolvedor do navegador, conseguimos acessar todas essas outras informações, se você clicar com o botão direito na tela de qualquer site que você esteja acessando e clicar em inspecionar, na aba network, ou pode estar rede, pode estar traduzido isso no seu navegador e recarregar qualquer página que você esteja, vai ser possível ver todos os arquivos que foram recebidos quando o computador cliente através do navegador, fez uma requisição para o site onde você esteja, ou para gatinhos.com.br.
+
+[02:15] No caso aqui do “developer.mozilla.org”, foram retornados vários arquivos e todos eles têm uma coluna da parte de network que conseguimos ver, com status, todos de 200, 200 é o status code de Ok, é a resposta que sempre queremos receber quando enviamos uma requisição, mas elas tem muitos outros códigos, para muitos outros tipos de respostas.
+
+[02:42] Normalmente o que queremos são as respostas na faixa dos 200, então de 200 até 299, 200 é OK, e as outras são variações de requisições que deram certo, por exemplo, 201, usamos muito no back-end quando fazemos com, tenta fazer, tenta criar, por exemplo, um novo registro no banco e o registro foi criado com sucesso, recebemos um aviso de 201, tem que receber esse status de volta.
+
+[03:11] Toda requisição, sem exceção quando volta, volta com um código, volta com um status code, o 200 é o mais comum, que é, deu sucesso, deu bom na sua requisição, você recebeu a resposta com sucesso.
+
+[03:23] Os de 300 também são possíveis porque são os da faixa de redirecionamento, então quando acessamos um site e ele redireciona para outro lugar, o nosso navegador recebe um aviso, um status code da faixa dos 300, redirecionamento temporário, redirecionamento definitivo, etc.
+
+[03:43] O que não queremos receber são as respostas de faixa 400, que são erros do computador cliente, o cliente aqui não é a pessoa que está usando, o cliente é o computador que é o 404, não encontrado, significa que é o endereço que foi solicitado para fazer a requisição, não foi encontrado.
+
+[04:02] Ou entre outros, por exemplo, precisa de pagamento, ou não foi autorizado porque precisa ser usuário logado, etc., e os da faixa 500 que são respostas de erro do servidor, o servidor caiu, o servidor está em manutenção, aconteceu alguma coisa, deu excesso de requisições e o servidor ficou indisponível, e por aí eu vou deixar esse link aqui, no material para você consultar, e ler ali todos os casos que podem acontecer.
+
+[04:32] E agora se falamos que esses status codes eles sempre estão disponíveis, sempre são uma informação que vem com a resposta da requisição, quer dizer que podemos utilizá-los, para saber pelo código o que aconteceu com uma requisição que fazemos para algum site e não precisamos do navegador para acessar e ver visualmente o que está acontecendo através dos recursos de acessibilidade do navegador.
+
+[05:00] Então vamos voltar para o nosso código, para fazer essa parte de validação nós vamos criar um novo arquivo na raiz mesmo, eu vou chamar esse arquivo de “http-validacao.js” e nesse arquivo vamos isolar, vamos separar toda a parte do nosso código, que vai fazer essas requisições e pegar as respostas.
+
+[05:23] Só para fazer um primeiro teste, vou escrever uma função, uma function e eu vou chamar essa função de function validaArray, função normalmente colocamos o nome de verbo, então a função faz alguma coisa, então função function validaURLs, melhor, eu tenho as vezes um pouco de dificuldade de encontrar o melhor nome, esse realmente é um skill que temos que adquirir quando trabalhamos com programação.
+
+[06:00] Então a função validaURLs() ela tem q receber as URLs para serem validadas, então nos parâmetros, eu vou dizer que essa função vai receber um arrayLinks, por enquanto só para teste console.log(arrayLinks) no array de links, para conferirmos se o parâmetro está vindo corretamente, tem que ser um array que tenha links nele.
+
+[06:27] Antes de continuarmos, eu já vou exportar com module.exports = essa função, então module.exports = validaURLs;, sem abrir e fechar parênteses, e vamos importar a nossa função validaURLs em “cli.js”.
+
+[06:46] Lá no topo do arquivo onde fazer as importações, vou criar uma nova const vou chamar de const validaURLs = require(“”), abre parênteses, abre string, o caminho de barra http validação, ./http-validacao, o modo completar do VS Code já faz parte do trabalho para nós.
+
+[07:04] E aqui no “cli.js”, o que que podemos fazer? Podemos passar para o usuário, a opção de quando ele acessa a biblioteca no terminal e escreve lá o nome da biblioteca, então nome-lib ./arquivos/texto.md, só exibir por exemplo a lista de links que é o que já temos, e se ele quiser os links podem ser validados ou não, e podemos fazer isso passando uma outra informação na linha de comando, depois do endereço, se escrevermos por exemplo, validar, já sabemos que o process.argv vai pegar essa informação e colocar no array que estamos salvando em caminho.
+
+[07:55] Então o índice zero do array por enquanto é, o node, então estamos acessando, estamos desenvolvendo, enquanto estamos desenvolvendo a biblioteca estamos acessando com o node cli.js, e o caminho do arquivo, então ./arquivos/texto1.md, o índice zero no nosso array de caminho é o endereço do node, o índice um, é o endereço, o caminho de “cli.js”, o terceiro elemento do array, ou seja, o índice dois, é ./arquivos/texto1.md, se passarmos, validar, validar vai ser o índice três desse array, ou seja, o quarto elemento do array caminho.
+
+[08:42] Podemos usar essa informação para dentro da função processaTexto(), após a execução da função pegaArquivo() que vai lá em “index.js”, processa, cria o array de links e devolve para ser guardado na const resultado, podemos colocar um condicional, um if aqui, então se existir um caminho nesse array de informações que trouxemos do process.argv, se existir a string validar, ou validação, ai pedimos para executar uma função extra, que é a função que vamos escrever ainda, a função valida URL, se não existir, devolve somente o array de resultados que é o que já está acontecendo.
+
+[09:30] Então vamos escrever aqui dentro da função processaTexto(), uma condicional, se caminho, que é o nosso array que está vindo de process.argv no índice 3, lembrando que é o quarto resultado, if (caminho[3] === “validar”{}) vamos passar uma condição, e a condição vai ser que agora no console.log(), vai exibir, podemos manter o chalk.yellow para criar um texto anterior, então chalk.yellow, ao invés de lista de links, eu vou escrever (”links validados”), vírgula.
+
+[10:16] E ai o que acontece, temos que chamar a nossa função, validaURLs(resultado) recebendo resultado, e o que for retornado de validaURLs vai ser exibido, se então else, a pessoa não quiser validar, ou seja, se ela não escrever nada no terminal, depois de ./arquivos.texto, ou seja, senão existir aqui esse terceiro índice do array, ou seja, o else o console.log vai exibir a lista de links como já está fazendo.
+
+[11:01] Então aqui esperamos que escrevendo validar exiba validaURLs, junto da frase links validados, vamos testar para ver se deu tudo certo, eu vou codar com npm run cli validar que é o script que já tínhamos feito anteriormente, e em seguida passar, validar, vamos ver o que acontece.
+
+[11:26] Ok, ele exibiu a lista, ele retornou, porém links validados veio como undefined, vamos dar uma olhada o que que aconteceu no nosso código, console.log, links validados, a resposta de válida URLs, que é receber resultado.
+
+[11:46] O resultado lembrando é justamente este array de links que já estão prontos, só estamos recebendo lá no nosso arquivo “http-validacao.js”, ele tem que receber um array de links, ele tem que retornar o array de links, eu escrevi um console.log, então return arraLinks, porque tudo que é para ser exibido no Console está sendo manejado pelo processaTexto em “cli.js”, todas as outras funções elas só tem que retornar.
+
+[12:19] Então vamos testar novamente vê se agora sumiu esse undefined, npm run cli validar, ok, agora sim, links validados, certo, ele entrou na opção que pedimos, lá no if, e trouxe resultados que é o array de links que já estava pronto anteriormente, está tudo funcionando, agora já podemos ir em http validação e trabalhar para justamente fazer a validação dos nossos links, pegar os http codes, e etc. Então vamos lá para a próxima fase.
