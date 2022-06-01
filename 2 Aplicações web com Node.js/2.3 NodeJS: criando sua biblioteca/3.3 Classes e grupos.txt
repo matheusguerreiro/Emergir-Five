@@ -1,0 +1,19 @@
+[00:00] Agora que a nossa expressão regular já pega a primeira parte da estrutura de links do markdown, vamos trabalhar na segunda, eu vou separar por enquanto o que fizemos anteriormente, que é pegando a parte dos colchetes, eu vou tirar aqui da área de teste, vou colar embaixo do texto só para salvarmos.
+
+[00:18] Vamos lá então trabalhando na parte que está envolvida entre parênteses, o que aconteceu é o seguinte, os parênteses assim como os colchetes, eles também são meta caracteres em expressão regular, usamos para separar grupos de match, grupo de padrões.
+
+[00:37] Então se vamos trabalhar com os parênteses sendo realmente caracteres literais, primeira coisa que temos que fazer é escapar com uma barra inversa, \( então escapei com uma barra inversa, parênteses abrindo, a expressão, o teste aqui já está pegando.
+
+[00:55] E agora a primeira parte é um pouco menos complexa, porque todo link vai começar com http e aí são realmente essa sequência de caracteres, o s, temos que deixar, temos que falar para expressão regular que o s é opcional, pode acontecer 0 ou uma vez, porque nem todos os links que existem eles são https, alguns são http.
+
+[01:24] Então usamos para isso um outro carácter especial, um meta caractere da expressão regular que é a interrogação, a interrogação vai dizer a respeito do caractere que vem antes dela, que ele pode acontecer zero ou mais vezes, então https? está coberto agora, o resto é dois pontos barra barra :// e aí a barra também é um meta caractere, então temos que escapar cada uma delas, fica então, dois pontos, barra invertida, barra, barra invertida, barra, :\/\/, nosso teste já está pegando a sequência.
+
+[01:59] E agora que a coisa começa a complicar, por que? Porque alguns sites, por exemplo, eles são só dominio.com e outros não, por exemplo, “developer.mozilla.org”, então essa estrutura pode ter um ponto, pode ter vários pontos, até chegar na primeira barra não sabemos, como fazer então para expressão regular considerar que esta estrutura que vem antes da barra ela pode acontecer mais de uma vez com ponto?
+
+[02:28] Vamos fazer o seguinte, vamos criar uma classe com colchetes e pedir para que a expressão regular capture tudo que não for caracteres especiais que normalmente não temos na primeira parte da URL, por exemplo, cifrão, cerquilha, white space também vou colocar, barra invertida s, e já começou a querer pegar alguma coisa depois da barra, só que ele só foi até primeira letra, então também temos que avisar a expressão regular e pedir para ela ir até o ponto quantas vezes for necessário, então antes o ponto um asterisco [^$#\s]*. até passando do parênteses fechando, que não é bem o que queremos.
+
+[03:18] Então vamos fazer o seguinte, vamos dizer que temos uma estrutura que é uma classe que vai pegar qualquer caracteres menos os caracteres especiais, white space, etc., ponto, e aí a segunda classe, como depois do ponto às vezes temos cerquilha, etc. Vamos dizer que só não queremos que pegue o que for white space, barra invertida s, \s.
+
+[03:43] Só que agora temos que falar para a expressão regular fazer isso quantas vezes forem necessárias, zero ou a quantidade de ocorrências, então asterisco, ]*, ainda está pegando mais do que deveria, está saindo do parênteses fechando, então agora é a hora que falamos para a expressão regular obedecer a regra que a colocamos entre classes, até que ele encontre um parênteses fechando, ou seja, barra investida parênteses \).
+
+[04:14] Então essa expressão aqui \(https?:\/\/[^$#\s].[^\s]*\) ela já conseguiu pegar todos os casos, 2 3 4 5, todos os casos de links que temos, de links diferentes, está funcionando, só que agora precisamos juntar as duas partes, a que fizemos anteriormente a dos colchetes com essa aqui dos parênteses, então vamos fazer isso no próximo vídeo.

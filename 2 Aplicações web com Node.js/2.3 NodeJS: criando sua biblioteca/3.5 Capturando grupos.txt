@@ -1,0 +1,41 @@
+[00:00] Agora já temos pronto a expressão regular da segunda parte, da parte dos parênteses com a URL, e também da parte dos colchetes, o lance agora é juntar tudo, aí você vai me falar, agora é fácil, pegamos o que foi feito anteriormente, coloca na frente do que foi feito em sequência, e na frente, antes da expressão regular que fizemos para parte da URL, e se fizermos isso sim, tudo funciona, está linda, essa expressão está correta, ela está pegando todos os conjuntos de nomes com colchetes e URLs com parênteses.
+
+[00:38] Mas antes de continuarmos, vamos parar e pensar um pouco em como que queremos que esses dados retornem para nós, pensando no problema que queremos resolver, o que esperamos resolver, é um problema que o nosso usuário tem que receber uma lista de links, e esses links precisam ser testados, ou seja, precisa dar 200 de ok, ou se tiver fora do ar precisa retornar o 404, etc.
+
+[01:07] Uma forma de fazermos isso é criando um array, e dentro desse array para cada link que o nosso texto vai extrair, que a Regex vai extrair do texto criamos um objeto, então um objeto que tenha por exemplo, a parte do colchete, [{[nomeDoLink]: (url) com a chave e o valor à parte entre parênteses que é a URL, porque dessa forma conseguimos também passar outro conjunto de chave valor no mesmo objeto que seria, o statusCode: 200, ou 404 ou 301, essa parte vamos ver em sequência daqui a pouco no curso.
+
+[01:51] Vamos lidar por agora somente com essa primeira parte, porque ainda queremos que a expressão regular pegue toda a sequência de caractere, deixa eu encontrar aqui meu Regex, porque a expressão regular ela utiliza tanto os colchetes quanto os parênteses para encontrar o padrão, mas ao mesmo tempo queremos deixar essas partes separadas.
+
+[02:18] E outra coisa importante para o usuário, o usuário não precisa receber os parênteses e nem precisa receber os colchetes, ficaria até esquisito, só precisamos passar o nome e a URL, como que então resolvemos isso na expressão regular?
+
+[02:35] Eu cheguei a mencionar anteriormente que nas expressões regulares os parênteses são usados para separar grupos, grupos de match, grupos de padrão em que a expressão regular encontra.
+
+[02:49] E podemos usar esses grupos para ao mesmo tempo em que a expressão regular captura tudo, conseguirmos usar esses grupos de forma independente, então um grupo para o nome, um grupo para a URL e ao mesmo tempo encontrando a parte toda, encontrando o padrão todo, então já que não queremos incluir, não queremos passar para o nosso usuário nem os colchetes e nem os parênteses, só o que tem dentro.
+
+[03:17] O primeiro grupo vamos incluir o que tem depois que abre o primeiro colchete e antes que fecha o último, então os nossos parênteses vão só pegar a parte dos caracteres mesmo, o segundo grupo então é, depois que abrimos os parênteses e antes do https, e vamos fechar esse grupo, com parênteses antes de fechar o parênteses que está escapado.
+
+[03:49] Então agora temos dois grupos, a expressão regular ela continua capturando tudo, mas o regex101, ele tem um menu lateral que mostra para nós os grupos separados então por exemplo, ele localizou o primeiro grupo apenas com a palavra FileList, que é a primeira e no grupo 2 ele separou o link sem os parênteses.
+
+[04:17] Então agora sim a nossa expressão regular ela vai servir para o propósito de pegar todas sequências, pegar todos os padrões e mesmo assim separar certos trechos dentro desse padrão e vamos conseguir usar esses trechos para criar os nossos objetos, aqui em separado o nome do link e a URL.
+
+[04:40] Agora sim vamos dar uma olhada em como que passamos isso para o código, porque já está hora de voltar aqui para o nosso querido JavaScript, então em “index.js”, para fazer um primeiro teste, vamos fazer o seguinte, eu vou criar uma const texto = e eu vou copiar para dentro dessa const texto = o parágrafo que estamos usando como teste no texto1.md, vou abrir e fechar aspas simples, e colar o texto aqui.
+
+[05:10] Então agora temos essa string inteira dentro da const texto = e agora vamos usar a expressão regular que criamos, quebramos a cabeça para descobrir como ela funciona bem.
+
+[05:24] Vamos então no regex101.com, copiar toda a expressão que criamos, no final da área de input da expressão regular, tem duas letras g e m, se clicarmos no menu e deselecionar o g, de global e o m de multilinha, agora a nossa expressão regular ela só pega a primeira ocorrência, justamente por que?
+
+[05:49] Setamos essas expressões, setei aqui opção g de global que é para ela não parar depois do primeiro match, depois da primeira ocorrência e continuar procurando e m de multilinha, para garantir que mesmo que a expressão regular ela capte quebra de texto, ela não pare de procurar.
+
+[06:11] Então vamos setar isso lá no JavaScript, vamos copiar a nossa expressão regular, vamos para o "index.js", vou criar uma função, uma function extraiLinks(texto) e a função extraiLinks ela vai receber um texto, para extrair os links desse texto.
+
+[06:28] Primeira coisa a fazer aqui é criar uma const regex = e eu vou chamar de Regex igual, e eu vou nessa const a expressão regular que testamos lá no regex101, só que o JavaScript dessa forma como está, ele não entende, para avisarmos o JavaScript que vai começar uma expressão regular, englobamos essa expressão regular entre barras, agora a barra normal, a que vai da esquerda para direita, então barra no início e barra no final, depois da última barra incluímos as palavras gm que são as opções para serem global e multilinha, const regex = /\[([^\]]*)\]\(https?:\/\/[^$#\s].[^\s]*\)/gm;
+
+[07:05] E agora vamos lá, vamos usar um dos métodos que o JavaScript tem para lidar com expressão regular, que é justamente match, então vamos lá, eu vou criar uma const para salvar o valor de retorno, vou chamar essa const linksExtraidos = texto, igual ao nosso texto que vai ser recebido via parâmetro, na função que estamos criando agora .match.
+
+[07:38] E o parâmetro do método match, é a Regex, é justamente a expressão regular que queremos usar como base para extrair esses links que está aqui guardada na const regex.
+
+[07:54] Agora podemos continuar com o velho e bom console.log(linksExtraídos), e ver se deu tudo certo, eu vou comentar por enquanto a função pegaArquivo porque não estamos usando ela nesse momento, porque o texto de teste criamos aqui uma variável para ele, ao invés disso embaixo da função extraiLinks eu vou só executar essa mesma função passando para dentro dela extraiLinks(texto), esse texto aqui que está sendo passado para o parâmetro da função, é a variável texto, que acabamos de criar.
+
+[08:33] Agora podemos ir lá no terminal e fazer um texto com node index.js, olha então, aqui no terminal apareceu, um array com cinco elementos, cada um deles é uma string com o match completo, desde o primeiro colchete até o último parênteses.
+
+[08:54] Lembrando que teoricamente queremos que a Regex procure por esse padrão, mas queremos as coisas separadas, fileList separado do link do fileList, sem parênteses, sem colchetes, sem nada. Então vamos dar uma olhada como que fazemos isso, só que no próximo vídeo.

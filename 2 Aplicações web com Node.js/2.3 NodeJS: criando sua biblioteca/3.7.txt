@@ -1,0 +1,25 @@
+Uma expressão regular é uma maneira de identificar um grupo específico de caracteres em um texto, como caracteres especiais, palavras determinadas e assim por diante. Avalie o trecho da música Meu pequeno Cachoeiro do compositor Raul Sampaio, a seguir:
+
+Eu passo a vida recordando
+De tudo quanto aí deixei
+Cachoeiro, cachoeiro
+Vim pro rio de janeiro
+P'ra voltar e não voltei!
+Mas te confesso na saudade
+As dores que arranjei pra mim
+Pois todo o pranto destas mágoas
+Ainda irei juntar nas águas
+Do teu itapemirim
+Meu pequeno cachoeiro
+Vivo só pensando em ti
+Ai que saudade dessas terras
+Entre as serras
+Doce terra onde eu nasci!
+
+Marque as alternativas com um regex para encontrar o texto Cachoeiro ou cachoeiro na letra...
+
+Um regex válido para encontrar a palavra Cachoeiro ou cachoeiro é .achoeiro*.
+  Alternativa correta! O regex apresentado é válido, porque o . em uma expressão regular é entendido como um curinga para qualquer caractere.
+
+Um regex válido para encontrar a palavra Cachoeiro ou cachoeiro é C?c?achoeiro*.
+  Alternativa correta! É isso mesmo! Usamos duas vezes o curinga de caractere ? para prever ocorrências da letra c tanto maiúscula quanto minúscula, seguida da cadeia achoeiro*.

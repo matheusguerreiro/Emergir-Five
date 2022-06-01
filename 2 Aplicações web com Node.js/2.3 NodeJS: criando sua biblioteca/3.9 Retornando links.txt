@@ -1,0 +1,47 @@
+[00:00] Por enquanto a nossa função de extraiLinks está da seguinte forma, já temos aqui guardado na constante Regex, a expressão regular, está funcionando, e usamos para fazer o primeiro teste, essa expressão regular com o método, match.
+
+[00:16] Eu mencionei anteriormente que o método match era um método de expressão regular, na verdade ele não é, ele é um método de string, tanto que aqui o método está associado a texto, que vai ser recebido por parâmetro, e que espera receber uma stringde texto para ser percorrido.
+
+[00:34] Então o método funciona se passarmos um Regex, só que ele não trouxe o resultado que esperávamos, ele trouxe um array com as ocorrências, só que ele só trouxe a ocorrência completa, ele não trouxe os grupos que esperávamos receber separado para poder montar o nosso objeto.
+
+[00:51] O que vamos fazer agora então? Vamos refatorar a função, para ao invés de usar o método match que é um método de string, vamos usar o exec, que esse sim é um método de Regex, então vamos associar ele a expressão regular.
+
+[01:09] Então Regex, que é o nome da constante que temos a expressão regular, ponto exec abre parênteses passamos como parâmetro o texto onde a expressão regular vai ser executado, const linksExtraidos = regex.exec(texto) que é nosso texto de exemplo que passamos aqui para uma variável, regex.exec(texto), podemos salvar e rodar novamente no terminal para ver se mudou alguma coisa, node index.js.
+
+[01:37] Agora o que recebemos é outro array, só que as informações são diferentes, o primeiro elemento é a ocorrência completa, o segundo elemento é o primeiro grupo, o grupo com o nome do link sem colchetes, e o terceiro, é o segundo grupo que é a URL sem parênteses, ele traz também o index, que é a posição na string de caracteres onde começa a ocorrência e o input que é o trecho de texto que foi consultado.
+
+[02:06] Só que temos um problema aqui, ele só trouxe a primeira ocorrência e nós temos 5 no texto de exemplo, como resolvemos isso então? Para o exec funcionar da forma que esperamos precisamos que ele rode dentro de um laço de repetição para que ele vá percorrendo a string e pulando de ocorrência em ocorrência, até que ele não encontre mais nada.
+
+[02:32] Vamos então refatorar novamente, aqui a nossa função extraiLinks a const regex permanece, eu vou criar uma outra const arrayResultados = []; e vai começar como um array vazio, é nesse array que vamos a cada ocorrência que encontrar vamos empurrar resultados lá para dentro.
+
+[02:55] E agora vamos fazermos isso com while é um tipo de laço de repetição, while() recebe por parâmetro, dentro do parênteses, a condição de parada, lembra que sempre que usamos um laço de repetição temos que passar para ele quando sair do laço, senão dá o tal do loop infinito.
+
+[03:15] O while(), ele vai funcionar enquanto regex. exec(texto), eu vou copiar aqui o trecho e colar dentro do white(regex. exec(texto)), enquanto o exec encontrar ocorrências, então o que que eu quero que aconteça aqui?
+
+[03:35] Eu quero que cada ocorrência, que cada array que o exec trouxer seja guardado em uma variável, uma variável temporária digamos assim, para que possamos manejar esses resultados e montar o nosso array de resultados.
+
+[03:53] Então embaixo do array de resultados, eu vou criar agora uma let, não uma const, eu vou chamar ela de let temp; e eu não vou atribuir valor nenhum, vou só criar essa let temp;, eu estou criando uma let porque a cada loop, a cada laço do while vamos pegar o resultado do exec, o array de resultados e jogar dentro dessa variável, de que forma que fazemos isso?
+
+[04:18] Aqui dentro do while mesmo, eu vou englobar o nosso regex.exec(texto) em outro parênteses para fecharmos essa expressão, e eu vou passar para while que enquanto while((temp = regex.exec(texto)) !== null){}, vai ser diferente de null, como assim Ju?
+
+[04:46] Vamos lá, a cada laço, a cada loop que while faz, eu estou pegando a variável temporária e atribuindo a ela um igual só, eu estou dando para ela, colocando dentro dela, o valor de regex.exec(texto), isso significa que a cada loop o exec vai saltar de ocorrência em ocorrência, então a cada loop do while o valor da let temp; vai ser um array como o que recebemos no console, só que para a primeira ocorrência, depois para a segunda ocorrência, até ele passar pelas 5.
+
+[05:28] Depois que o exec passar pelas 5 ocorrências no texto e não encontrar mais nada, ele vai automaticamente passar para dentro da variável temp o valor de null, que é nada, ele não encontrou mais nada, então a condição de parada do nosso loop de repetição é enquanto o valor de temp for diferente, exclamação igual igual, de novo quando esse valor aqui for igual a null, !== null, então quer dizer que temos que sair do enquanto.
+
+[06:01] E o que que queremos que aconteça dentro do nosso laço de repetição? Aqui é a hora que empurramos, para dentro do array de resultados, com um push, então arrayResultados.push, o objeto que propomos a montar, então dentro do push abrimos e fechamos chaves para criar um objeto novo push({}) e como que montamos esse objeto?
+
+[06:30] Vamos voltar no terminal, para ver o resultado do exec, o índice, o segundo elemento, do array de resultado, do array que o exec criou, ou seja, o índice um desse array é o primeiro grupo e o índice 2 é o segundo grupo, então como que vamos montar o nosso objeto?
+
+[06:49] Vamos passar como chave o valor de arrayResultados.push({ temp[1]: no índice 1, e dois pontos, que é um conjunto de chave valor, e o valor vai ser temp[2], um detalhe sobre a chave desse objeto que estamos criando, que é temp[1] no índice 1, quando utilizamos nesse formato, estamos passando uma variável e colchetes para indicar um índice por exemplo, para conseguirmos usar isso como chave de um objeto, temos que englobar tudo por colchetes, o valor não precisa só a chave do objeto, ficando o código, [temp[1]].
+
+[07:32] Então o que que esperamos que aconteça aqui? Enquanto existir ocorrências, enquanto o valor de temp que é para cada ocorrência vai ser um array de resultados, enquanto isso for diferente de null vamos empurrar para dentro do array de resultados um objeto que tem por chave o primeiro, o índice um, que é o primeiro grupo e para o valor índice dois, que é o segundo grupo da URL.
+
+[08:11] Agora podemos apagar a const anterior dos links extraídos que não vamos utilizar mais e vamos só testar arrayResultados para ver se tudo funcionou direito. Voltamos ao terminal, vou limpar o terminal, e o resultado é exatamente o esperado, nós recebemos um array com 5 objetos e cada um dos objetos o nome do link é a chave, ou propriedade, e o valor é a URL, sem colchetes, sem parênteses, deu tudo certo.
+
+[08:49] O vamos fazer agora para finalizar essa parte, vou tirar o arrayResultados do console.log agora vamos retornar esse resultado para fora da função de extraiLinks, nós podemos apagar a constante texto onde tinha a string de teste, vamos apagar também a linha 14 onde eu estou executando a função extraiLinks, porque agora podemos passar o resultado da função extraiLinks para dentro da nossa função que está pegando o arquivo exterior.
+
+[09:24] Então onde ela estava comentada na última linha, 28, eu vou descomentar para conseguirmos executar a função pegaArquivo novamente, pegando o arquivo que estamos usando como teste, e na linha 22 onde só estávamos voltando, só estávamos retornando no console o texto, trocamos tudo por console.log, a função extraiLinks(texto) recebendo texto.
+
+[09:53] O que é esse texto agora que está sendo recebido aqui na função extraiLinks, é justamente o texto que o método readFile está recebendo lá do arquivo texto1.md, então ele está recebendo aqui como o texto, o texto está sendo passado como parâmetro para função extraiLinks, a função extraiLinks está percorrendo esse texto passando exec, pegando os grupos, para cada grupo, para cada ocorrência, ele monta um objeto, empurra esse objeto para dentro do arrayResultados, e no final de tudo, lembrando que os laços de repetição, o código fica preso dentro do laço enquanto ele não é resolvido, enquanto não damos condição de parada, e só depois que a função extraiLinks retorna o arrayResultados com todas as nossas ocorrências.
+
+[10:54] O arrayResultados passa aqui para dentro do console.log e o que eu espero agora que aconteça quando salvarmos e executar, é que tenhamos um array de objetos com chave, o nome do nosso link e valor da URL do nosso link, então agora essa parte do projeto está finalizada, mas ainda tem algumas coisas para construirmos, para refinarmos antes de considerar essa biblioteca como finalizada. Então vamos para próxima aula.

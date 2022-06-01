@@ -39,10 +39,21 @@ async function pegaArquivo(caminhoDoArquivo) {
   const encoding = 'utf-8'
   try {
     const conteudoDoArquivo = await fs.promises.readFile(caminhoDoArquivo, encoding)
-    console.log(chalk.green(conteudoDoArquivo))
+    console.log(extraiLinks(conteudoDoArquivo))
   } catch (erro) {
     trataErro(erro)
   }
 }
 
+function extraiLinks(texto) {
+  const regex = /\[([^\]]*)\]\((https?:\/\/[^$#\s].[^\s]*)\)/gm
+  const arrayResultados = []
+  let temp;
+  while ((temp = regex.exec(texto)) !== null) {
+    arrayResultados.push({[temp[1]]: temp[2]})
+  }
+  return arrayResultados
+}
+
 pegaArquivo('./arquivos/texto1.md')
+

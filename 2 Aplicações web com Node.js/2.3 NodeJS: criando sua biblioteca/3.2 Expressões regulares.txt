@@ -1,0 +1,55 @@
+[00:00] Agora que o nosso programa já consegue ler arquivos externos, com readFile e interpretar o que tem neles, já conseguimos acessar e jogar no terminal o texto do nosso arquivo markdown, vem a parte principal, como então que fazemos para extrair desse texto, essa estrutura, que é estrutura de link do markdown, que é o nome do link entre colchetes, seguido da URL entre parênteses.
+
+[00:25] O JavaScript tem alguns métodos de string que servem para percorrermos, localizar partes de texto, tem indexOf, tem includes mas eles não vão funcionar nesse caso porque a nossa busca, o nosso programa, ele tem que funcionar com qualquer texto que tenha dentro do colchete, então não importa se o texto tenha espaços, não importa se o texto tenha caracteres especiais e também com qualquer tamanho de URL que tenha dentro dos parênteses, então pode ser uma URL mais curta, ou uma URL longa com várias informações depois da primeira barra.
+
+[00:59] E aí como que fazemos? Vamos utilizar uma ferramenta de programação chamada expressões regulares, que é uma ferramenta fantástica, as expressões regulares elas servem para nós justamente conseguirmos identificar padrões em estruturas de texto, em strings, e aí podemos capturar essas estruturas, substituir essas estruturas, etc.
+
+[01:22] As expressões regulares ela é uma linguagem própria e ela tem a própria sintaxe que utiliza alguns caracteres especiais, caracteres alfanuméricos e especiais, como por exemplo, barra, sinal de mais, asterisco, interrogação, para justamente conseguirmos fazer, criar, escrevermos uma instrução para que quando o texto, aplicarmos essa expressão regular no texto, consiga reconhecer os padrões que queremos.
+
+[01:50] Vamos fazer o seguinte, vamos copiar esse texto de exemplo, e vamos utilizar um site, chamado, “regex101.com”, que esse site é super usado justamente para fazermos isso que queremos fazer agora, que é testar e escrevendo a expressão regular, ir testando para ver se os casos de uso que queremos aplicar para ela, ou seja, todo link, link longo, link comprido, nome que tem espaço, nome que tem caractere especial, tudo seja identificado.
+
+[02:20] Então vamos colar na parte de string de teste, o conteúdo do nosso texto, e em cima, aqui no input de cima, regular expression, vamos escrever a nossa expressão regular, vamos usando alguns exemplos para irmos entendendo melhor o que são as tais expressões regulares.
+
+[02:38] Eu vou começar escrevendo, a letra a, letra a minúscula, só de escrever a letra a, o texto já reconheceu todas ocorrências de letra a minúscula no texto, e se eu escrever ab, ab já não achou mais nada, por que?
+
+[02:55] Porque a expressão irregular se eu coloco essas duas letras, ela vai procurar sempre a ocorrência dessas duas letras em sequência, então se eu colocar abc, não tem nada no meu texto que seja exatamente abc, então a expressão regular não encontrou nada.
+
+[03:11] Se eu tentar escrever palavra JavaScript, exatamente como está no texto, com j e s maiúsculo, a expressão regular encontra a única ocorrência escrita exatamente dessa forma no texto, mas não é bem o que queremos, queremos o contrário de uma coisa exata, queremos um padrão que possa atender diversos tipos de link, certo?
+
+[03:33] Vamos fazer um outro teste agora, se a expressão regular não reconhece abc, como que eu faço, sei lá, para pegar todas as letras, todas as palavras, vamos ter que criar uma estrutura da expressão regular que chama classe, e a escrevemos o que queremos dentro de uma classe, entre colchetes, então abrimos colchete, fecha colchete, quando escrevermos abc, dentro do colchete, [abc] aí sim ele vai localizar todas as ocorrências dessas três letras em separado, porque ai a classe já não vai considerar que queremos exatamente essas três letras em sequência, então tudo que é a b ou c.
+
+[04:15] E se eu quiser por exemplo, achar todas as letras que não forem nem a, nem b, nem c, usamos um outro caractere especial da expressão regular que é o circunflexo, tudo que colocamos dentro de uma classe, dentro de colchetes, seguido do circunflexo, é para dizer para a expressão regular, olha, eu quero que você pegue tudo que não for a b e c minúsculo, e ele achou para nós, pegou o caractere especial, pegou o espaço, pegou tudo, menos aqui uma letra c, uma letra a, uma letra b, etc.
+
+[04:48] Agora acho que já temos mais ou menos uma ideia de como que vamos fazer para pegar conjuntos de coisas, pegarmos conjunto de coisas, conjunto de caracteres dentro de classes.
+
+[05:03] Podemos pode também utilizar dentro de uma classe [a-z], todas as letras entre a e z minúsculas, ou todas as letras maiúsculas e minúsculas, começando com a maiúsculo, hífen, z minúsculo [A-z], e aqui ele pega de a a z, mas ele não pega algumas letras que são caracteres do português, por exemplo, e com circunflexo, a com tio, ele não vai pegar, não vai pegar espaços, nem caracteres especiais, não pega dois pontos, não pega barra, nem vírgula, etc.
+
+[05:34] Vamos pegar a primeira parte de cada link, que é só o que está entre colchetes, e aí já temos um problema, porque o colchete já vimos que é um carácter especial, é um meta caractere, que chamamos em expressão regular, que usamos para designar uma classe em Regex, como que fazemos então agora para dizer para a expressão regular que esses colchetes eles são realmente colchetes, eles não fazem parte da estrutura, da sintaxe expressão regular.
+
+[06:05] Vamos fazer o que costumamos chamar de escapar, que é usando uma barra invertida antes do caractere, então usei aqui uma barra invertida antes do colchete abrindo \[ ele já localizou o elemento, o caractere, colchete.
+
+[06:24] Então vou colocar um colchete bem na mesma coisa para o colchete fechando, barra invertida, colchete fechando \[\], e ai já não da certo, porque essa estrutura só vai ser reconhecida se estivéssemos no texto exatamente colchete aberto, colchete fechando, o que não é o que acontece.
+
+[06:41] Então agora o nosso trabalho é fazer com que a expressão regular reconheça qualquer tipo de texto que possa ter entre um colchete aberto e um colchete fechado.
+
+[06:53] Então podemos usar uma classe dentro dos nossos colchetes, então abriu colchete, fechou colchete, vamos criar aqui dentro uma classe e agora sim são os colchetes sendo usados como meta caracteres, para fazer uma classe em Regex.
+
+[07:11] E vamos lá, o que que podemos colocar então para dizer para a expressão regular, pegue qualquer coisa que esteja entre colchetes abertos, colchetes fechados, tem algumas formas, podemos utilizar uma outra estrutura do Regex que é barra invertida w \[[\w]\] que usamos para palavras, então w de word, de palavras, então barra invertida w, \w] o Regex tenta pegar qualquer estrutura que ele reconhece como sendo palavra, então pega tudo que não foi espaço, não for carácter especial, vírgula, etc.
+
+[07:47] Então podemos começar por ai, podemos escapar o nosso colchete que abre, escapar o colchete que fecha, e colocar, e abrir dentro dele com colchetes, uma classe, para pegar palavras,\[[\w]\], só que só assim não está funcionando, porque precisamos ainda dar mais uma informação para o Regex, quantas vezes ele tem que pegar, vamos usar um outro meta caractere que é o asterisco * para falar para a Regex, para a expressão regular, pegue tudo entre 0 e quantas vezes for necessário você encontrar isso no texto.
+
+[08:27] Agora temos um outro problema, porque dos 5 exemplos de link que temos no nosso texto de exemplo, só pegou três, ele não pegou nenhum input, porque tem caracteres especiais, que abre e fecha o input, tem o maior, menor, e ele não pegou também o último, que é implementation notes porque tem um espaço entre as duas palavras, então como que fazemos?
+
+[08:53] Vamos tentar colocar mais um metachar que é barra invertida s \s, que é de espaço, agora o nosso último exemplo que é implementation notes ele pegou, porque pedimos para essa classe pegar tudo que for palavra e tudo que for white spaces, espaços em branco, seja tab ou espaço mesmo, mas continua sem pegar o input porque tem os caracteres especiais, tem o maior que, menor que.
+
+[09:24] Vamos fazer o seguinte, invés de ficarmos adicionando, então pega todas as palavras, pega todos os white spaces, pega o menor que, pega o maior que, vamos fazer um pouco diferente, vamos dizer para a expressão regular, eu vou apagar aqui o barra s e o barra w, vamos falar para expressão regular pegar tudo, ela vai entrar no colchete e ela vai entrar seguir em frente pegando tudo o que não for um colchete fechando.
+
+[09:57] Então entrou na classe, entrou no colchete que abre, então tudo que não for um colchete que fecha, ela vai considerar quantas vezes for necessário, de zero a ilimitado, que aqui marcamos com o asterisco, e tudo isso é envolvido pelos colchetes de fora, que também estão sendo considerados.
+
+[10:25] Então dessa forma já conseguimos pegar as cinco ocorrências que nós temos no nosso texto de exemplo, com espaço, com carácter especial, com letra maiúscula, com tudo, tudo que não for o colchete fechando, porque o colchete fechando vai aparecer no final da expressão, escapado com uma barra inversa.
+
+[10:46] Agora podemos passar para a segunda parte, que é pegar os links, mas só para lembrar, isso aqui é só uma introdução ao tema, temos cursos da Alura só para isso, e não precisa se preocupar em decorar todos os meta caracteres, decorar todas as sequências.
+
+[11:04] Primeiro porque você sempre pode pesquisar na documentação como funciona, está cheia de informação, cheio de sites na internet que vai te ajudar a entender melhor a expressão regular, também porque isso aqui é só uma introdução ao tema para conseguirmos resolver o nosso problema, depois você vai poder testar, e treinar bastante para entender dos casos de uso das expressões regulares.
+
+[11:25] Então vamos para fazermos essa segunda parte aqui e ver como que o JavaScript vai pegar tudo isso e resolver o nosso problema.
