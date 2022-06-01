@@ -1,0 +1,49 @@
+[00:00] Por enquanto estamos trabalhando apenas com alguns códigos mais curtos e sequenciais, tudo acontecendo aqui dentro do arquivo “index.js”, mas o que vai acontecer quando a nossa função que vai percorrer o texto começar a funcionar e trabalhar com textos grandes?
+
+[00:21] Esse texto aqui ele tem um parágrafo só, mas não temos como saber qual vai ser o tamanho, qual vai ser a quantidade de linhas dos próximos textos que nossa biblioteca vai ter que percorrer e nem quanto tempo vai levar para isso acontecer, certo?
+
+[00:38] Como que o JavaScript faz então para trabalhar com essa questão de código síncrono versus código assíncrono? Código síncrono é aquele que acontece, digamos assim, em tempo real, bate e volta, então pensa no telefone, você liga para uma pessoa, você fala, a pessoa responde, você fala, a pessoa responde, isso é comunicação síncrona, ela acontece ali no bate e volta.
+
+[01:04] Ao contrário por exemplo de um Telegram, ou WhatsApp, um mensageiro de celular, você manda uma mensagem para pessoa, espera a pessoa responder, só que enquanto a pessoa não responde você normalmente deixa o celular de lado e vai fazer outra coisa, ou vai mexer em outras coisas no celular, não costumamos ficar esperando, olhando para a cara do WhatsApp esperando a pessoa responder, a não ser que realmente estejamos muito ansiosa, mas normalmente não é o caso, esse é um caso de comunicação assíncrona.
+
+[01:32] Então mandou a requisição, mandou a pergunta, mandou a comunicação, enquanto isso não acontece, a resposta não acontece, estamos fazendo outras coisas, trabalhando, ou vai ver outra coisa no celular, etc.
+
+[01:49] Então telefone síncrono, Telegram, WhatsApp, mensageiros, são assíncronos, então para você lembrar fica mais fácil, com o código é parecido, alguns códigos como o que temos escrito até agora, eles rolam bate e volta, bate e volta, mandei uma função, respondeu, mandei respondeu.
+
+[02:07] Casos como, um texto muito grande que precisa ser encontrado em um arquivo, convertido, passa ali uma lista, devolve a lista e tem outros casos também, é um caso que temos que considerar assincronamente, então não temos como parar a execução do nosso programa, esperar isso acontecer e depois continuar executando o nosso programa, que seria a mesma coisa que pararmos tudo que estamos fazendo inclusive de respirar para ficar esperando chegar a mensagem no WhatsApp.
+
+[02:38] Ao mesmo tempo, temos que avisar o JavaScript, JavaScript, espera isso tudo acontecer com arquivo, para então você exibir o resultado na tela, não tem como JavaScript exibir a lista de links enquanto o processamento não tiver terminado no arquivo, o JavaScript chama isso de promessa, promises, é a maneira que o JavaScript lida com código assíncrono, código que precisa esperar uma coisa acontecer para em seguida acontecer outra, sem parar a execução do todo, sem parar o programa.
+
+[03:15] Vamos fazer o seguinte, vamos testar a assincronicidade, vou comentar a nossa função pegaArquivo, ela inteira, e vamos reescrever essa função já levando em conta arquivos maiores, vários arquivos que podemos trabalhar mais para frente, então vamos levar esses casos, já deixar a função pronta para receber.
+
+[03:39] E mesmo porque não temos como saber ainda quanto tempo vai levar para o JavaScript processar o arquivo e pegar os links, porque ainda não escrevemos essa função. Então vamos reescrever por enquanto a função pegaArquivo, function pegaArquivo(caminhoDoArquivo) mas agora o que que vai acontecer dentro dela?
+
+[04:05] A const enconding = ‘utf-8’ continua existindo, eu vou passar ela aqui, vou copiar e colar, agora vamos usar um outro método do FS, do file system, o * file system* já está preparado para trabalhar com assincronicidade, com código assíncrono, então ao invés de fs.readFile é fs.promises.readFile.
+
+[04:31] Então passando promises na frente no método readFile() já estamos avisando, olha FS, leva o tempo que for para você fazer esse processo de ler o arquivo, espera isso acontecer para então chamar a função correspondente.
+
+[04:48] Além do promises que já avisamos o FS, o JavaScript tem duas formas de lidar com código assíncrono com promessas, vamos ver a primeira delas agora, em seguida vamos ver a segunda.
+
+[05:00] O JavaScript usa uma palavra-chave, um método, na verdade é uma função, chamada then, então .then, then é então, o que estamos dizendo literalmente aqui para o JavaScript é, JavaScript vai lá com o método FS, lê um arquivo, readFile, então, depois que terminar de ler o arquivo, você vai fazer alguma coisa que vamos dizer aqui.
+
+[05:28] Então fs.promises.readFile() agora não vai levar aqueles três parâmetros que fizemos anteriormente, agora os únicos parâmetros que vai ele vai levar, vai ser, caminhoDoArquivo, encoding, então fs.promises.readFile(caminhoDoArquivo, encoding) como parâmetro, .then() então, então o que acontece?
+
+[05:52] Then é um método callback também, então sempre que utilizamos o .then(()) tem que passar para dentro dele uma função que vai ser chamada de volta, o parâmetro que o then vai receber é o produto da promessa, que esperamos que seja o conteúdo do arquivo, então eu vou chamar, usando então, então, então, eu vou chamar aqui esse parâmetro de .then((texto) =>, porque é o que esperamos que retorne depois que o JavaScript terminar de processar tudo.
+
+[06:28] Na arrow function passamos console.log(texto), e agora essa parte do tratamento de erros aqui que fizemos com if e tal, trabalhando com código assíncrono no JavaScript utilizando a palavra chave then, tem um outro método, o then é um método, é uma função, tem um outro método que vai junto com o then que é o catch(), de pegar, então esse método serve para nós pegarmos um erro, caso ele ocorra.
+
+[07:04] catch(erro) recebe como parâmetro, erro, assim como a nossa função recebia anteriormente, e vamos chamar dentro de erro a função, => trataErro(erro), passando como parâmetro para ela erro.
+
+[07:26] Agora perceba que, essas funções, o readFile, o then, o catch, elas não estão dentro da outra, elas estão encadeadas, uma seguida da outra, essa é a estrutura aqui do then, inclusive por padrão podemos jogar, quebrar no ponto, embaixo do readFile, então está encadeado com o then, então, passou pelo readFile, passou o caminho do arquivo, ele vai ler o arquivo e então quando estiver pronto o produto de readFile que esperamos que seja um texto, vai ser passado para frente na função callback, por enquanto só queremos um console.log(texto).
+
+[08:07] E por fim, depois de tudo, a última coisa, é o método catch() que vai ser responsabilizado por pegar o erro de uma forma parecida que estávamos passando o erro por parâmetro, no callbackda função que estávamos usando anteriormente, e da mesma forma que fizemos anteriormente está sendo passado por parâmetro para a função trataErro que já tínhamos deixado tudo pronto aqui.
+
+[08:35] Uma coisa muito importante sobre o then, não é possível, o JavaScript ele faz isso de propósito, não conseguimos pegar o produto de uma promessa de forma síncrona, sempre temos que passar para o then via um parâmetro para então ser processado.
+
+[08:58] Então o que acontece entre o readFile e o then, o JavaScript ele faz por baixo dos panos, digamos assim, e não conseguimos pegar esse valor enquanto ele está fazendo essa parte do processamento, só then, só então, essa promessa aqui que estamos chamando de texto vai ser resolvida, aqui estamos resolvendo com console.log().
+
+[09:22] Vamos testar para ver se está tudo funcionando? Vou executar aqui node index.js, está trazendo no Console o texto, perceba que agora ele não está mais verde, porque na linha 12 não estamos mais passando um chalk, podemos voltar com ele aqui chalk.green(console.log(texto)) engloba o console.log e lembrando que para testarmos o erro, vamos tirar o caminho do arquivo, o texto1, rodar novamente e também, caiu no erro, não há arquivo no caminho.
+
+[10:05] Se o JavaScript passou por aqui, quer dizer que ele chamou a função trataErro levando dentro dela, o objeto de erro que foi gerado automaticamente pelo código, aí por baixo dos panos com o catch.
+
+[10:20] O then é uma das formas de se lidar com promessas, a primeira, e agora vamos ver a segunda, que é utilizando as palavras-chave async e await, então vamos ver como é que isso funciona.

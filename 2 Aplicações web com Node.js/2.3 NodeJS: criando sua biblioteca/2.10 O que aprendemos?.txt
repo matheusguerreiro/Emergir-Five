@@ -1,0 +1,5 @@
+Nessa aula, você aprendeu
+
+Que podemos utilizar a lib fs (File System, ou sistema de arquivos) nativa do JavaScript para que o programa consiga acessar e ler arquivos do computador;
+Que conseguimos capturar mensagens de erro enviadas pelo NodeJS quando algo no programa não sai como o esperado utilizando a palavra-chave throw, ou lançar;
+Que as “promessas” são a forma que o JavaScript utiliza para trabalhar com código assíncrono e que podemos resolvê-las utilizando em conjunto as palavras-chave async e await ou o método .then().

@@ -1,0 +1,39 @@
+[00:00] O JavaScript, essa é uma característica da linguagem, tem mais de uma forma de se resolver vários problemas, porque entre outras coisas, o JavaScript é totalmente compatível com as versões anteriores da linguagem, então a linguagem vai se modernizando, vai adquirindo novas formas, mais modernas, mais práticas, mais performáticas de se resolver problemas, mas as antigas continuam funcionando.
+
+[00:24] No caso das promessas, nós temos duas de se resolver, na primeira é usando o método, a função then(), e agora vamos ver a segunda forma que é utilizando as palavras-chave, async e await, eu vou então comentar novamente a função que criamos anteriormente, com o then, para vermos o async e await funcionando.
+
+[00:52] Vamos utilizar de agora em diante no projeto até o final, somente o async e await, mas se você quiser utilizar o then, eu vou deixar material extra sobre as diferenças entre um e outro, você pode ir refatorando o que fazemos, com o then, é inclusive uma boa prática para você ir vendo as diferenças e como funciona a sintaxe de cada um deles.
+
+[01:11] Então vamos lá, reescrevendo function pegaArquivo(caminhoDoArquivo) { const encoding = ‘utf-8’; e vamos lá.
+
+[01:27] O then, era o encadeamento de funções, então começou com a função promises, depois função readFile, depois then, depois catch, uma embaixo da outra, o async await, uma das vantagens dele é que ele não muda a sintaxe do código síncrono.
+
+[01:44] Então se fossemos utilizar sem precisar de then como se fossemos criar aqui nossa função, recriar de forma assíncrona, sem precisar de nenhum código a mais, vamos refazer isso então.
+
+[01:57] Já temos a const encoding – ‘utf-8’;, vamos criar uma constante aqui, eu vou chamar de const texto = para pegar já o resultado do nosso readFile então fs.promises.readFile(), vou passar também somente os dois primeiros parâmetros, que é caminhoDoArquivo, encoding.
+
+[02:22] E em seguida o que queremos fazer com o texto que foi pego de dentro do file? Queremos exibir ele com o console.log(), então em seguida temos, console.log(texto) que é o valor da variável que estamos guardando esse retorno, eu vou passar um chalk verde aqui, chalk.green e envolver (texto) com ele.
+
+[02:53] Esse é como, escreveríamos se esse código fosse síncrono e agora onde incluímos a parte do async e await? A primeira coisa que temos que fazer, é avisar o JavaScript que o retorno, que o resultado dessa função vai ser um resultado obtido assincronamente, então async function pegaArquivo().
+
+[03:17] E em seguida dentro do bloco da função passamos o quê exatamente tem que esperar acontecer, no caso, na linha 10 é o resultado de fs.promises.readFile, então aí que vai a outra palavra-chave que é await. Em seguida, não precisamos fazer mais nada porque já esperamos isso acontecer.
+
+[03:43] Então o que eu estava falando anteriormente, sobre o async await, deixar o código escrito de uma forma mais parecida com o código síncrono, é isso que eu quis dizer, escrevemos como síncrono, e o JavaScript lê como assíncrono, com quando adicionamos async na frente da função para avisar, olha JavaScript, aqui dentro desse bloco de função, vai existir código assíncrono e nas linhas de dentro da função onde esse código realmente precisa ser assíncrono, no caso esperar o que readFile acontecer, avisamos aqui um await na frente do resultado.
+
+[04:20] Então lembrando que o JavaScript quando ele vê que uma linha é uma constante, ou uma let ou uma const, ele primeiro executa tudo na parte direita do igual e só depois disso jogar o resultado para dentro da variável, vamos testar para ver se está tudo certo.
+
+[04:41] Deixa eu só conferir se o caminho está certo, sim, texto1.md, vamos lá node index.js, tudo funcionando, mas assim como no then temos que tratar o erro, a função trataErro aqui ficou sem uso.
+
+[05:01] Para conseguirmos usar o async e o await e fazer com que toda essa parte de tratamento de pegar erros, lançar erros, capturar os erros, continue funcionando, vamos usar um outro recurso que chamamos de try catch.
+
+[05:19] Então toda parte do código que queremos que seja um sucesso, ou seja, const texto = await e exibir no console vamos englobar esse código, dentro do que chamamos de bloco try{}, então try, que é de tentar.
+
+[05:38] Então JavaScript, tenta executar isso aqui, se não der certo, você catch, você pega o erro que vai acontecer, então fora do try, colocamos o catch, e passando como parâmetro de catch(erro) o erro que o JavaScript vai nos mandar por baixo dos panos.
+
+[06:01] E no catch(erro){} nós chamamos a função trataErro(erro) passando erro como parâmetro, podemos testar da mesma forma que testamos anteriormente tirando da execução do arquivo a parte do texto, texto1.md, vou limpar o terminal e caiu no erro, exibiu a mensagem em português, então ele rodou a função que esperávamos que fosse executada se caísse no que chamamos do bloco catch.
+
+[06:35] Então são dois blocos aqui, a sintaxe é parecida com a do if else, só lembrando que o try ele não tem condição, não tem condicional, mas o catch usamos os parênteses, para passar o objeto de erro para frente.
+
+[06:50] Então agora já vimos as duas formas de se trabalhar com promessas em JavaScript, como eu tinha dito anteriormente de agora em diante vamos usar o async await, que a característica dele é justamente em escrever de forma síncrona e executar de forma assíncrona.
+
+[07:08] Mas reitero o convite aqui, se você quiser ir refazendo das duas formas, o async e o await e com o then, para ir testando eu acho super bacana, vamos continuar agora que já conseguimos pegar o arquivo, para parte principal que é capturar os links. Então vamos ver como fazemos isso.

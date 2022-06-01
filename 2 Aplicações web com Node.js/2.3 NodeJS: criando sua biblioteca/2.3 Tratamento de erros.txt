@@ -1,0 +1,35 @@
+[00:00] Durante a execução de um programa, podem ocorrer diversos erros, o seu programa não conseguiu achar um arquivo, arquivo inexistente, arquivo vazio, nós quando estamos programando, precisamos olhar esses cenários e o ideal é que nosso programa consiga capturar esses erros, possíveis erros e temos que dizer ao código, o que vai acontecer, o que o código deve fazer quando esses erros acontecem.
+
+[00:27] Então vamos agora refatorar a nossa função FS, passando agora o que deve acontecer caso durante a execução desse método, readFile() que internamente ele tem como saber se deu erro na captura na leitura do arquivo ou não, ele vai cair aqui no parâmetro de erro e automaticamente queremos que aconteça alguma coisa, mas o que?
+
+[00:53] Temos que criar então a função, que vai ser chamada nesse caso, eu vou criar uma outra function trataErro(erro), ela vai receber como parâmetro erro, somente isso por enquanto, e dentro do corpo da função, vamos usar uma estrutura, que chamamos, uma palavra-chave, que chamamos de throw, throw é literalmente lançar, jogar alguma uma coisa, em inglês, e usamos essa terminologia mesmo, lançamos um erro para fora do programa, para ele ser capturado e exibido, e tratado da forma como acharmos melhor.
+
+[01:35] E o que que vamos jogar para fora da função, para fora da execução do programa, no caso de erros? Vamos jogar um novo, um throw new Error(erro) com e maiúsculo, Error é um objeto que ele é do node mesmo, e usamos esse objeto, estamos criando uma new, criando uma nova instância do objeto erro, passando para dentro dele, justamente o que vamos receber via parâmetro, que é o erro, e esse objeto erro ele serve especialmente para lidar com esses casos, em vez de darmos só um console.log(x), usamos esse objeto especial, Error para lidar especialmente com esses casos.
+
+[02:22] Agora o que é esse parâmetro erro que passamos para dentro da função? Vai ser o conteúdo, as informações, os dados que vão ser recebidos dentro readFile naquele parâmetro que tínhamos passado por cima com underline, agora já temos uma função para chamar nesse caso.
+
+[02:43] Então no lugar do underline vamos escrever erro e dentro do bloco do readFile colocamos uma condição, então if(erro) se cair em erro, ou seja, se erro for true passamos somente erro, vamos executar a função, trataErro(erro), passando como parâmetro erro, ficou erro, erro, erro, em tudo quanto é lugar, mas o que é na verdade? Da onde vão chegar essas informações?
+
+[03:18] O primeiro ponto de entrada aqui dessa informação é na linha 10, readFile, caso qualquer coisa, qualquer problema que não se conclua a operação que o readFile tem que concluir, que é ler um arquivo, ele vai automaticamente jogar alguns dados para fora dele através da função callback, por isso que temos que prever o caso, e deixar aqui o parâmetro erro separado para que ele possa ser invocado, para que a função possa ser invocada com esse parâmetro, caso dê qualquer problema.
+
+[03:54] Então ele sai do readFile, na condicional, no if que colocamos, ele é passado, todas essas informações são passadas para dentro do if, se existe essa informação erro e o if vai ser chamado, e ela vai de novo como parâmetro para dentro da função trataErro() que declaramos agora pouco anteriormente.
+
+[04:23] E a partir daí, ela também, esse conjunto de informações de erro, vai de novo, então ela está sendo passada de lugar para lugar, ela vai de novo para dentro do parâmetro do New Error , do objeto erro, vamos testar então?
+
+[04:39] Dentro do throw new Error() eu vou chamar o chalk.red(erro) normalmente vermelho, o red a cor dos erros, a cor das urgências, das coisas que dão errado, e na hora de executar o arquivo, vamos tirar texto1.md, então agora vamos deixar só barra, arquivos, barra pegaArquivo(‘./arquivos/’) a função está preparada para ler um arquivo, esperamos que não consiga fazer isso.
+
+[05:10] Vamos testar? Então no terminal chamamos o node index.js e ele caiu no erro, e passou para frente em vermelho, foi o que pedimos, a mensagem de erro, só que a mensagem está aqui, EISDIR, E diretório, foi executada uma operação ilegal, porque passamos um diretório, passamos um caminho de pasta, não passamos um arquivo, ele não conseguiu ler.
+
+[05:42] E no final o objeto Error ele inclui uma stack trace, que chamamos, que ele vai percorrendo todas as partes onde esse erro explodiu, onde acusou o erro nos arquivos internos que o node usa para executar o “index.js”.
+
+[06:00] Vamos fazer o seguinte, vamos voltar no nosso arquivo “index.js”, e na função de tratar o erro a invés de passar só o que tem o objeto inteiro, só o que tem no parâmetro de erro, tudo, vamos passar só erro.code, vamos passar também uma mensagem em português para entendermos melhor o que que está acontecendo, no caso, é que ’não há arquivo no caminho’, você pode colocar o texto que você quiser, não há arquivo no caminho ou o caminho é um diretório, ou etc.
+
+[06:45] Testar mais uma vez, limpar o terminal, e agora ele dá o código do erro, isso é sempre bom passarmos para frente porque normalmente recebemos um erro, se não sabemos o que vamos procurar na documentação, e esse é o código do erro.
+
+[07:01] E em seguida a mensagem em português, não há arquivo no caminho, está em vermelho na tela para ficar destacado, e agora já sabemos o que temos que fazer, esquecemos aqui de passar o arquivo, então aqui não é um diretório, aqui tem que ser /arquivos/texto1.md.
+
+[07:22] Testamos novamente, limpa o terminal, tudo certo agora, não caiu no erro e se cair no erro futuramente, já sabemos o que vai acontecer aqui, no caso de não conseguir ler um arquivo, ou podemos deixar uma mensagem de erro mais genérica.
+
+[07:42] Futuramente você pode ainda incrementar mais esse código, e através do erro.code que é o código do erro, se for esse código aqui, vamos lá, deixa eu só voltar aqui na mensagem de erro, se for esse código aqui, quer dizer que não há um arquivo no caminho, se for outros tipos de erro, outros códigos de erro que podemos pesquisar na documentação, se dá outras mensagens.
+
+[08:12] Então deixamos por enquanto aqui só uma mensagem um pouco mais simplificada para testarmos e e ver como isso funciona, por enquanto está tudo funcionando, os erros, inclusive os erros estão funcionando, vamos passar então para o próximo passo.

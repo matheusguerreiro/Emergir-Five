@@ -1,0 +1,6 @@
+Durante o funcionamento de um sistema, algumas execuções podem não sair como o esperado. Por exemplo, quando trabalhamos com uma aplicação web, podemos tentar acessar um link que esteja inválido, ou salvar um arquivo num diretório sem ter permissão para isso. Sendo assim, podemos preparar o código para esperar possíveis erros e tratá-los, o que pode ser feito no JavaScript usando a estrutura try...catch.
+
+Sabendo disso, analise as alternativas abaixo e marque a correta:
+
+No JavaScript o try...catch possibilita lidar com um erro identificando o trecho em que ele pode ocorrer (try) e captando o erro (catch) para tratá-lo.
+  Alternativa correta! O Javascript (assim como muitas outras linguagens) utiliza o bloco try para envolver o trecho de código que pode gerar algum tipo de exceção e o bloco catch é o responsável por capturar o que ocorreu e permitir à pessoa que está desenvolvendo tratar o erro.
