@@ -1,0 +1,13 @@
+[00:00] Boas-vindas ao treinamento de Node.js: API Rest com Express e MongoDB. Sou Jaqueline Oliveira e desejo à você boas-vindas ao nosso curso de API Rest.
+
+[00:06] No curso nós vamos utilizar o Node que é um ambiente de execução propriamente para rodar JavaScript fora do navegador. Nós vamos utilizá-lo juntamente com o Express, que é um framework que vai nos auxiliar na construção da API seguindo o padrão Rest e vamos utilizar também o banco de dados MongoDB, que é um banco Nocycle (não relacional) e vamos partir de toda a configuração dele no ambiente Atlas, que é a versão dele que roda na nuvem.
+
+[00:43] O objetivo vai ser construir uma API para a Livraria Alura. Nós vamos ter métodos para buscar, cadastrar, atualizar e excluir um livro específico. Não só livros, mas autores também, seguindo as boas práticas do Rest e fazendo isso de forma bem passo a passo para que você consiga entender qual é o objetivo de uma API, como ela funciona, qual é a melhor forma prática de utilizar, de programá-la.
+
+[01:20] E também para você entender o conceito de requisição e resposta e como que o protocolo HTTP está envolvido nisso, porque fazemos uso dos verbos HTTP. Vamos trabalhar também com objetos no formato JSON, nossas requisições e respostas estarão trafegando JSON por isso vamos isso o tempo inteiro no curso.
+
+[01:44] Para dar um spoiler da aplicação eu vou mostrar um pouco no VS Code, vamos usar o Mongoose também para conectar com o banco de dados Mongo e toda a API vai seguir as boas práticas de ter controlador, ter a separação do models, das rotas, a configuração com o banco toda separada nos arquivos corretamente e aí nós vamos utilizar também o Postman para obter os dados.
+
+[02:13] Vamos fazer todas as requisições pelo Postman e ter acesso a todos os dados que cadastrarmos e fazer as atualizações, tudo pelo Postman. Exatamente como é feito quando você está usando um front-end, só que ao invés de programarmos o front-end para fazer requisições nós vamos usar o Postman como ferramenta para simular todas essas requisições, fazer o servidor local processar esses dados e devolver as respostas considerando os status adequados.
+
+[02:45] Espero você, estou bem animada para dividir esse conteúdo com você e te vejo no próximo vídeo.

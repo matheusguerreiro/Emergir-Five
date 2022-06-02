@@ -1,0 +1,28 @@
+Nesse curso usaremos o Node.js para construir uma API REST utilizando o Express. Para isso, precisaremos fazer a instalação de algumas ferramentas. Se você já fez o(s) curso(s) que constam como pré-requisito para este, é muito provável que o ambiente já esteja pronto. Use as instruções abaixo para conferir!
+
+Node.js
+
+1) Abra uma janela do terminal em seu computador. Isso pode ser feito da seguinte forma:
+
+Windows: Você pode acessar a busca no menu iniciar e procurar por Prompt de Comando, ou acessar via Menu Iniciar > Sistema do Windows > Prompt de Comando;
+MacOs: O Terminal está disponível no menu de Aplicações, dentro da pasta de Utilitários;
+Linux (Ubuntu): O Terminal está disponível no menu de Programas/Aplicações. Caso não localize, pode estar dentro da pasta Utilitários.
+2) No Terminal, digite node --version ou node -v - caso retorne um número de versão, como por exemplo, v16.14.0, o NodeJS já está instalado.
+
+Caso precise instalar, siga as instruções para cada sistema operacional que estão na página inicial do NodeJS. Este curso foi desenvolvido usando a versão 16.14.0.
+
+O site do Node.js oferece duas opções para download, a LTS e a current (atual), conforme imagem abaixo. Você pode escolher a versão LTS (Long Term Support ou Suporte a Longo Prazo) e clicar no botão correspondente para baixar e instalar normalmente como qualquer outro programa.
+
+Print da tela do navegador na página inicial do NodeJS,com fundo branco e com opção de download da versão 16.14.0 LTS ou a 17.7.1 Atual,  disponibilizadas em retângulos verdes clicáveis. Recomendamos sempre o download da versão LTS
+
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/01/aula1-imagem1.png
+
+Visual Studio Code
+
+O Visual Studio Code é o editor que escolhemos utilizar para escrever nossos códigos durante este curso. Os links para baixar e instalar de acordo com o seu sistema operacional estão na página inicial do VSC.
+
+Postman
+
+Utilizaremos também o Postman para testar a nossa API.
+
+Com essas informações, agora sim, podemos começar a usar o Node.js e iniciar nosso curso! Vamos lá?!

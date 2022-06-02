@@ -1,0 +1,51 @@
+No artigo sobre arrow functions criamos um módulo para imprimir o código da turma e o nome dos funcionários da escola. Agora o back-end precisa utilizar esse mesmo módulo, mas por enquanto o nosso código só funciona no lado do navegador.
+
+O back-end possui um único arquivo chamado app.js e o que queremos é encontrar uma maneira de reutilizar nosso módulo dentro desse arquivo sem precisar reescrever a classe novamente. Como podemos fazer isso?
+
+Importando nosso código
+Como o back-end é escrito em node.js, podemos fazer uso de uma função chamada require que vai ser responsável por chamar o nosso módulo moduloDeImpressao.js para dentro do nosso app.js. É essa função que vai ler e interpretar nosso módulo. Assim podemos reutilizar o nosso código sem precisar reescrever a nossa classe.
+
+
+const impressao = require('./moduloDeImpressao');
+
+imagem do terminal com erro
+https://www.alura.com.br/artigos/assets/uploads/2019/03/image_0.png
+
+Como podemos ver, algo de errado aconteceu. Se o require é o responsável por chamar o nosso módulo para a aplicação principal, por que então não conseguimos utilizar o método imprime para imprimir os nomes dos funcionários e o código da turma?
+
+Exportando nosso código
+O require é responsável por interpretar e retornar o conteúdo do código para que possamos utilizar na aplicação principal, porém o que está acontecendo é que ele não está encontrado nada exportável dentro do arquivo, ou seja, nada está publico.
+
+Para que o nosso código funcione na aplicação principal além de importar temos que lembrar de exportar também, ou seja, deixar o nosso código visível para a aplicação principal. Para fazermos isso utilizamos o module.export, com isso nosso código fica da seguinte maneira:
+
+
+class ModuloDeImpressao {
+  constructor() {
+    this._codigo = 10;
+   }
+  imprime(nomes) {
+    nomes.forEach(nome => {
+        console.log(`${this._codigo}: ${nome}`);
+     });
+   }
+}
+module.exports = ModuloDeImpressao; 
+
+Agora conseguimos ver a saída:
+
+image alt text
+https://www.alura.com.br/artigos/assets/uploads/2019/03/image_1.png
+
+Com a utilização do module.export conseguimos atingir nosso objetivo que era tornar nosso código reutilizável sem precisar reescrever dentro da aplicação principal, mas como o module.exports funciona?
+
+Exports
+O sistema de módulos do Node.js é responsável por criar o objeto module.export e o export aponta para esse objeto, podendo ser usado para retornar funções e objetos bastando somente adicioná-los ao export.
+
+
+exports.imprimir = function( ) { 
+  console.log(‘ Meu nome é Yan ’);
+}
+
+Como o exports é uma referência para o module.exports utilizamos essa sintaxe apenas para adicionar objetos e funções, se precisarmos exportar algo como uma classe vamos precisar utilizar o module.exports
+
+Se ficou interessado em como o Node.js funciona e como você pode utilizá-lo melhor, aqui na Alura temos uma formação desenvolvedor Node.js. Nela, você verá como criar um servidor web, trabalhar com persistência de dados, utilizar middlewares, dentre outras muitas coisas.
