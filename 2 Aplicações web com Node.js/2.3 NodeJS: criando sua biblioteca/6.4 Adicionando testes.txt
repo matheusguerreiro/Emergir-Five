@@ -1,0 +1,61 @@
+[00:00] Agora que já tivemos uma introdução como o Jest funciona, como roda teste e tal, hora de testar o nosso código de verdade, o que eu vou fazer primeiro é refatorar a função de teste que foi criada anteriormente, porque agora vamos pegar a função pegaArquivo , vamos usar a função pegaArquivo para escrever alguns testes relacionados a essa função. Vamos ver como funciona então.
+
+[00:25] Vou utilizar describe que é uma função do Jest, então abre e fecha parênteses, o primeiro parâmetro de describe é uma string onde passamos uma informação do que vai ser testado, o que vai ser testado é função pegaArquivo, então é isso que eu vou passar nessa string, vou passar dois pontos, dois pontos para olharmos no terminal e localizar melhor onde estão as informações.
+
+[00:52] Segundo parâmetro, também é uma função que não recebe parâmetro interno, vamos abrir essa função com arrow function, e dentro desse describe, dentro desse bloco, vamos alinhando, vamos colocando em fila tudo que queremos testar a respeito de pegaArquivo.
+
+[01:12] Então o primeiro teste podemos deixar o de função que foi criado anteriormente só para ir monitorando se os testes estão rodando mesmo, só que agora ao invés de teste eu vou usar it, então teste isso, teste isso aqui, it(), abre e fecha parênteses, o primeiro parâmetro de it também é uma string e vamos passar o que vai ser testado, então isso, pegaArquivo deve ser uma função, pode ser a mesma coisa que estava anteriormente, então abro string, ’deve ser uma função’,.
+
+[01:46] Segundo parâmetro também vamos criar uma função callback aqui que não vai receber parâmetros e se agora sim, dentro desse it podemos passar o expect (typeof pegaArquivo).toBe(‘function’), que foi criado anteriormente, vou apagar o resto do código que foi feito, que já não vamos usar mais como teste.
+
+[02:08] E agora depois desse it deve ser uma função expect (typeof ), podemos criar mais um teste relacionado a pegaArquivo, então o que que vamos testar agora? Vamos testar a funcionalidade básica do pegaArquivo que é pegar um arquivo, um arquivo de texto e retornar um array de resultados, porque através dessa função, se voltarmos em “index.js”, é através da função pegaArquivo, que a funcionalidade principal está sendo feita, está pegando o arquivo, utilizando aqui a função extraiLinks para devolver o texto, então é essa parte que vamos testar.
+
+[02:45] Então it(), abre parênteses, primeiro parâmetro, vamos dizer que ela ’deve retornar array com resultados’, ok, só que estávamos passando o texto para ser utilizado por pegaArquivo, estava vindo do terminal, mas anteriormente lá no começo do curso, antes de utilizarmos o terminal pegaArquivo estava recebendo um arquivo via string, estávamos chamando a função pegaArquivoP , passando o caminho do arquivo como uma string, então era ./arquivos/texto1.md, não era assim que estava sendo feito?
+
+[03:37] Então podemos utilizar isso para passar para os testes um arquivo de teste também, então o que vamos fazer? Dentro da pasta “test”, eu vou criar uma nova pasta, vou chamar arquivos, é outra pasta arquivos, não é a que está do lado de fora, mas o que eu vou fazer aqui é, vou copiar “texto1.md” com “Ctrl + C”, e vou colar nessa nova pasta arquivos, dentro de teste que acabamos de criar, colei texto1.md.
+
+[04:10] o que podemos fazer para deixar o teste um pouco mais rápido, é não precisamos passar o texto completo, porque a lógica de se trabalhar com um arquivo que tem um link, e que tem vários links, é a mesma, então no “texto1.md” que vamos usar como teste, podemos apagar os 4 links posteriores, e deixar só a parte do texto que só tem o primeiro link, eu vou salvar.
+
+[04:36] E já vou deixar pronto também aqui na pasta arquivos dentro de teste, outro arquivo sem link nenhum para que possamos testar essa parte também, o que acontece quando o nosso código, quando a nossa biblioteca recebe o texto sem nenhum link.
+
+[04:52] Então eu vou colar novamente dentro da pasta arquivos o texto1, agora ele entrou como texto1copy, vou renomear, clicando com o direito em renomear, texto1, e eu vou passar o nome dele para “texto1_semlinks.md”, e vou apagar todas as partes de link, o texto não precisa nem fazer sentido, podemos só apagar, porque vai para o JavaScript, para o nosso programa, para a nossa função, não vai fazer diferença.
+
+[05:29] Então agora eu tenho um arquivo, com uma quantidade x de texto e nenhum link, temos os dois casos aqui prontos, voltando então para o nosso teste, ele tem que retornar um array de resultados quando eu chamar pega arquivo, ok certo.
+
+[05:43] Então primeiro parâmetro de it() já foi, o segundo parâmetro é uma função callback sem parâmetro interno, () => {}, e ai mesma coisa, expect e expect o que? Nós expect(), que a execução da função pegaArquivo volte um retorno, então vou chamar a função aqui, expect(pegaArquivo()), passando um parâmetro para ela.
+
+[06:09] Lembra que estávamos falando sobre, como lá no começo do curso, a função pegaArquivo estava recebendo uma string com um arquivo local, então é isso que vamos fazer aqui, para facilitar podemos clicar com o botão direito, se você estiver utilizando o VSC, clicar com o botão direito em cima de “texto1.md” que está dentro da pasta teste, e dar um copy path, copiar caminho, “Alt + Ctrl + C”, e vai copiar o caminho inteiro do para nós.
+
+[06:39] Voltamos em “index.js” e abrindo strings colamos este caminho, então agora já a função pegaArquivo ela não vai executar a partir do terminal, ela vai executar pegando como parâmetro “texto1.md” que acabamos de colocar dentro aqui da pasta “test”.
+
+[07:01] E o que que esperamos que aconteça quando executar essa função pegaArquivo com o texto de teste, esse texto ele só tem um link, e agora como que fazemos para pegar do terminal essa resposta, não, não vamos pegar do terminal, vamos dizer para o Jest qual que é a resposta que tem que ser esperada, então .toBe(), então expect toBe algum retorno.
+
+[07:34] Já que sabemos que o retorno dessa função é um array com um objeto, podemos montar esse objeto de retorno para simular essa volta, lá no nosso próprio arquivo de testes, no “index.test”, no começo do arquivo, logo embaixo onde fazemos o require da função dá para criarmos uma nova const, que eu vou chamar de arrayResult, array de resultado, igual =, vou criar um array aqui, [] e dentro dele vou criar esse objeto de retorno que o Jest está esperando receber, então crio o objeto {}, e dentro dele eu passo um conjunto de chave valor, que é fileList: “” que é o primeiro link que deixamos no arquivo dois pontos uma string com a URL, sem parênteses e sem colchetes, como estávamos fazendo.
+
+[08:34] E agora podemos passar a nossa const arrayResult para dentro do toBe(), e o que que o Jest vai fazer? Ele vai executar a função pegaArquivo, vai considerar o arquivo de teste como o que colocamos dentro da pasta teste, que é texto1 menor, e já sabemos o que tem que ser retornado, então nós mesmos passamos para o Jest, através de um arrayResult que acabamos de criar, uma simulação do resultado, se tudo der certo, o resultado é um array com um objeto, e é esse conteúdo fileList.
+
+[09:15] Tem um último detalhe aqui antes que esqueçamos, pegaArquivo é uma função assíncrona, então se temos que avisar o JavaScript, o node para esperar tudo que tem que acontecer na função pegaArquivo acontecer, a mesma coisa com o teste.
+
+[09:33] Então o teste tem que, ’deve retornar *array* com resultados,’, vírgula, a função onde vamos colocar o expect dentro ela também tem que ser assíncrona, então async ()=> {} abre função e agora temos que passar o await dentro da função, então vamos escrever, vamos dar uma refatorada nesse expect.
+
+[09:55] Vamos primeiro criar uma const, que eu vou chamar de resultado = await, executa pegaArquivo passando o caminho que já estávamos passando anteriormente, então await pegaArquivo, passando o caminho por string, do nosso arquivo de texto que está dentro da pasta de teste, e ai quando pegaArquivo terminar de executar e retornar um resultado , com await, esse resultado vai ser jogado dentro da const resultado, e o que esperamos que aconteça?
+
+[10:38] Esperamos que resultado toBe igual, que seja, array resultado, arrayResult, uma última coisa que vamos corrigir aqui com relação ao teste anterior, é que toBe, é um método do Jest que ele funciona para fazer comparação de tipos primitivos, por exemplo, string com string, número com número, aqui no caso, temos um array que tem um conteúdo x dentro.
+
+[11:08] Então para pedirmos para o Jest entrar no array e comparar o que tem dentro desse array, não vamos usar o toBe, vamos usar toEqual, e isso está inclusive, se você quiser dar uma olhada na documentação do Jest para ver todas as opções, passamos pelo iniciando, e agora estamos na parte de usar os matchers, matcher de combinar as duas coisas, compara, deu certo, ela junta.
+
+[11:36] Então o que usamos de matcher até agora foi o toBe, que está comparando número com número, segundo a documentação, e agora o que estamos fazendo é usar o toEqual para comparar uma estrutura de dados, então tanto objetos, quando arrays que tem que entrar e ver o conteúdo, utilizamos toEqual, vamos voltar no nosso código, eu acho que foi feito tudo que precisava.
+
+[12:05] Então agora no terminal, rodamos npm run test, e cruzamos os dedos, e certo, passou o nosso teste, o Jest está nos informando agora no terminal, que estamos trabalhando com pegaArquivo, porque no futuro, quanto mais testes você faz, mais funções vai ter na lista, então o terminal está avisando, da função pegaArquivo testamos, ’deve ser uma função’, passou, e ’deve retornar array com resultados’, passou também.
+
+[12:36] Então um grupo, uma switch de teste, que é o describe, um grupo e dentro desse grupo nós temos dois testes, passaram de dois testes no total.
+
+[12:47] Uma coisa interessante é que a última linha do retorno do Jest, diz que rodou todas as suites, todos os grupos de testes, que match, que combinam com uma expressão regular, então olha aqui uma expressão regular que vimos anteriormente sendo usada em um contexto que quase passou reto.
+
+[13:06] Então vou deixar para você aqui ler, que agora você já sabe o que diz essa expressão regular, que é barra, ponto, barra invertida, barra, teste , barra, i /.\/teste/i, só antes de terminarmos essa parte vamos voltar aqui no nosso describe da função pegaArquivo e dar uma olhada no que fizemos.
+
+[13:25] Então essa segunda parte do teste, o it, o segundo teste, estamos executando a função pegaArquivo ao invés de passar pelo terminal o caminho, passamos via string para poder executar pegaArquivo de forma assíncrona, com async await, depois que executou o resultado foi jogado para dentro da const resultado.
+
+[13:48] E agora o que estamos comparando é o resultado da execução de pegaArquivo que foi guardado dentro dessa variável resultado, toEqual() que seja igual ao array de resultados, arrayResult que declaramos aqui mesmo no arquivo, declaramos uma variável e inseriu exatamente qual que era o retorno que o Jest tinha que esperar acontecer.
+
+[14:13] Então é isso que o teste faz, ele compara, era isso o esperado acontecer? Isso realmente aconteceu? Mas ele não trata do código, quem tem que lidar com código que faz isso somos nós, nós temos que saber o que está sendo esperado e o que não está sendo esperado, vamos fazer mais um exercício com o Jest, mas isso agora no próximo vídeo.

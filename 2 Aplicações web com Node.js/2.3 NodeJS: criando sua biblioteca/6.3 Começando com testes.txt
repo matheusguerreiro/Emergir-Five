@@ -1,0 +1,61 @@
+[00:00] A funcionalidade principal da nossa biblioteca já está funcionando, já temos um código que acessa um arquivo markdown, consegue percorrer esse arquivo, com expressões regulares pegamos um arquivo completo, com o nome, a URL, também consultamos com uma requisição, recebemos a resposta com node fetch, consultamos o http o status de cada link.
+
+[00:24] O que falta agora para finalizarmos a nossa primeira experiência com bibliotecas é fazer os testes, os testes são extremamente importantes para uma entrega de software de qualidade, porque com os testes conseguimos não só testar o nosso software no que esperamos que funcione, mas também mapear os cenários do que precisa ser feito.
+
+[00:46] Então por exemplo, com testes vamos escrevendo e vamos pensando, o que acontece se quando o usuário executar minha biblioteca, ele passe algum valor errado, ou não passe o nome do arquivo, o nosso código tem que estar preparado para receber este cenário, e assim pensando em nos cenários possíveis tanto de sucesso quanto de falha que vamos escrevendo os testes e escrevendo nosso código para tudo bater.
+
+[01:18] Vamos fazer então o primeiro teste com os nossos testes, primeira coisa a fazer é instalar a biblioteca de testes que vamos usar, vamos usar o Jest que é um framework de testes em JavaScript, um framework ele é um conjunto de código mais robusto, ele tem mais funcionalidade do que uma biblioteca, a biblioteca costuma ser um código mais especifico na funcionalidade dele.
+
+[01:42] Primeira coisa que fazemos então quando vamos começar a trabalhar com uma nova biblioteca, um novo framework é consultar a documentação e ver ali o primeiro exemplo de código. Toda documentação especialmente em framework maiores tem uma parte de getting started, de iniciando, ou de inicie por aqui.
+
+[02:03] A documentação do Jest, não sei se ela está completamente em português, mas ela já tem bastante coisa traduzida, então na parte iniciando em português, primeira coisa a fazer é instalar o Jest, eu vou copiar a linha npm install –save-dev jest, vou copiar, colar no nosso terminal.
+
+[02:22] O que o --save-dev enquando o Jest instala, save dev é uma opção, chamamos isso de flag, de bandeira, então estamos acenando para o npm com save dev, que a biblioteca do Jest ela deve ser instalada não como dependência mas como dependência de desenvolvimento.
+
+[02:47] Agora que o Jest já instalou, vamos no “package.json” do nosso projeto e ver o que mudou lá, então no “package.json”, já foi criado uma nova propriedade chamada devDependencies, que não existia antes, e o Jest foi incluído lá dentro.
+
+[03:02] Qual que é a diferença então? Chamamos de dependências de desenvolvimento, devDependencies, as bibliotecas, os frameworks que eles não são utilizados em produção, ou seja, toda essa parte de teste, ela só nos serve enquanto o software está em desenvolvimento.
+
+[03:19] A versão do software que estamos fazendo a biblioteca, um framework, a versão do nosso software que já está em produção, que já está sendo consumida pelos usuários, não utiliza mais os testes, essa parte já foi, por isso que se faz essa separação, mesmo porque se instalássemos o Jest como temos instalado as outras dependências só com npm install, e ele ficasse na lista de dependências, funcionaria da mesma forma porque a forma de utilizar no código é a mesma.
+
+[03:51] Qual que é a diferença de separar essas partes também? Porque uma dependência de desenvolvimento, ela não precisa, o código dela não precisa entrar no conjunto, no pacote de código que está sendo enviado para a produção, ou seja, o código de produção ele fica mais leve, então quanto menos código desnecessário mandamos para a versão que está sendo consumida pelos usuários, lembrando que cada npm install baixamos um monte de coisas na nossa pasta “node_modules”, fica mais leve, o nosso código funciona melhor sem ter que baixar tanta coisa toda vez, então também é esse um dos motivos pelo qual separamos as dependências de desenvolvimento.
+
+[04:36] Mas na prática o modo de usar é o mesmo, vou fechar o “package.json”, agora é a hora de escrever o primeiro teste, na raiz do projeto eu vou criar uma pasta “test”, e dentro dela vou criar um arquivo chamado “index.test.js”, esse sufixo ponto test, é para o Jest, ele usa esse prefixo para identificar os arquivos onde escrevemos testes, mas ele é um arquivo JavaScript e vamos escrever nele JavaScript.
+
+[05:06] E agora no “index.test.js” passamos essa informação para dizer que o que vamos testar são funções que estão dentro do nosso arquivo “index.js”, por enquanto vamos testar a função pegaArquivo que é a função que está sendo exportada para ser utilizada em outras partes do código.
+
+[05:24] Então dentro do nosso arquivo recém criado, então “index.test.js”, vamos importar essa função, então const pegaArquivo = require(“”), abre parênteses, abre string, lembrando que o nosso arquivo “index.test”, ele está dentro da pasta de teste e o arquivo “index.js” ele está fora, ele está um nível para fora dessa pasta, então precisamos de ponto, ponto, para avisar o JavaScript, sair da pasta test, ai sim, ’../index); ponto e virgula para fechar.
+
+[05:58] E agora como que escrevemos? Como funciona a sintaxe do Jest, vamos dar uma olhada novamente na documentação, ver se pegamos algum exemplo, então na documentação logo abaixo da parte de instalação, já tem um exemplo de função.
+
+[06:09] A documentação criou uma função de soma, que só retorna a e b, em seguida está a parte interessante para nós que é parte onde está escrito o teste, vamos copiar esse trecho de código que é só a função teste, e colar no nosso código e vamos tentar fazer o que? Uma coisa que é importante quando trabalhamos com documentação, é esse exercício de abstrair o que está na documentação e trazer para o nosso código.
+
+[06:43] Porque não vai ser nunca exatamente o mesmo exemplo, então se observarmos o que está escrito na documentação, const sum = require(“./sum”);, com o endereço de sum, já fizemos, que já importamos aqui a função pegaArquivo, e agora vamos identificar, interpretar, o que tem nessa função de teste que trouxemos do exemplo, e ver como que fazemos para funcionar com o nosso.
+
+[07:09] A função test está recebendo dois parâmetros, se você identificar, o primeiro parâmetro é uma string com uma descrição em inglês, do que faz a função, então podemos preencher essa primeira string com a descrição que acharmos melhor, então que faz a função pegaArquivo?
+
+[07:26] Vamos testar alguma coisa sobre ela, para começarmos vamos testar só se ela é realmente uma função, para vermos se a nossa biblioteca está rodando e pegando os testes da forma correta, então o que vai ser testado é, test (‘deve ser uma função’), por enquanto.
+
+[07:46] O segundo parâmetro da função test é uma outra função, um callback, que está sendo escrito aqui dentro mesmo com arrow functions sem parâmetro, então só abre e fecha parênteses, arrow funcion e dentro dessa função tem um expect() que é uma outra função do Jest, então test é uma função que é da biblioteca do Jest, expect também, e em seguida to be que é outra função do Jest.
+
+[08:15] Então o que que está sendo esperado aqui? O Jest está fazendo uma execução, ele está chamando a função de sum, que é a função que foi passada como exemplo, o Jest está executando a função de sum passando dois números, então o que está sendo passado por parâmetro para dentro do expect é só a execução dessa função.
+
+[08:40] A função ela retorna um valor, então no final o que vai ter como resultado dentro do expect é o resultado do retorno da função, no caso a função de soma passando 1 e 2, ela retorna number, que é 3, e o que que o Jest está falando? Que vamos testar, abrir uma grande função e dentro desse primeiro teste nós esperamos que o resultado, o retorno da função soma chamando 1 e 2, seja 3, que é exatamente o que deve acontecer se a função rodar da forma correta.
+
+[09:20] Então no nosso caso queremos testar se deve ser uma função, então podemos apagar o exemplo, o que usamos no JavaScript para tentar capturar o tipo de dado que estamos trabalhando? Usamos o typeof, tudo junto, passamos o nome da função, então (typeof pegaArquivo) da função que foi importada aqui para dentro do teste, .toBe();, sempre que utilizamos o typeof, recebemos como resposta do typeof uma string com o tipo de dado, no caso o tipo de dado de pegaArquivo, é ’function’, uma string, escrito function com f minúsculo.
+
+[Aula6_video1_imagem1]
+
+[10:02] Já escrevemos nosso primeiro código, agora vamos rodar este código, como que fazemos para rodar o código? Também está na documentação do Jest, mas podemos fazer isso diretamente porque lembra que o “package.json” ele já tem dentro da parte de scripts dele um script de teste preparado? Por enquanto, se rodarmos, npm run test, temos rodado npm run cli, mas se rodarmos, npm run test, ele vai executar essa linha echo, ele vai só replicar uma mensagem dizendo que não há texto especificado.
+
+[10:41] Agora podemos trocar toda essa parte de mensagem, pelo comando que queremos que rode quando executarmos npm run test, o comando para executar o Jest, é jest, e podemos passar também, uma opção, que é ./test, que é passar o nome da pasta onde ele tem que ir direto procurar onde estão os arquivos de teste, então passamos o jest, em seguida passamos um caminho de arquivo para ele, salvei o “package.json”, podemos ir no terminal, e executar npm run test para ver se está tudo funcionando.
+
+[11:19] Ok, os testes passaram, rodaram, o terminal está avisando o arquivo que foi testado, ele deu um check em verde, usou esse emoji de v para dizer que passou o teste, então o nome do teste, o que que foi testado? Deve ser uma função, então agora lendo o resultado no terminal, conseguimos descobrir, foi testado aqui, uma função e retornou como deve ser uma função, passou no teste, deu tudo certo.
+
+[11:51] Vamos dar uma olhada melhor só antes de finalizarmos essa primeira parte, na sintaxe do Jest, existe mais de uma forma de escrevermos teste utilizando o Jest, ou qualquer outra biblioteca que utilize uma sintaxe similar, o importante é prestar atenção em todas as funções que são próprias do Jest que utilizamos, aqui foram 3.
+
+[12:16] A função teste que recebeu como parâmetro uma string com a descrição e uma outra função para ser executada, dentro utilizamos outras duas funções do Jest, primeira, expect e como parâmetro passamos o que queremos que seja testado, no caso foi typeof de pegaArquivo e .toBe() que é a resposta, o retorno desse expect, o retorno do que estamos esperando que aconteça, então esperamos que executando o typeof, eu tenha como retorno uma string, com a palavra function dentro.
+
+[12:51] Então teste ele não vai rodar todas as linhas, linha por linha, e ver se tem alguma coisa dentro da nossa função pegaArquivo para ver se alguma coisa na linha está errada, ele vai simplesmente executar o que pedimos para ser executado e vai comparar, se o retorno é o esperado, certo?
+
+[13:16] Então vamos fazer mais testes, com testes, e vamos olhando quais são as formas de escrever e vamos vendo o que que o Jest pode fazer por nós aqui nessa nossa introdução ao assunto.

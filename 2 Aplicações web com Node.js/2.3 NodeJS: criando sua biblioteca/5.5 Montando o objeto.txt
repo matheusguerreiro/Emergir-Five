@@ -1,0 +1,51 @@
+[00:00] Hora então de trabalhar com requisições e respostas, quais são os métodos, como o JavaScript vai fazer para acessar, para fazer uma requisição para uma URL e receber uma resposta com os códigos que queremos.
+
+[00:13] Pode ser que você já tenha pesquisado como utilizar o JavaScript para acessar links, tenha cruzado com informações sobre o Fetch API, que ele inclusive, eu vou deixar o link da documentação do npm para você, ele é uma API que ele serve justamente para você fetch para você pegar um recurso, entre eles um URL e fazer esse lance de requisição e resposta que estávamos conversando, pegar os status code, entre todas as outras informações.
+
+[00:44] O problema é que Fetch API é um conjunto de funções uma API, que só funciona para o JavaScript front-end, ou seja, ele só funciona para o JavaScript que é executado nos navegadores, o node não tem nativamente esse conjunto de ferramentas, esse conjunto de funções do Fetch API.
+
+[01:07] Porém, existe uma lib externa do node que vai fazer um trabalho semelhante que conseguimos trabalhar e usar da mesma forma, que chama node-fetch então no terminal, npm install, se você quiser usar só i no lugar de install também vai funcionar, vamos testar então, npm i node-fetch ok, uma lib pequena, já instalou.
+
+[01:34] Podemos conferir no “package.json”, já está listado na parte de dependências, node-fetch, e agora como que utilizamos o node-fetch, eu vou voltar no terminal, para observarmos o array que montamos anteriormente, então npm run cli validar, por enquanto temos um array com várias, com cinco strings, cada string é uma URL.
+
+[01:57] Só que o fetch ele só consegue trabalhar com uma URL, uma promessa por vez, então para resolver esse problema junto com o node-fetch, vamos usar um outro método, esse sim ele tem disponível para o node, assim como para o JavaScript dos navegadores, que é o Promise.all(), então Promise.all() ao invés de receber uma promessa, ao invés de receber, trabalhar apenas só com uma URL por vez, só com fetch ele consegue juntar várias promessas e resolvê-las todas de uma vez e só liberar o código assíncrono depois que tudo estiver resolvido.
+
+[02:42] Então nós vamos utilizar esse dois métodos de forma conjunta aqui no nosso “http-validacao.js”, primeira coisa é ir no topo do arquivo e importar a lib que acabamos de instalar, então const fetch, = require( “node-fetch”).
+
+[03:07] Aqui quando importamos os métodos de uma lib para usarmos no nosso arquivo criando uma constante, não somos obrigados a usar exatamente o mesmo nome, podemos colocar teoricamente o nome que quisermos, por isso que coloquei só const fetch que fica um pouco menor, eu falo o nome que quisermos, mas é bom usar o nome que seja semântico, que tenha a haver com o que estamos utilizando, mas o nome não precisa ser exatamente igual ao nome da biblioteca.
+
+[03:33] Então vou criar uma outra function aqui no mesmo arquivo, vou chamar checaStatus() e ela vai receber como parâmetro arrayURLs, não mais um arrayLinks, e ai como que colocamos tudo isso para funcionar?
+
+[03:51] O Promise.all() já é nativo, não precisa ser instalado, e tanto o Promise.all(), quanto o fetch eles são métodos que são assíncronos, eles não funcionam de forma sincrona, ou seja, ele só trabalham com promessas, porque acessar uma URL, pegar as informações de volta na resposta e processar essas informações, não pode ser uma operação assíncrona, não sabemos quanto tempo isso vai levar isso para acontecer e precisa avisar o JavaScript, JavaScript vai acontecer coisas aqui no código externo, espera isso acontecer antes de mandar as respostas para frente, então vamos trabalhar aqui com //promises async await vamos lá então escrever a nossa função checaStatus().
+
+[04:35] Uma coisa que eu vou fazer, eu vou criar uma const eu vou escrever aqui, const arrayStatus porque é o que queremos que retorne, se voltarmos no terminal, então estamos trabalhando com uma lista de URLs, o ideal é que as respostas também venham em um array, porque os arrays são ordenados, então todas as informações referentes ao índice zero do array sempre vão estar no índice zero, e isso vale para todos os outros índices, então conseguimos depois juntar essas informações para então trabalhar e montar a nossa resposta final.
+
+[05:13] Então const arrayStatus = é onde eu quero só guardar os status code que vão voltar da requisição, e lembrando vamos trabalhar com promessas, então já vou transformar nossa função checaStatus() em um função assíncrona.
+
+[05:28] Então async function checaStatus, essa const vai await vai esperar acontecer o que vier de Promise.all(), Promise.all(), é uma função, e aí dentro de Promise.all() vamos fazer o loop, dentro aqui do array de links validados e acessar cada um deles com o fetch().
+
+[06:09] Dentro de Promise.all() vamos fazer um map(), para nos retornar um array de resultados então arrayLinks que é o que vai ser exibido por parâmetro .map() cada índice do array é uma url, e ai arrow function, vou abrir chaves para essa arrow function =>{} que vamos escrever algumas coisas a mais, e ai sim conseguimos dentro desse map() criar uma const, eu vou chamar essa const de res, res é de response, de resposta, normalmente quando você vê a palavra res ela é meio padrão para as variáveis para onde guardamos resposta de requisição.
+
+[06:49] E a const res vai ai guardar a resposta de = await fetch() passando pelo parâmetro do fetch() a nossa url, ou seja, cada URL da nossa lista, e o que queremos retornar dessa resposta, queremos os status code, então vamos escrever return para fora do map(), res.status, terminamos tudo isso.
+
+[07:22] Depois que fechamos esse Promise.all() retornamos para fora da função arrayStatus; tem tudo async await aqui o que temos que fazer aqui agora é passar a chamada da função checaStatus que ela está definida aqui mas nenhuma parte do código está executando essa função.
+
+[07:46] Por enquanto a parte do código de validação, está acessando o cli através da função validaURLs, a função que está jogando aqui dentro da validação para ser exibido pelo cli, então validaURLs(), então aqui dentro de validaURLs, ao invés da função validaURLs só retornar o array que estamos vendo no terminal.
+
+[08:12] Vamos pegar este array que precisamos dele para fazer a função checaStatus() funcionar, então eu vou criar aqui uma const, vou chamar de links = geraArrayDeURLs(arrayLinks) e ai conseguimos depois disso chamar a função checaStatus(), eu vou criar uma outra const vou chamar de statusLinks = await checaStatus() recebendo como parâmetro, links.
+
+[08:47] Lembrando que links é agora o valor que está sendo recebido a partir de geraArrayDeURLs() que é o que está sendo exibido no console neste momento, como estamos pedindo para o JavaScript esperar a checaStatus() fazer tudo que tem que fazer dentro dela, a função validaLinks também tem que ser async.
+
+[09:10] Uma vez tudo isso feito, só precisamos retornar return statusLinks;, a palavra-chave return, ela não precisa receber await se você escrever return await statusLinks; por exemplo, o JavaScript não vai considerar isso errado mas é redundante, dar um retorno, ele já está implícito o async await, todas as promessas que vão se concretizar.
+
+[09:39] Vamos fazer um teste no console porque escrevemos um monte de código, deu um erro aqui, nosso await fetch(url), await só é válido dentro de uma função async, então eu esqueci o async em algum lugar, eu gosto de usar a sintaxe do async await porque eu acho que ela fica mais parecida com o código que escrevemos síncrono, mas as vezes isso pode acontecer de escapar algum, await fetch(url), já localizei, o nosso fetch está ocorrendo dentro da função callback, que existe dentro do map() então a função callback também precisa ser async.
+
+[10:21] Então arrayURLs.map(async url) e ai continua tudo, vamos testar novamente e ver se o erro foi embora, o erro foi embora, mas links validados ainda está exibindo uma promessa pendente, eu acho que todas as promessas que tínhamos que resolver dentro de “http-validacao.js” estão ok, porém, não avisamos a função processaTexto() lá no “cli.js” que ela também tem que esperar algumas coisas acontecerem, então onde estamos chamando validaURLs temos que avisar também que é await, lá em “cli.js”.
+
+[11:08] Como a função processaTexto() já era uma função async, ela já estava esperando pegaArquivo acontecer, isso deve dar conta de todos os avisos que temos que passar para o JavaScript e esperar os códigos rolarem.
+
+[11:21] Então rodando novamente, certo, recebemos aqui links validados e agora um array com 200 200 200 200 200, ou seja, todos os links que estão no nosso texto modelo estão ok, eles estão no ar, isso significa que nosso código funcionou, ele percorreu um array de URLs através do map(), dentro desse map() para cada uma das URLs, chamamos o fetch(), passando a (url) como parâmetro, ele nos devolveu uma resposta e dessa resposta obtivemos, extraímos, deu retorno de .status, esse ponto status .status, é por que? As respostas das requisições elas são um objeto que tem como uma das propriedades status.
+
+[12:14] Eu vou deixar material extra para você ver quais são as outras propriedades que o objeto de retorno de fetch() pode exibir para nós, uma delas é o status, mas tem outras que eu vou deixar para você conferir na sua casa, certo?
+
+[12:31] O que eu vou deixar para você conferir durante os seus estudos, mas por enquanto o nosso código está funcionando, só o que falta fazer é juntar as duas partes, antes tínhamos um array de URLs, agora só temos um array de status code, como é que juntamos tudo e montamos aquele objeto que queríamos montar no começo? Vamos ver isso em seguida.

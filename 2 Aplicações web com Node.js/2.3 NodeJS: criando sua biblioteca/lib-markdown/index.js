@@ -7,6 +7,7 @@
  * import fs from 'fs'
  * erro
  * regex
+ * npm i node-fetch
  */
 
 import chalk from 'chalk';

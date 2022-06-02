@@ -1,0 +1,51 @@
+[00:00] Então o que temos que fazer agora é juntar o array que estamos recebendo por enquanto na saída da biblioteca que é só um array com status code, 200, 200, 200 com aquele array de objetos que estávamos retornando anteriormente.
+
+[00:19] Então vamos trabalhar aqui dentro do “http-validacao.js”, mas antes de começarmos, vamos fazer o seguinte, vamos quebrar um pouco o código da função checaStatus(), porque ele está uma linha muito comprida, então como que fazemos isso no JavaScript?
+
+[00:34] No JavaScript quando você tem uma linha muito comprida de vários métodos encadeados, quebramos eles antes do ponto do método, então podemos quebrar pela primeira vez aqui entre Promise.all(), quebramos, fazemos a indentação certa, e dá para quebrar ainda uma segunda entre arrayURLs.map, então quebrar indentar certo.
+
+[01:03] E agora fica mais fácil de ler, fica uma linha muito longa, e dá para fazer isso também no gera arrayDeURLs, quebrando entre arraysLinks.map e quebrando entre Object.values, já ficou ali um código mais restrito, mais fácil de lermos.
+
+[01:21] Agora vamos trabalhar dentro da função validaURLs, por que? Porque essa função é quem está juntando toda a lógica que está sendo feita aqui na parte de validação, e sendo chamada lá no “cli.js”. O “cli.js” só tem que exibir o resultado da função, então o objeto final ele tem que vir pronto daqui de validaURLs.
+
+[01:45] Antes de começarmos, eu vou pedir para o console.log, nos exibir arrayLinks que é o parâmetro que está sendo recebido por essa função, e statusLinks, vamos no terminal, rodar aqui novamente e o que temos aqui? Temos dois arrays, o primeiro array com cada um dos objetos que já deixamos pronto lá atrás, e o outro array é o array com status code, como que fazemos então para juntar essas duas informações?
+
+[02:17] Lembrando que um array é uma lista ordenada, então o que se refere ao índice zero, ele sempre vai estar no índice zero, então o índice zero do array de objetos, é uma informação que se refere ao índice zero do nosso array de status code, então através do número do índice, índice zero de um, e índice zero do outro, índice zero de um índice um outro, conseguimos juntar esses dois arrays e seria bacana se cada um dos objetos, que eles já tem ali um conjunto de chave valor que é o nome do link, e a URL, acrescentássemos um segundo conjunto de chave valor, aí podemos chamar de status e passar o número do status.
+
+[03:01] Vamos então ver como que fazemos aí essa fusão de arrays, dentro da função validaURLs eu vou apagar o retorno e vou criar uma nova const que eu vou chamar de resultados =, igual, já que vamos trabalhar com arrays e temos que jogar para fora dessa função um novo array, vamos sim trabalhar com o map().
+
+[03:26] O array que vamos mapear é o array de objetos, porque dentro dele vamos reconstruir cada um dos objetos para incluir a informação do status code, então vamos fazer arrayLinks, arrayLinks que é o próprio parâmetro que está sendo recebido pela função, .map().
+
+[03:46] E o que vamos fazer no map(), precisamos dar um jeito de colocar mais um conjunto de chave valor dentro de cada um dos objetos, é o parâmetro desse map(), é objeto, porque lembrando, cada um dos loops do array é um dos índices do array, e o objeto inteiro é um índice.
+
+[04:09] Então para cada objeto, o que temos que fazer? Temos que juntar pelo índice, a função callback que escrevemos dentro de map(), normalmente temos passado só um parâmetro, que é cada um dos índices, mas podemos passar um segundo parâmetro para essa função callback que é justamente o número do índice que está sendo percorrido no momento, então depois de objeto, (objeto, indice) =>, lembrando que arrow function, se só passamos um parâmetro, não precisa envolver por parênteses, mas como agora temos dois parâmetros, temos que envolver o objeto índice com parênteses.
+
+[04:50] Então agora temos que montar o nosso novo objeto e retornar para fora do map(), para ele ir no array de retorno, certo. E esse objeto ele tem que ter tudo que o objeto anterior tinha, mais o novo conjunto de chave valor, que é status e status code.
+
+[05:09] Então vamos usar um recurso do JavaScript que chamamos de operador de espalhamento, ou spread operator, o spread operator, ele serve para espalhar literalmente, quando usamos ele com objetos, ele espalha o valor do objeto, ele abre o valor do objeto, e conseguimos incluir coisas nele, como funciona? Com 3 pontos, o reticências, então o novo objeto que vamos retornar a cada loop desse map(), vai ser {… objeto, status: }, aí o nosso novo conjunto de chave valor, que eu vou chamar de status, status dois pontos status:.
+
+[05:55] Como que eu chamo agora o outro array, o outro é statusLinks, lembrando que é o array, com 200, 200, 200, e ai o que que vamos colocar como valor dessa nova chave status, é statusLinks[indice] na posição de número índice, por que? Porque a cada vez, a cada loop que o map() fizer no arrayLinks, ou seja, cada loop que o map() fizer em cada um desses objetos, o valor do parâmetro índice vai ser um número relacionado ao número do índice, então ele vai ter zero na primeira passagem, um na segunda passagem, etc.
+
+[06:42] E statusLinks, no índice zero, é a primeira posição do array, statusLinks na posição no índice 1, é o segundo elemento do array, então dessa forma conseguimos juntar dois arrays e através do índice conseguimos juntar com o outro.
+
+[07:07] Tem um detalhe aqui sobre a sintaxe do JavaScript que é quando queremos retornar dentro do map um objeto, que é o que estamos fazendo agora, abrimos chaves e colocamos os itens desse objeto dentro, precisamos envolver esse objeto com parênteses, então abriu o arrow function, parênteses chaves, monta o objeto e fecha as outras chaves com parênteses.
+
+[07:37] Conseguimos agora dar “Enter”, e agora o nosso objeto vai ficar um pouco mais fácil de ler o que está acontecendo, então o retorno está entre chaves, essas chaves agora elas não são mais chaves de função, porque o grande uso desse parênteses, sem ele o JavaScript não sabe se ele tem que retornar um objeto, ou se essas chaves são uma função que está sendo iniciado o bloco ali, então por isso que utilizamos os parênteses.
+
+[08:10] Então aí um objeto que tem o espalhamento do objeto anterior, do objeto que estamos vendo por enquanto agora no terminal, mesmo que só tenha um conjunto de chave valor, ainda fazemos isso, espalhamos o conteúdo do objeto anterior e incluímos, aqui em vírgula, incluímos mais um conjunto de chave valor, que é, chamamos de status, e o valor é, o que tem dentro do array statusLinks na mesma posição que o map está percorrendo no momento. Então vai ser 0, vai ser 1, vai ser 2, etc.
+
+[08:43] Vamos testar para ver se deu tudo certo, vou voltar novamente e deu undefined, vamos dar uma olhada no que acontece, eu esqueci de retornar a nossa const resultados, então já montou o nosso array de objetos novos, então return resultados.
+
+[09:21] Todas as operações que deviam ser assíncronas, eu acho que já demos conta aqui com todos os async await que eram necessários, vamos testar novamente e agora sim recebemos o que estávamos esperando, um array e cada um dos índices é um objeto que tem dois conjuntos de chave valor, nome do link, URL, status e o número do status code.
+
+[09:49] Uma última coisa que podemos fazer aqui para dar uma melhorada nas respostas do nosso código, é envolver toda a parte assíncrona, a parte mais crítica que é de consultar a URL, voltar, etc., em um bloco de try catch para conseguirmos manejar os erros.
+
+[10:09] Então eu vou criar uma outra função, vou chamar de function aqui dentro de “http-validacao.js” mesmo, vou chamar de function manejaErros, eu vou chamar de maneja erros porque costumamos usar a expressão handle, que é manejar em inglês, quando precisamos criar funções que fazem manejo de respostas por exemplo.
+
+[10:33] E ela vai receber um erro, e o que vamos fazer nessa função, é fazer um throw, jogar para fora, lançar um throw new Error(), com e maiúsculo, um novo objeto, uma nova instância de erro, e por parâmetro vamos passar, erro.message, message aqui vem em inglês, porque os objetos de erro que o JavaScript gera, eles tem uma propriedade message, e isso é do código mesmo, por isso que está em inglês.
+
+[11:04] E agora na função checaStatus, criamos o nosso bloco try catch, então try{} abro chaves, passo para dentro do try tudo que fizemos anteriormente que estamos considerando que seja um sucesso, e no catch(erro){}, recebendo erro, só chamamos a função manejaErros, recebendo erro, recebendo o parâmetro que vai chegar do catch.
+
+[11:34] Vamos fazer mais um teste para ver se não quebrou nada enquanto isso, por enquanto está tudo funcionando, e agora a nossa biblioteca está funcionando como ela deveria quando tudo dá certo, quando a biblioteca recebe um arquivo do jeito que ela precisa receber, quando dá tudo certo nas requisições, mas o que que acontece com o código quando as coisas não saem do jeito que ele espera, quando dá algum um erro.
+
+[12:02] Esse manejo de erros, vamos ter que testar e ver o que acontece, para ai agir de acordo e escrever o código de resposta de acordo, vamos ver isso na próxima aula.

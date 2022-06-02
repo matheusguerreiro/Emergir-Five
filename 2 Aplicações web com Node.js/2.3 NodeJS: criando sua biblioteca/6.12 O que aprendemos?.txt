@@ -1,0 +1,5 @@
+Nessa aula, você aprendeu
+
+Que testes unitários são usados para testar partes pequenas do código em separado e que utilizamos os métodos da lib Jest para executá-los;
+Como fazer a leitura do resultados dos testes e qual é o significado de cada parte da sintaxe do Jest, como os métodos describe(), it() e toEqual();
+Como pensamos nos testes de forma a garantir que um erro no uso do programa realmente gere uma resposta e que é importante que isso ocorra para garantir que possíveis erros não passem despercebidos pelo usuário.

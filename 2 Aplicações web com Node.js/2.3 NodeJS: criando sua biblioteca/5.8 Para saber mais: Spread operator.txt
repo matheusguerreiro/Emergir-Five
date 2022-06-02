@@ -1,0 +1,3 @@
+Nesta aula usamos o operador de espalhamento (spread operator) para desconstruir e remontar um objeto.
+
+Este operador tem vários usos práticos tanto para arrays quanto para objetos. Você pode praticar mais o uso dele e ver outros exemplos neste Alura+(https://cursos.alura.com.br/destructuring-em-js-c308) sobre desestruturação.

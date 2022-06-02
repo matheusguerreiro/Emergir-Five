@@ -1,0 +1,13 @@
+[00:00] Chegamos ao fim deste curso e temos desenvolvida uma biblioteca em JavaScript rodando com node que está 100% funcional, enquanto íamos trabalhando, desenvolvendo, fomos vendo vários conceitos, vários ferramentas novas.
+
+[00:14] Então começamos vendo importação e exportação de módulos, como funcionam as dependências, como funciona o npm que é repositório de código aberto do node, e o que mais, vimos como funciona a linha de comando, o que acontece quando digitamos comandos no terminal, e o file system, como utilizamos a lib file system que é do node para acessar arquivos externos utilizando JavaScript e para carregar esses arquivos.
+
+[00:41] E promessas, descobrimos como utiliza, o que são as promessas, o que é o tal código assíncrono, e como utilizamos as ferramentas que e o JavaScript dá para resolvermos isso, o async await e o then, utilizamos o node fetch para fazer requisições http, receber as respostas e manejar essas respostas.
+
+[01:02] E fizemos testes, antes do teste, uma outra coisa também interessantíssima que foi trabalhar com expressões regulares, agora já conseguimos ler e escrever as nossas próprias expressões, e finalizamos com testes, então descobrimos o que são os testes, qual que é a proposta, para que eles servem e como eles funcionam utilizando o Jest, que é uma das libs de testes, um framework de testes, dos mais famosos do JavaScript.
+
+[01:31] A partir daqui, você pode criar, continuar criando funcionalidades para essa biblioteca, ou criar as suas próprias, quem sabe você tenha uma ideia de uma funcionalidade que precisa de uma biblioteca e pode desenvolver a sua.
+
+[01:43] Lembrando que tudo que vimos aqui, absolutamente tudo, tem mais coisa para ver, tem mais coisa para estudar, tem mais coisa para expandir, mas agora com a base, você só precisa continuar os seus estudos e ir acumulando mais informação, mais conhecimento.
+
+[01:58] Se você ainda não viu o material extra, e não fez os exercícios, e não conferiu os para saber mais, aproveita que agora é a hora enquanto está tudo fresco na cabeça, tem bastante material extra que fizemos com carinho para vocês. Obrigada por ter me acompanhado até aqui e nos vemos em um próximo curso.

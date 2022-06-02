@@ -1,0 +1,52 @@
+Durante a aula, utilizamos somente a propriedade status de cada link para exibir o código de status HTTP de cada URL. Mas você pode incrementar a sua biblioteca exibindo outros dados da requisição que recebemos ao utilizarmos o node-fetch.
+
+Supondo que as pessoas que utilizarão a lib não tenham tanta intimidade assim com os códigos numéricos dos status, você pode retornar o código e também a descrição dele.
+
+No arquivo http-validacao.js, vamos adicionar ao retorno da função checaStatus() a propriedade statusText:
+
+return `${res.status} - ${res.statusText}`;
+
+Agora, em vez de retornarmos somente o código numérico, trazemos também res.statusText, ou seja, vai ser exibido o valor da propriedade statusText do objeto res. Para as duas informações serem exibidas juntas, usamos template strings para unir tudo em uma string de texto.
+
+Agora substituímos a linha anterior return res.status por este novo retorno:
+
+async function checaStatus(arrLinks) {
+ try {
+   const arrStatus = await Promise
+     .all(arrLinks
+       .map(async (url) => {
+         const res = await fetch(url);
+         return `${res.status} - ${res.statusText}`;
+       }));
+   return arrStatus;
+ } catch (error) {
+   errorHandler(error.message);
+ }
+}
+
+E testamos no terminal:
+
+links validados [
+  {
+    FileList: 'https://developer.mozilla.org/pt-BR/docs/Web/API/FileList',
+    status: '200 - OK'
+  },
+  {
+    '<input>': 'https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/Input',
+    status: '200 - OK'
+  },
+  {
+    DataTransfer: 'https://developer.mozilla.org/pt-BR/docs/Web/API/DataTransfer',
+    status: '200 - OK'
+  },
+  {
+    HTMLCanvasElement: 'https://developer.mozilla.org/pt-BR/docs/Web/API/HTMLCanvasElement',
+    status: '200 - OK'
+  },
+  {
+    'Implementation notes': 'https://developer.mozilla.org/pt-BR/docs/Web/API/File#implementation_notes',
+    status: '200 - OK'
+  }
+]
+
+Veja que só é possível acessar statusText porque o node-fetch traz esta propriedade no objeto de retorno res. Você pode verificar todas as propriedades disponíveis na documentação dessa lib.

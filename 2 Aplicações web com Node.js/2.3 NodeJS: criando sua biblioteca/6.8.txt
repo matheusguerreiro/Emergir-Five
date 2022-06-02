@@ -1,0 +1,17 @@
+É importante fazer testes desde o início do desenvolvimento de uma aplicação, pois assim conseguimos avaliar diversos cenários possíveis durante a execução e garantir maior qualidade ao final. Existem bibliotecas bastante conhecidas para testar com JavaScript, como a Jest.
+
+Marque as opções corretas a respeito de teste de software e a biblioteca Jest.
+
+Para iniciar a utilização de jest é necessária a configuração do arquivo package.json e informar que vamos usar a seção script ,como em "test": "jest".
+  Alternativa correta! Para começar a usar a lib jest deve-se primeiro configurar o projeto no arquivo package.json, exemplo:
+    {
+      "scripts": {
+        "test": "jest"
+      }
+    }
+
+A jest permite a criação de testes unitários. Para testar funções, essa lib utiliza uma sintaxe particular para definição do teste, assim como em:
+  test('somar 5 + 6 = 11', () => {
+    expect(somar(5, 6)).toBe(11);
+  });
+    Alternativa correta! A sintaxe de um teste no jest deve seguir a sintaxe apresentada test...expect.

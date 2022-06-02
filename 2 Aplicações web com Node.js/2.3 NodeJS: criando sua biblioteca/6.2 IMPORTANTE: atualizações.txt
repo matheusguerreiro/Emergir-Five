@@ -1,0 +1,23 @@
+Como vimos anteriormente, o NodeJS trabalha com pacotes de comandos específicos (também chamados de bibliotecas ou dependências) que podem ser baixados através de um gerenciador de pacotes como o NPM.
+
+O desenvolvimento de cada pacote frequentemente utiliza outros pacotes (como fizemos no curso). O que pode levar a problemas como dependências quebradas ou desencontradas, quando uma atualização em uma dependência faz com que outras dependências que, literalmente, dependem dela, parem de funcionar ou funcionem erraticamente - isso vale para a relação de dependência com dependência e também entre uma dependência e o NodeJS.
+
+Quando instalamos uma dependência com o comando npm install <nome-da-dependencia>, o comportamento padrão do comando é instalar sempre a última versão. No caso do Jest (biblioteca de testes que utilizaremos neste curso), atualizações feitas nesta dependência e em terceiras que são utilizadas por ele podem não ser totalmente compatíveis com algumas versões do NodeJS. Vai ser o seu caso se você receber um retorno no terminal como este abaixo, ao instalar o Jest com npm install jest:
+
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: '@jest/core@27.0.6',
+npm WARN EBADENGINE   required: { node: '^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0' },
+npm WARN EBADENGINE   current: { node: 'v14.10.1', npm: '7.21.0' }
+npm WARN EBADENGINE }
+
+O mesmo vale para outras dependências que o Jest utiliza.
+
+O aviso acima nos diz que a dependência jest/core na versão 27.0.6 só é compatível com as versões do NodeJS listadas no aviso (na linha required). Você pode testar a versão que está instalada em seu sistema com o comando node -v.
+
+Descobri que a versão do NodeJS que estou usando não é compatível e por isso recebi vários desses * warnings* no terminal, o que eu faço agora?
+
+Quanto mais complexo o sistema, maior a probabilidade desse tipo de conflito acontecer; esse é um dos problemas que o uso de containers como Docker busca resolver (saiba mais sobre esse assunto aqui).
+
+Porém é possível contornar esse problema manejando as versões do NodeJS que utilizamos para cada projeto. Você pode seguir o tutorial desse artigo para instalar outras versões do NodeJS e alterar entre versões para cada projeto. Experimente, por exemplo, alterar a versão para uma das indicadas no warning (por exemplo, se você está trabalhando atualmente com a versão ^14.x.x, modifique para a ^14.15.0), reinstale o projeto e veja o resultado.
+
+Caso ainda tenha dúvidas, o fórum está aberto!

@@ -1,0 +1,9 @@
+Um objeto em JavaScript é uma estrutura composta por uma chave e um valor que busca representar alguma abstração do mundo real, como uma conta bancária ou um livro. Há uma série de funções para trabalharmos com objetos.
+
+Sabendo disso,marque as opções corretas.
+
+Na criação de um objeto em JavaScript, podemos usar o operador new como em const objeto = new Object()
+  Alternativa correta! No Javascript a utilização do operador new permite que usemos um tipo objeto criado pelo usuário.
+
+Para iterar sobre as propriedades de um objeto, podemos utilizar a função for ... in
+  Alternativa correta! A forma de iterar sobre as propriedades de um objeto em JavaScript é por meio do for … in como em: for (let info in cliente) { // código }.

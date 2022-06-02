@@ -1,0 +1,23 @@
+[00:00] O caminho feliz, já temos, qual que é o caminho feliz? É quando o nosso programa recebe de forma correta um caminho, o caminho termina com um arquivo markdown, dentro desse arquivo markdown existem links, ou mais, e recebem como resultado um array com objeto de link.
+
+[00:21] E agora vamos testar dois casos, que não são os casos tão felizes, o primeiro caso não é um erro em si, é somente o que acontece quando um arquivo não tem nenhum link, e o segundo caso é algo que não estamos esperando, por exemplo, se ao invés de passar um caminho que termine em um arquivo formato markdown, termine só por exemplo no nome do diretório, esqueci de passar o arquivo, deixei só a pasta, o que acontece? Não é o que o nosso programa espera receber. E como que ele lida com isso?
+
+[00:51] Vamos testar esses dois casos então, começando pelo caso que não é erro, que somente que não há links, continuamos aqui na função pegaArquivo no describe(‘pegaArquivo’), só que agora it(‘’), o que acontece quando não tem links? Deve retornar mensagem que não há links, que já tratamos disso anteriormente, então ’deve retornar mensagem “não há links”’.
+
+[01:21] Perceba que quando usamos string com aspas simples, e quiser utilizar aspas dentro desse texto, eu utilizei aspas duplas, e ’”retornar mensagem, “não há links”’ entr'e aspas duplas, o contrário também funciona, então esse é o nosso primeiro parâmetro.
+
+[01:41] Segundo parâmetro é a função callback que já abrimos aqui com chaves e arrow function, e o que temos que fazer é parecido com o que fizemos anteriormente, tem que criar uma const resultado =, como estamos dentro de uma função podemos repetir o nome da variável sem problemas, await pegaArquivos(), só que agora vamos passar, dentro das strings o caminho daquele texto que deixamos preparado anteriormente, que é o “texto1_semlinks”, então vou copiar o caminho aqui com o botão direito, e vou colar como parâmetro aqui na string dentro de pegaArquivo.
+
+[02:23] E ai sim, expect(resultado.toEqual) aqui é toEqual, ou é toBe? Como aqui estamos trabalhando com comparação de texto com texto, string com string, podemos deixar, expect(resultado.toBe) mesmo, então toBe(‘’), o que vai dentro dos parâmetros aqui? Vamos consultar no nosso código, qual é o retorno.
+
+[02:49] O retorno está dentro da função extraiLinks, na linha 11 do nosso código, se não há links, nós criamos um ternário para retornar o resultado de acordo, então se não há links detectado dentro do arquivo, retorna apenas uma string escrito ’não há links’, podemos copiar e colar inclusive da função que já estava escrita.
+
+[03:16] Então esse é o resultado que queremos que seja, vamos testar isso aqui antes de continuarmos, afinal de contas é para isso que os testes existem, então salvei, npm run test, vamos determinar, ele falhou o nosso await pegaArquivo, vamos ver o que está acontecendo, Jest encontrou um token não esperado, provavelmente o que eu fiz, os testes nem rodaram, provavelmente tem algum erro de código que não é do código em si, mas eu esqueci de fechar algum parênteses em algum lugar.
+
+[04:01] Então meu it describe pegaArquivo, await pegaArquivo, expect(resultado.toBe(‘não há links’);, fechei meu it aqui, fechei e fechei o describe, ai await, eu esqueci de colocar um async no nosso código, então ele também, se eu coloquei um await dentro do pegaArquivo a minha função externa também tem que ser async.
+
+[04:32] Vamos rodar novamente, vou limpar o terminal, npm run test, agora está funcionando, está recebendo a mensagem não há links, tudo certo.
+
+[04:46] Isso que acabamos de ver é uma introdução à questão de testes, a questão de teste é super complexa, tem tudo quanto é caso, e a documentação do Jest é muito boa, você pode ir sempre lá na documentação, ver tudo que dá para fazer, todos os tipos de teste que você pode fazer.
+
+[05:00] E aqui também no nosso projeto você pode incrementar seus testes com que você quiser, agora que já demos, já tivemos algumas introduções sobre como funcionam a lógica dos testes, e também um pouco sobre como funciona aqui a sintaxe do Jest.
