@@ -1,0 +1,81 @@
+[00:00] Já temos o get e o post funcionando, testados, vimos no Postman isso acontecendo, cadastramos um novo livro e recuperamos a listagem de livros. Agora vamos começar a programar e evoluir a rota para fazer a atualização, vamos supor que esse livro 3 que eu cadastrei como "O Silmarillion" eu não quero mais que seja esse, quero alterar o título.
+
+[00:27] Vamos para o VS Code e vamos implementar em app.js abaixo do post o método put, o de atualização vai ser o put. Vai ser o mesmo conceito app.put passo o verbo, falo qual é a rota, vai ser para app.put('/livros') só que para eu fazer uma atualização preciso indicar qual livro quero atualizar.
+
+[00:56] Geralmente usamos o que é o identificador único do objeto, da coleção, do banco de dados, vamos usar nesse caso o "Id", para fazer esse put eu vou inserir o barra e indicar que vai chegar um parâmetro nessa rota que é o "Id", app.put('/livros/:id'), indicamos isso colocando esse dois pontos Id (':id').
+
+[01:17] E o segundo parâmetro do put vai ser a arrow function onde eu vou passar requisição, resposta e programar o que tem acontecer, app.put('/livros/:id', (req, res) => { }). Observe, para atualizar um livro vou passar lá na minha rota livros/3, por exemplo, que é o livro que eu quero atualizar e eu preciso localizar esse livro no array e substituir o título. Eu tenho que localizar qual é a posição do array onde tem esse "Id" e fazer a substituição naquela posição específica.
+
+app.put('/livros/:id', (req, res) => {
+
+})
+
+[02:02] Vamos precisar fazer isso tanto para atualizar quanto para excluir quanto no momento em que eu quiser fazer aquele get específico buscando pelo "Id". Ainda não fizemos, tem get geral não tem o get por Id. Para esses três casos vou ter que ir no array e procurar em que posição está o recurso que quero manipular.
+
+[02:29] Como ainda não estamos trabalhando com banco vou criar uma função para localizar a posição no array que está o recurso que quero buscar e devolver essa posição para que eu possa fazer as manipulações que preciso.
+
+[02:45] Embaixo do put eu vou fazer uma função, vamos digitar o function e chamar essa função de "buscaLivro", vou precisar passar um parâmetro para essa função que é o "Id", function buscaLivro(id). Depois que passar o "Id" preciso ir lá naquele array de livros e localizar, abre e fecha chaves function buscaLivro(id) { }.
+
+function buscaLivro(id) {
+
+}
+
+[03:13] Se é uma função ela vai retornar alguma coisa, quero que ela retorne a posição que está o "Id" que passei dentro do array, vou incluir um return para retornar e método que temos para manipular array que é o find index que consigo achar dado algum parâmetro, em que índice, em que posição está o elemento que quero alterar, manipular ou visualizar.
+
+[03:44] Vamos fazer return livros que é a variável que tem o nosso array e usar o find index, return livros.findIndex. E no findIndex me pede um predicado que é uma função lambda que vou dizer o que tem que acontecer, o que tenho que comparar ali dentro da minha função para identificar que aquele é o elemento, vou chamar, por exemplo, de return livros.findIndex(livro => ).
+
+[04:17] Vou fazer uma condição : preciso saber se o "Id" do livro é igual ao "Id" que passei. Estou dizendo para ele: para cada elemento do array você verifica, você chama ele de livro e vê se o livro.id, que é a forma como referenciamos o atributo, o parâmetro do meu objeto livro se ele é igual ao "Id" que acabei de passar nesse parâmetro, return livros.findIndex(livro => livro.id == id). Isso é a condição para que eu diga que é verdadeiro, eu encontrei, essa é a posição que quero manipular.
+
+function buscaLivro(id) {
+  return livros.findIndex(livro => livro.id == id)
+}
+
+[04:58] Fizemos essa função e agora preciso usar essa função no app.put, vou criar uma variável para receber esse índice que acabei de programar e no array naquela posição vou trocar o título, vai deixar de ter o título antigo e vai ter o título novo.
+
+[05:24] Para fazer isso vou criar uma variável, chamar de index e passar para o meu index o "Id" que está vindo na requisição, let index = buscaLivro(). Estou pedindo para ele ir no "busca livro" e tenho que passar o "Id", o "Id" vem como parâmetro na requisição, vamos isso como let index = buscaLivro(req.params.id);, é que vai está o "Id "que eu passar lá no meu endereço, no meu endpoint.
+
+app.put('/livros/:id', (req, res) => {
+  let index = buscaLivro(req.params.id);
+})
+
+[06:11] Aqui não é exigido ponto e vírgula, mas gosto de colocar como boa prática, sempre finalizarmos uma instrução com ponto e vírgula. Tenho o meu índice, sei qual é se ele encontrou certo vou no meu array de livros na posição que recuperei na variável index e vou substituir o título pelo título que chegou também, vai ser livros na posição que eu encontrei ponto título vai receber o que veio no corpo da requisição no campo título, vai ser req ponto body porque já vai ter vindo no corpo.
+
+[07:00] Aqui no put ele trabalha com duas situações, ele vem parâmetro no caminho do endpoint e vem parâmetro do corpo, está vindo o objeto no corpo da requisição. Vamos usar o body ponto título, que é o que está vindo, livros[index].titulo = req.body.titulo;.
+
+app.put('/livros/:id', (req, res) => {
+  let index = buscaLivro(req.params.id);
+  livros[index].titulo = req.body.titulo;
+})
+
+[07:19] Feito isso vou estar substituindo o que veio no corpo da requisição com o nome de título pela posição que localizei o título anterior. Depois disso podemos simplesmente devolver o array para que isso seja visível que o nome foi alterado, vou fazer um res ponto, pode colocar o status se não quiser colocar o status porque ainda estamos trabalhando com 200 para tudo, pode deixar sem o status que automaticamente já coloca como default o 200, colocamos JSON e mando devolver o livros, o próprio array inteiro, res.json(livros);.
+
+app.put('/livros/:id', (req, res) => {
+  let index = buscaLivro(req.params.id);
+  livros[index].titulo = req.body.titulo;
+  res.json(livros);
+})
+
+[08:08] E vamos fazer esse teste e ver se vai dar tudo certo. Vamos no Postman, quando fizermos o get não vai ter mais "O Silmarillion" porque estamos trabalhando com o Nodemon, cada alteração ele derruba o servidor e sobe o servidor de novo.
+
+[08:27] Como eu já tenho ele no corpo, vou passá-lo, vou fazer um post e quando eu fizer o get o meu "O Silmarillion" já vai aparecer, ele já está no corpo ("body"): "id": 3, "titulo": "O Silmarillion". Se eu quiser alterar preciso primeiro passar o Id do livro que quero alterar no meu endpoint, vai ser livros/3 e vou pedir para alterar esse 3 mesmo, vai ser livros/3.
+
+[09:01] No corpo da requisição eu não preciso passar o "Id", passo somente o título e digo que não vai mais ser "O Silmarillion" vai ser ”titulo”: "Beowulf". Por fim, falta mudar o verbo, no verbo aqui eu vou trocar para put para ele atualizar o livro.
+
+[09:25] Quando eu selecionar o botão send, ele já me devolveu o array de livros inteiro, que foi o que programamos no put e o "Id:3" já foi atualizado, o Id 3 que era "O Silmarillion", ele já localizou no array e trocou, de fato já houve uma alteração, já conseguimos fazer isso mesmo não estando conectados a um banco de dados ainda.
+
+[09:57] Cada vez vai ficando mais legal a API e a forma com que vamos entendendo e trabalhando com os verbos e com todos os métodos. Vamos voltar no VS Code em app.js, vou aproveitar que acabamos de fazer esse método para o put e vou duplicá-lo para programarmos o get por Id, podemos copiar esse código app.put, vamos jogá-lo lá em cima para ficar organizado todos os gets, uma embaixo do outro e colei e vou trocar para get.
+
+app.get('/livros/:id', (req, res) => {
+  let index = buscaLivro(req.params.id);
+    livros[index].titulo = req.body.titulo;
+  res.json(livros);
+})
+
+[10:33] A única diferença é que eu não vou ter a linha livros[index].titulo = req.body.titulo; para substituir título só vou ter a busca pelo índice e na hora de devolver vou devolver somente o que está na posição que ele localizou. O get por Id o usuário vai passar no caminho da requisição o Id, ele vai localizar a posição do array e vai devolver um JSON com aquele livro específico.
+
+app.get('/livros/:id', (req, res) => {
+  let index = buscaLivro(req.params.id);
+  res.json(livros[index]);
+})
+
+[11:09] Vamos testar agora no Postman, se fizermos o get novamente só vai ter dois porque ele reiniciou tudo. Vamos verificar, eu tenho o um e o dois, se eu colocar um válido que é o dois ('/2') ele já trouxe para mim somente o dois, que é "O Hobbit". Parte do CRUD está pronto, só falta basicamente a exclusão. Já temos a listagem de livros, a parte de obter um livro por Id, a criação de um livro e a alteração de um livro. Daqui a pouco finalizamos o CRUD e espero que esteja gostando.

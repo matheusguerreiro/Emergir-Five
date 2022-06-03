@@ -1,0 +1,3 @@
+Agora é a sua vez de criar sua API!
+
+Crie uma API com uma requisição GET para retornar uma lista com seus livros favoritos!

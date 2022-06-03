@@ -1,0 +1,49 @@
+[00:00] Agora vamos finalizar o CRUD porque já fizemos o get, o post, o put e agora vamos fechar com o delete para conseguir excluir um livro lá do array.
+
+[00:11] Eu vou copiar e colar esse método put em app.js e vou programar o delete porque é bem parecido, app.delete('/livros/:id', (req, res) => {. Eu vou introduzir um outro conceito que é atribuição via desestruturação que é um recurso interessante do JavaScript que consigo atribuir para uma outra variável valores retirados de um array ou de um objeto. Por exemplo, a requisição é um objeto se declarar uma variável Id entre chaves, consigo pegar e dizer só let {id} = req.params; que ele já vai conseguir pegar exatamente isso o req.params.id e atribuir para a variável Id.
+
+Código em app.js para copiar e alterar:
+
+app.put('/livros/:id', (req, res) => {
+  let index = buscaLivro(req.params.id);
+  livros[index].titulo = req.body.titulo;
+  res.json(livros);
+})
+
+[01:02] Eu vou deixar um material extra falando mais sobre atribuição via desestruturação porque é um recurso interessante que vale a pena conhecer. E vou usar essa variável "Id" no lugar desse (req.parms.id), uso let index = buscaLivro(id);, essa variável que atribui vou usar para buscar o livro que quero apagar. E vou substituir essa linha livros[index].titulo = req.body.titulo;, eu não quero trocar o título, quero de fato apagar uma posição do meu array, o elemento que está em uma determinada posição.
+
+app.delete('/livros/:id', (req, res) => {
+  let {id} = req.params;
+  let index = buscaLivro(id);
+  res.json(livros);
+})
+
+[01:34] Vamos chamar o array, que é o livros e eu vou usar o método splice para poder apagar e aqui nesse método eu tenho que passar dois parâmetros, qual é a posição de início e quantos elementos vou excluir.
+
+[01:50] No caso, vou usar a posição index, que é onde eu recuperei qual é o índice do elemento que quero excluir e o segundo parâmetro vai ser "1" que é para apagar somente aquele elemento, não quero apagar uma sequência de elementos a partir dali, eu quero apagar somente aquele livro, livros.splice(index, 1);.
+
+app.delete('/livros/:id', (req, res) => {
+  let {id} = req.params;
+  let index = buscaLivro(id);
+  livros.splice(index, 1);
+  res.json(livros);
+})
+
+[02:08] E no retorno vou mandar uma mensagem, ao invés de devolver um JSON já que vou ter excluído, vou devolver uma mensagem, vou usar o string template no livro, passar res.sen(Livro ${id} removido com sucesso);. Basicamente isso, está pronto, com essa função já conseguimos apagar um livro e confirmar que ele foi apagado no Postman.
+
+Parte do código em app.js alterado:
+
+app.delete('/livros/:id', (req, res) => {
+  let {id} = req.params;
+  let index = buscaLivro(id);
+  livros.splice(index, 1);
+  res.send(`Livro ${id} removido com sucesso`);
+})
+
+[02:40] Vamos no Postman, buscar todos os livros ele vai ter o "1" e o "2", "O Senhor dos Anéis" e "O Hobbit" e vou pedir para ele apagar o livro "1", que é "O Senhor dos Anéis". Vou utilizar o método delete, então vou alterar o verbo para delete, localhost:3000/livros/1, que é o elemento que quero apagar. Selecionei o botão send e retornou a mensagem que eu configurei, "Livro 1 removido com sucesso".
+
+[03:06] Se eu fizer o get agora geral pedindo a listagem completa, observe que ele só vai ter o 2 ele removeu corretamente somente o "1" e já atualizou a variável em memória, o array, mantendo somente o livro que quisemos que ficasse.
+
+[03:27] Basicamente fechamos o CRUD usando o Express, nesse momento ainda está tudo no mesmo arquivo, não vai ficar assim a partir da próxima aula a API já vai está com uma cara mais profissional, vamos separar em pastas, separar as funcionalidades em controller, em model, em rotes, vai ter acesso a banco, vai ficar cada vez melhor para utilizarmos.
+
+[03:55] Basicamente deu para dar uma introdução no Express e no conceito de CRUD, como manipulamos os recursos e fazemos um CRUD simples em memória. Vejo vocês no próximo vídeo para começarmos a usar o MongoDB, persistir esses dados no banco e recuperar depois para que não percamos o que foi feito a cada livereload. Até a próxima.
