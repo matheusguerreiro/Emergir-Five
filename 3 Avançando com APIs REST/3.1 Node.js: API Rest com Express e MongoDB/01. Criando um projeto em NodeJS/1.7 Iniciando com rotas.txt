@@ -1,0 +1,101 @@
+[00:00] Vamos começar com a parte que mais gostamos que é codar e ver as coisas acontecendo. Eu estou usando uma versão do Node no momento da gravação do vídeo que é a 16.4, se você estiver usando uma versão anterior o ideal seria que atualizasse para que não tenhamos problema de compatibilidade, de você não conseguir fazer alguma coisa que eu esteja fazendo no vídeo.
+
+[00:26] Se você estiver com uma versão mais atualizada está ótimo porque na hora de instalar as bibliotecas eu também vou versionar e passar para você exatamente qual a versão que foi usada para cada item que eu vou explicar.
+
+[00:43] Digitando "-v" no prompt de comando, podemos ver que a versão do Node está 16.4 e a do NPM nesse momento é a 8.3.1. NPM é o gerenciador de pacotes, se você fez o curso que é pré-requisito já conhece esses conceitos do Node, no NPM, de como criar, inicializar um projeto Node, mas caso não tenha feito eu vou deixar link para todos esses materiais que são fundamentais para você ter um bom aproveitamento no curso. Vai ter link para a Alura Mais, para artigo e recomendo que assista, ou leia o material indicado.
+
+[01:22] Eu vou criar uma pasta com mkdir alura-node e vou entrar nessa pasta cd alura-node e inicializar o projeto Node. Inicializamos com npm init, e vou usar o "-y" para que ele já responda aquelas perguntas padrão sem eu ter que fazer nada. C:\alura-node>npm init -y. Porque podemos sempre mudar os scripts e alterar o nosso arquivo "package.json" Não preciso ficar respondendo aquelas perguntas passo a passo.
+
+[02:01] Feito isso vou abrir o VS Code para começar a trabalhar no meu projeto. Pelo terminal eu posso digitar C:\alura-node> code . que ele já abre o VS Code para mim. Observe que ele já está na minha pasta e já tem o arquivo "package.json" do lado esquerdo que tem o nome do projeto, a versão, qual é o arquivo que ele espera que seja o arquivo principal, o "index.js" para ser o ponto de entrada.
+
+Código em package.json:
+
+{
+    "name":"alura-node",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js"
+    "scripts": {
+        "test": echo \ "Error: no test specified\" && exit l"
+},
+"keywords": [],
+"author": "",
+"license": "ISC"
+}
+
+[02:33] E aí eu vou criar aqui um novo arquivo e vou chamá-lo de "server.js", não vai ser o "index.js". Vamos criar um novo arquivo que eu vou chamar de "server.js". Nesse primeiro momento eu vou criar um servidor local com o HTTP que é um módulo nativo do Node, ainda não vou mostrar o Express.
+
+[02:58] Nesse primeiro momento também vamos usar o módulo nativo usando a expressão require ao invés de import. Eu também vou explicar sobre isso, quando estamos programando é comum distribuirmos os métodos, as funcionalidade em vários arquivos e para eu acessar uma funcionalidade que está em outro arquivo eu preciso importar e exportar isso para que fique visível, que fique disponível para ser usado.
+
+[03:29] Tem uma forma de fazer isso que o require para importar um modo, uma funcionalidade que está de acordo com o CommonJS e tem o import que é mais atual que está de acordo com o ECMAScript 6. Nesse primeiro momento vou usar o require, mas a partir do momento que começarmos a usar o Express todo o nosso projeto já vai ser utilizado com o import e vou voltar a falar sobre isso.
+
+[03:55] Eu quero criar um servidor para poder escutar isso em uma porta e fazer as minhas requisições, igual mostrei no vídeo anterior, digitamos o endereço no navegador e em algum lugar tem um servidor remoto que vai receber essa requisição, processar e devolver uma resposta para nós.
+
+[04:20] No caso que você é o programador e está desenvolvendo, você tem que ter um servidor local, ele tem que estar rodando na sua máquina para que você teste esse processo de requisição e resposta. Você não tem um servidor remoto no momento, tem que criar um servidor local que é o primeiro passo que vamos fazer. Vamos criar um servidor local.
+
+[04:44] Eu vou criar em "server.js" uma constante que vou chamar de HTTP e vou usar o require para importar o módulo nativo HTTP, const http = require("http"). Essa primeira linha é isso, estou criando uma constante e estou informando que quero utilizar o módulo nativo HTTP.
+
+const http = require("http")
+
+[05:11] Eu também preciso definir uma porta do meu computador que vai escutar essa requisição, preciso dizer quando for passar, lembra que eu comentei da URI para cada recurso? Quando eu for fazer o meu projeto de livros vou precisar digitar o endereço e um barra livros para obter os meus livros. O meu servidor local que vai estar rodando localmente na minha máquina, eu preciso dizer em que porta ele vai escutar essas requisições.
+
+[05:46] Então, vou criar uma constante porta e definir em que porta ele vai estar fazendo isso. Vou criar uma constante chamada const port = 3000;. Depois vamos fazer um ajuste que é comum, criando uma variável de ambiente, referenciando uma variável de ambiente que vai definir a porta quando estiver rodando isso na Web, mas aqui no seu servidor local você pode definir uma porta. 3000, 4000, 8080, são algumas portas que geralmente usamos como padrão para servidor local.
+
+[06:27] Feito isso, vou criar uma terceira constante com o servidor, que é onde vou criar o servidor e definir o que ele vai escutar, como que vai acontecer essa comunicação. Eu vou criar um const server e usar o módulo HTTP e usar um método que o HTTP que tem que chama-se create server, vou usá-lo para que ele possa criar o servidor, const server = http.createServer().
+
+[07:04] Esse server geralmente vai ter parâmetros, vai ter que ter requisição e resposta. Vamos criar como primeiro parâmetro um req para representação requisição e o res para representar a resposta. E vamos ter uma função de callback que vamos chamar com arrow function para executar o que quero fazer quando acontecer essa requisição, const server = http.creatServer((req, res) => {.
+
+const http = require("http")
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+
+})
+
+[07:37] Colocamos a parte inicial do nosso servidor e a partir disso eu vou definir o que quero devolver quando alguém chamar o meu servidor. A princípio vou devolver uma página com um texto, que a minha resposta vai ter um cabeçalho que vou chamar de writeHead e dizer para ele que vai devolver um status. Ainda vamos falar um pouco mais de status , mas isso tem no curso de HTTP falando sobre portas, sobre status, tudo o que estou citando tem melhor definido no curso.
+
+[08:19] Vamos dizer que ele vai devolver um status 200, que é um status de "ok" e eu vou colocar qual é o tipo de conteúdo que estou mandando. 5res.writeHead(200, {}). Porque quando estamos devolvendo a representação de um recurso ela pode ser em JSON, pode ser texto, pode ser HTML, eu vou dizer que quero devolver um texto. O meu content type vai ser texto, vou colocar que res.writeHead(200, {'Content-Type': 'text/plain'})
+
+const http = require("http")
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+
+})
+
+[09:04] Quando estivermos usando o Postman vou mostrar melhor esses content types para ver o vários tipos e como configuramos, é só para termos um primeiro exemplo, basta você digitar dessa forma.
+
+[09:18] Depois disso tenho que finalizar a minha resposta mandando o que quero mandar. Eu vou fazer um res.end mandando o texto que quero enviar para o navegador. Vou mandar, por exemplo, res.end('Curso de Node'), e está o servidor e o que ele vai fazer.
+
+const http = require("http")
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Curso de Node');
+})
+
+[09:44] Para finalizar a última coisa que precisamos é definir a porta que ele vai escutar, fazer esse link entre o servidor que criei e a porta que ele vai escutar a requisição e mandar a resposta. E posso dar uma mensagem, por exemplo, um console log dizendo que ele funcionou e que ele está operando em uma determinada porta.
+
+[10:07] Vamos fazer isso com o server.listen para dizer que ele vai escutar a requisição e dizer em qual porta que ele vai escutar, essa informação está na minha variável port. Vou colocar server.listen(port, => { e um console.log para ele logar que está escutando requisição na porta 3000.
+
+[10:37] Nesse console log irei usar um string template para podermos concatenar a string variável e vou digitar console.log(Servidor escutando em http://localhost: e inserir o cifrão e a variável port para ele pegar a porta que defini. console.log(Servidor escutando em http://localhost:${port}`)
+
+const http = require("http")
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Curso de Node');
+})
+server.listen(port, () => {
+  console.log(`Servidor escutando em http://localhost:${port}`)
+})
+
+[11:17] Basicamente esse código está pronto, com isso já consigo visualizar no navegador uma requisição, quando eu digitar localhost:3000 ele já tem que me responder com o texto escrito Curso de Node. Só falta colocarmos isso para funcionar, vou abrir o próprio terminal do VS Code, "Terminal > New Terminal" e para executarmos e ver esse servidor rodando vamos digitar: node server.js e ele já deu a mensagem: "Servidor escutando em htp://localhost:3000”. Ele tem, inclusive, um link, se passarmos a mão tem o link, eu vou seguir o link e ele já vai mostrar para mim: "Curso de Node".
+
+[12:12] Basicamente é o que aconteceu, definimos uma porta, criamos um servidor local, fizemos uma requisição quando chamamos o “localhost:3000” e ele devolve uma resposta. Tudo se consolidando com o que foi visto no vídeo anterior, requisição, resposta, servidor local. Adiante vamos só evoluindo passo a passo para ter a API robusta com Express, com Mongo cada vez mais sofisticada e de acordo com o mercado.
+
+[12:48] Eu espero vocês na próxima aula para continuarmos.
+

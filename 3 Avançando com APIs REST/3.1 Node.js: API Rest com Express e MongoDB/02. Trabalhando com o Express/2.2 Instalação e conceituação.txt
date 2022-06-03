@@ -1,0 +1,165 @@
+[00:00] Na aula anterior nós criamos um servidor local utilizando um módulo nativo no Node que é o HTTP. E foi uma coisa bem simples só para demonstrar só que para construir uma aplicação Web mesmo robusta em que vamos fazer uso dos verbos HTTP e para chamar um recurso eu vou usar o Get, o Postgre, isso vai ter um comportamento diferenciado, fica ruim fazer com esse padrão do HTTP. Não tem porque reinventarmos rodas se eu tenho um framework que já facilita o meu trabalho. É justamente aí que vai entrar o Express.
+
+[00:38] O Express é um framework que é considerado rápido, minimalista e não opinativo. Esse não opinativo, geralmente um framework já tem um padrão de código, de escrita, uma forma que se considera o apropriado para você desenvolver a aplicação e com o Express isso não acontece, ele deixa você criar e usar seus mideals, usar padrão MVR de Model View Roots ou MVC de Model View Controler, do jeito que você quiser. Ele dá essa liberdade para o desenvolvedor e não amarra você a escrever sempre em um determinado padrão.
+
+[01:20] Vamos usar um padrão, mas pode ser que você veja alguém usando diferente em outro lugar porque ele dá essa liberdade. E ele é a base para vários outros frameworks, é um dos mais utilizados no mercado, está sempre liberando versão, sempre com a documentação atualizada. Vamos usar essa última versão lançada que é 4.17.3, é a última versão no momento de gravação do vídeo.
+
+[01:50] No site do NPM neste link temos a possibilidade de consultar também a última versão basta você digitar em "search" o que você vai utilizar, o que você vai instalar no seu VSCode, vou digitar "Express" e ele já mostra para a versão 4.17.3, que é a que vamos usar.
+
+[02:12] Da mesma forma se digitarmos Nodemon que usamos no outro vídeo, está a versão 2.0.15 que é a última, justamente a que instalamos. Nesse site você tem a documentação oficial do Express que vale a pena começar em "Getting started", tem como que é feita a instalação, como pode fazer pode fazer um reload tem um exemplo básico, mas vamos fazer passo a passo nesse vídeo.
+
+[02:38] Vamos lá no VSCode fazer a instalação do Express e começar a utilizar. No VSCode eu vou fazer a instalação do mesmo padrão que eu fiz o do Node, indicando a versão. Vou digitar no terminal do VS Code npm install express@4.17.3, essa é a última versão. E ele vai fazer a instalação e enquanto isso vamos preparando o nosso projeto para as boas práticas, para o padrão de pasta que utilizamos vamos criar uma pasta chamada "SRC", a pasta source onde dentro vamos criar um novo arquivo.
+
+[03:27] Primeiro a nova pasta chamada "src" e eu vou criar um novo arquivo dentro desta pasta chamado "app.js". Vamos dar início a desenvolver a aplicação e fazer a API agora usando o Express. Para utilizar o Express a primeira coisa que fazemos é importar, eu preciso importar, vou fazer o import express from "express", ele já está, já preencheu para nós.
+
+Código em app.js:
+
+import express from "express";
+
+[04:08] E vou criar uma instância do Express para eu poder utilizar e fazer o mesmo procedimento que eu fiz para o HTTP, subir um servidor e começar a ver as rotas acontecendo. Vamos fazer um const app = e vou dizer que esse const app recebe uma instância do Express `const app = express();´
+
+import express from "express";
+
+const app = express();
+
+[04:29] E para podermos simular o projeto de livraria eu vou criar uma constante de livros, para que possamos visualizar alguns livros. Vou criar uma constante livros que vai ser um array com dois livros, por exemplo, const livros = [ e o livro vai ter um "Id1" e o título, por exemplo, vai ser "Senhor dos Anéis" {id: 1, "titulo": "Senhor dos Aneis"} e um segundo livro com "Id2" cujo o título vai ser "O Hobbit" id: 2, "titulo": "O Hobbit"}.
+
+import express from "express";
+
+const app = express();
+
+const livros = [
+  {id: 1, "titulo": "Senhor dos Aneis"},
+  {id: 2, "titulo": "O Hobbit"}
+]
+
+[05:19] Só para começarmos a trabalhar com a rota visualizando como que é a rota base e como que é uma rota "/livros", por exemplo. Diferente do que foi feito usando o módulo nativo HTTP. Vamos começar a programar o get porque quando eu vou no browser e digite o endereço ele está fazendo uma requisição get por trás. É o que vamos fazer agora.
+
+[05:51] Vou fazer um app.get para eu passar os atributos, o que eu quero que aconteça quando eu fizer uma requisição para uma determinada rota. A primeira que eu vou fazer é da rota vazia, eu não passar nada só passar aquele “localhost:3000” que é a porta que o nosso servidor escuta. Se isso acontecer eu vou ter o req e o res que são os parâmetros de requisição e resposta e vou abrir aquela arrow function para programar o que vai acontecer se a rota for somente “localhost:3000”, app.get('/', (req, res) => {
+
+[06:36] Como vamos devolver uma resposta? Com o HTTP usávamos o res.end e nesse caso vamos fazer o res.status e para simplificar já vou mandando 200 de um status ok e vou enviar um send com a mensagem que eu quero que ele devolva para o navegador res.status(200).send('Curso de Node');.
+
+import express from "express";
+
+const app = express();
+
+const livros = [
+  {id: 1, "titulo": "Senhor dos Aneis"},
+  {id: 2, "titulo": "O Hobbit"}
+]
+
+app.get('/', (req, res) => {
+  res.status(200).send('Curso de Node');
+}) 
+
+[07:05] E eu já quero criar também a rota para os livros, já que eu criei uma constante com livros para me devolver livros, então quero devolver também a rota dos livros. Vou incluir mais um app.get('/livros') que vai acontecer a mesma coisa, vou ter o conceito de requisição, de resposta, vou abrir uma arrow function ('=> {}') e dentro vou pedir para ele me devolver um JSON com esse meu conteúdo app.get('/livros', (req, res) => { res.status(200).json(livros)})
+
+import express from "express";
+
+const app = express();
+
+const livros = [
+  {id: 1, "titulo": "Senhor dos Aneis"},
+  {id: 2, "titulo": "O Hobbit"}
+]
+
+app.get('/', (req, res) => {
+  res.status(200).send('Curso de Node');
+}) 
+
+app.get('/livros', (req, res) => {
+  res.status(200).json(livros)
+})
+
+[08:10] Como eu falei, para que outro arquivo utilize esse arquivo eu tenho que importar e exportar,nesse caso eu importei o Express para fazer o uso do Express e aí preciso exportar esse arquivo para que eu possa fazer uso dele no Server, porque o Server é que vai poder fazer, vai ter o listen e vai ficar ouvindo a requisição.
+
+[08:40] Eu vou fazer um export default para ele exportar tudo o que eu tenho nesse arquivo para que outro arquivo possa fazer uso, export default app. A princípio o arquivo app vai estar desse jeito, importando Express, criando uma instância do Express, vai ter uma constante de livros e dois métodos Get, um sem nada e outro com "/livros" para podermos ver esse livros aparecendo.
+
+import express from "express";
+
+const app = express();
+
+const livros = [
+  {id: 1, "titulo": "Senhor dos Aneis"},
+  {id: 2, "titulo": "O Hobbit"}
+]
+
+app.get('/', (req, res) => {
+  res.status(200).send('Curso de Node');
+}) 
+
+app.get('/livros', (req, res) => {
+  res.status(200).json(livros)
+})
+
+export default app
+
+[09:25] Agora para ver isso funcionando igual vimos lá com HTTP eu vou alterar o arquivo server.js, no arquivo Server vou apagar essas rotas, vou apagar esse Server todo, só vou deixar a porta e esse listen que a implementação vai ficar igual. Agora não vou usar HTTP, vou usar o Express, só que eu já declarei o meu Express naquele arquivo app.js.
+
+[09:58] Basta eu importar o app.js e começar a utilizá-lo. Vou fazer um import app from e indicar o caminho, ele vai está no './src/app.js'. Quando usamos o import temos que colocar a extensão, às vezes mesmo você clicando na extensão ele tira por isso você tem que colocar meio manualmente porque senão corre o risco de não funcionar, ele não localizar e ficar no console dando mensagem de que não achou o app.js.
+
+Código em server.js:
+
+import app from './src/app.js'
+
+const port = 3000;
+
+
+server.listen(port, () => {
+  console.log(`Servidor escutando em http://localhost:${port}`)
+})
+
+[10:37] Na porta nós também vamos uma alteração que eu tinha dito porque muitas vezes nós vamos subir essa aplicação para Heroku ou para um outro servidor que não é um servidor local e a porta que ele vai está escutando vai ser diferente, nós vamos fazer um condicional.
+
+[10:58] Ou a porta vai ser do cons port = process.env.port; que é a constante que vai identificar a porta que está sendo escutada a requisição que o servidor subiu ou na 3000, cons port = process.end.PORT | | 3000; Já vamos deixar com essa boa prática de diferenciar ou a porta no ambiente de produção ou a porta fixa que é a porta 3000.
+
+import app from './src/app.js'
+
+const port = process.env.PORT || 3000;
+
+
+server.listen(port, () => {
+  console.log(`Servidor escutando em http://localhost:${port}`)
+})
+
+[11:28] Feito isso eu vou alterar agora ao invés de server.listen vai ser o app.listen(port, () => {. Com essa pequena alteração no Server já tem que funcionar aquela rota que programamos no app.js. Eu vou salvar, vou abrir o meu terminal e vou rodar a aplicação para vermos.
+
+import app from './src/app.js'
+
+const port = process.env.PORT || 3000;
+
+
+app.listen(port, () => {
+  console.log(`Servidor escutando em http://localhost:${port}`)
+})
+
+[11:50] Seguindo a aula anterior, npm run dev que ele vai subir com o Nodeman, se alterarmos ele vai dizer o que houve. Ele está informando: "não consigo importar do server.app.js", vamos ver o que aconteceu. Tem um detalhe que ele nos mostra, quando você vai trabalhar com o import, o export default lá no package JSON temos que incluir uma linha chamada type e module, para dizer que você está trabalhando com importação e exportação module.
+
+[12:30] Eu vou copiar justamente esse trecho do erro e vou inserir no meu package.json. Pode ser em qualquer lugar, depois desse main, por exemplo, "main": "index.js", "type": "module". Eu vou selecionar "Enter", colar e salvar, provavelmente já vai subir o meu servidor.
+
+Código em package.json:
+
+{
+  "name": "alura-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
+
+[13:10] Agora foi, funcionou e está rodando no “http://localhost:3000” onde estava antes. Se analisarmos no navegador, o localhost:3000 mostra o que já mostrava "Curso de Node", se eu mostrar agora “http://localhost:3000/livros” ele vai mostrar em formato de JSON, ele já mostrou um array com os dois livros que eu cadastrei.
+
+[13:48] Ele fica bem mais enxuto, se você observar no server.js fica com uma funcionalidade definida só para iniciar o servidor e ficar escutando requisição. Já a app tem as rotas e com o tempo vamos trabalhar com as rotas, com as requisições, fazendo o nosso crud, mas conforme a evolução vamos ver que esses arquivos ficarão mais limpos ainda, com o código mais limpo ainda, separando mesmo a responsabilidade em cada pacote, em cada arquivo. Vamos evoluir a nossa API a cada aula para ela ficar cada vez mais com uma cara profissional.

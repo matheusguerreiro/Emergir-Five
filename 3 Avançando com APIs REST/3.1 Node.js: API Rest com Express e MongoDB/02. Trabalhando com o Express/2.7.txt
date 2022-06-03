@@ -1,0 +1,11 @@
+Depois de criar as rotas iniciais do projeto, assim como fizemos na aula incluindo o GET, POST, PUT e DELETE, Marcos resolveu testar sua API utilizando o Postman. Então ele fez uma nova requisição para o endereço http://localhost:3000/livros/1 mas ao invés de selecionar o verbo PUT, ele selecionou o PATCH, que também serve para atualizar um recurso e obteve o seguinte erro:
+
+Cannot PATCH  /livros/1
+
+O que Marcos poderia fazer para que não ocorresse esse erro?
+
+Implementar o método app.patch de forma similar ao que foi feito com o app.put;
+  Alternativa correta! Se o método tivesse sido implementado, o código seria executado corretamente.
+
+Trocar na requisição o verbo para PUT.
+  Alternativa correta! Ao trocar o verbo para PUT, o método app.put seria localizado e o código implementado no mesmo seria executado corretamente.

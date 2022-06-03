@@ -1,0 +1,5 @@
+No dia a dia de desenvolvimento usamos muitos códigos que não somos nós quem escrevemos. Eles podem ser funções e métodos nativos do JavaScript ou até trechos de código pronto que importamos de libs externas para dentro dos nossos projetos, usando, por exemplo, o comando npm install <nome da lib>.
+
+Durante essa aula, aprendemos a criar um servidor com algumas rotas utilizando o módulo http do Node.js e instalamos o Nodemon para evitar termos que finalizar e reiniciar o servidor a cada momento que realizarmos uma alteração.
+
+Chegou a hora de você seguir todos os passos realizados durante a aula e criar um servidor com algumas rotas, visualizando em seu navegador o retorno das mensagens configuradas.

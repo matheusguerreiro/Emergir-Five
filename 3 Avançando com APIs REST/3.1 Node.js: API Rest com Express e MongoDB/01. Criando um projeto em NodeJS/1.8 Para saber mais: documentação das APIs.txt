@@ -1,0 +1,2 @@
+Ao instalar o Node, já temos à nossa disposição alguns módulos embarcados para começar a desenvolver nossas bibliotecas e aplicações. Para conhecer mais sobre esses recursos nativos, acesse a documentação oficial referente às APIs nesse link(https://nodejs.org/api/).
+

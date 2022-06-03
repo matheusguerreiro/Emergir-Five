@@ -1,0 +1,25 @@
+criar diretório do projeto
+terminal npm init -y
+criar server.js
+  const http = require('http')
+  const port = 3000
+
+  const rotas = {
+    '/': 'curso de Node.js',
+    '/livros': 'página de livros',
+    '/autores': 'lista de autores',
+    '/editora': 'editora',
+    '/sobre': 'sobre'
+  }
+
+  const server = http.createServer((req, res) => {
+    res.writeHead(200, {'content-type': 'text/plain'})
+    res.end(rotas[req.url])
+  })
+
+  server.listen(port, () => {
+    console.log(`servidor escutando em http://localhost:${port}`)
+  })
+terminal npm i nodemon@2.0.15 -D
+  criar dentro de scripts no arquivo package.json "dev": "./node_modules/.bin/nodemon server.js"
+  terminal npm run dev

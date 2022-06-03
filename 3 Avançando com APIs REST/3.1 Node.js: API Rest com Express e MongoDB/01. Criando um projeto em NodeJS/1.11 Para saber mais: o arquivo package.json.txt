@@ -1,0 +1,37 @@
+Como vimos ao longo dessa aula, os projetos em Node.js geralmente são chamados de módulos. Esse termo surgiu do conceito de que o JavaScript trabalha com uma arquitetura modular. E quando criamos um projeto, ou seja, um novo módulo, é comum termos associado a ele um arquivo de configuração, que irá descrever os atributos-chaves, dependências, nome, versão, dentre outras informações fundamentais ao projeto. Estamos falando do arquivo package.json cuja estrutura e conteúdo é similar ao bloco de código abaixo:
+
+{
+  "name": "alura-curso-node",
+  "version": "1.0.0",
+  "description": "Módulo de primeiros passos no curso de Node",
+  "main": "primeiro-projeto.js",
+  "scripts": {
+    "start": "node primeiro-projeto.js",
+    "test": "jest"
+  },
+  "author": "Jacqueline Oliveira",
+  "license": "ISC",
+  "dependencies": {
+    "modulo-1": "^1.0.0",
+    "modulo-2": "^1.0.3",
+    "modulo-3": "^2.1.0"
+  },
+  "devDependencies": {
+    “nodemon”: “^2.0.15”,
+    "jest": "^27.2.1"
+  }
+}
+
+Vamos entender e detalhar alguns desses atributos:
+
+name: é onde você define o nome pelo qual seu módulo será chamado;
+version: cada vez que uma atualização do módulo é lançada é atribuído um conjunto de 3 números. os módulos trabalham com três níveis de versionamento seguindo um padrão chamado SemVer (Semantic Versioning), ou seja, versionamento semântico, onde 3 números separados por ponto correspondem, respectivamente, aos atributos Major, Minor e Patch. Patch está relacionado a uma alteração que não quebra uma funcionalidade anterior e nem adiciona novas. Geralmente é usado para liberar alguma correção de bug. Minor é quando adicionamos uma nova funcionalidade, sem quebrar funcionalidades anteriores. Major é quando pode ocorrer uma quebra de compatibilidade. Por isso, é importante indicar a versão de forma adequada. Você pode ler mais sobre versionamento semântico aqui(https://semver.org/lang/pt-BR/);
+description: define o que será este módulo. Ideal que seja uma descrição curta e clara sobre o objetivo principal;
+main: define o ponto de entrada da aplicação;
+scripts: essa sessão tem alguns scripts pré-definidos, mas você também pode definir os seus personalizados. Nesse link(https://docs.npmjs.com/cli/v8/using-npm/scripts) é possível ter acesso a algumas informações sobre os mesmos;
+keywords: é um array de palavras-chave sobre o projeto;
+author: são dados de autoria, pode conter nome, e-mail e site;
+license: é a licença escolhida para o projeto;
+dependencies: define a lista de pacotes necessários para executar seu projeto num ambiente de produção;
+devDependencies: define a lista de pacotes necessários para executar o projeto num ambiente de desenvolvimento e testes.
+Existem outras configurações que podem existir nesse arquivo, como repositório do git, homepage, peerDependencies, entre outras que podem ser visualizadas na documentação oficial(https://docs.npmjs.com/cli/v8/configuring-npm/package-json) do NPM.

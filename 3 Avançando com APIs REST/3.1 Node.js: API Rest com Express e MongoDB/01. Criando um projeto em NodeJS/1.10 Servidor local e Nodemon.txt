@@ -1,0 +1,79 @@
+[00:00] Vamos dar continuidade. Anteriormente fizemos somente uma mensagem para ser exibida como resposta no navegador quando fazíamos uma requisição para “localhost:3000” só que agora eu quero realmente começar a colocar o conceito de rotas, ter um “rota/livros”, outra “rota/autores”, vamos implementar isso no VS Code.
+
+[00:25] Vou parar o serviço em server.js e começar a alterar, fazer o que preciso para mostrar a rota do jeito que queremos. Minimamente, também só como exemplo, vamos evoluir essas rotas depois. Eu vou criar um objeto chamado "rotas" e o objeto tem a característica de ser chave valor, vou ter, por exemplo, se ele chamar a rota básica sem nada vou exibir aquela mensagem, const rota = { '/': 'Curso de Node'. Se ele chamar, por exemplo, vou digitar uma vírgula e uma segunda rota. Se ele chamar '/livros': 'Entrei na pag de livros', E se chamar '/autores': 'Listagem de autores'
+
+const http = require("http")
+const port = 3000;
+
+const rotas = {
+  '/': 'Curso de Node',
+  '/livros': 'Entrei na pag de livros',
+  '/autores': 'Listagem de autores',
+}
+
+[01:40] Define três tipos de rotas e a minha resposta a partir de agora não pode ser fixa, esse texto em res.end é "Curso de Node", eu preciso trocar isso para que ele consiga obter o valor que está no meu objeto rotas. Para isso vou substituir isso por rotas e entre colchetes vou passar res.end(rotas[req.url]);. O que vier no endereço, se no endereço vier “/livros” ele sabe que é para devolver a mensagem "Entrei na pag de livros". Se vier “\autores” ele tem que identificar que é para devolver a mensagem "Listagem de autores".
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end(rotas[req.url]);
+})
+
+[02:28] Com esse ajuste possivelmente já vamos ver isso funcionando. Eu vou subir o servidor novamente com o comando node server.js no terminal e vamos voltar no navegador e ver sem nada e voltou "Curso de Node" com a URL "localhost.3000". Vamos incluir no final da URL “/livros”, "Entrei na pag de livros", funcionou. Agora vou o “/autores” e entrou na página "Listagem de autores".
+
+[03:04] Tudo fluindo, por enquanto. Só que observe que se eu quisesse uma nova rota chamada "Editora", se eu fizer isso agora em server.js e nesse momento alterar o objeto “/editora” e digitar '/editora': 'Pag de editora' eu não consigo visualizar essa alteração no momento no navegador, se eu digitar no final da URL do site /editora não vai funcionar.
+
+[03:42] Então, nós vamos instalar uma biblioteca chamada Nodemon que vai fazer um live reload. Cada vez que fizermos uma alteração e salvar no arquivo ele já vai identificar que é para fazer o reload e vamos conseguir visualizar isso no navegador. Eu vou parar o servidor e fazer essa instalação juntos.
+
+[04:09] Eu vou no browser e fechar essa página, vou parar o servidor com o "Ctrl + C" e para fazer essa instalação já vou versionar com a última versão do Node que é a 2.0.15. Vou digitar no terminal npm install nodemon@2.0.15 e um -D porque essa é uma dependência de desenvolvimento. Essa dependência não precisa ir para a produção, é uma dependência que facilita para nós quando estamos desenvolvendo, não precisamos que ela vá para a produção por isso coloquei esse "-D" maiúsculo para indicar que é uma dependência de desenvolvimento.
+
+[05:05] Vamos fazer a instalação, vai começar a fazer o download, baixar no projeto. E vamos observar que vai ter só uma pequena mudança, a pasta "node_modules" já foi criada no lado esquerdo da tela. Se você também já tem uma familiaridade, sabe que cada nova biblioteca que instalamos no terminal cria a pasta "node_modules" que vai ficando ao longo do tempo muito grande porque uma dependência usa outras dependências que usam outras dependências e quando fazemos a instalação vem todo mundo para a pasta.
+
+[05:45] Se procurarmos o Nodemon ele vai ter também o "package.json" dele cheio de dependências que ele precisa. Tudo o que essa dependência precisa vai ser baixada também, aos poucos essa pasta vai ficando muito grande e é por isso que sempre orientamos quando você está fazendo o projeto e vai subir esse projeto para o Git, criar o arquivo gitignore que eu vou fazer daqui a pouco.
+
+[06:14] Para podermos usar o Nodemon vamos alterar o "package.json". No "package.json" onde temos script vou criar um novo script para que quando eu rode esse script já tenha essa facilidade dele rodar o comando "Nodemon Server.js". Vamos fazer isso. Já tem um script padrão como teste que não estamos usando, vou criar um novo chamado "dev" e nesse script dev eu vou colocar "dev": "nodemon server.js", e uma vírgula para que consigamos executar esse script.
+
+Código em package.json:
+
+{
+  "name": "alura-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+        "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
+
+[06:59] No terminal ao invés de node server.js como vínhamos fazendo, vou digitar npm run que é para rodar o script e referenciar esse script que acabei de criar, o dev: npm run dev. Vai executar, observe que já iniciou o Nodemon e colocou que ele está visualizando os arquivos com as extensões .js, .mjse .json. Cada vez que alterar algum arquivo dessas extensões e salvar ele vai reiniciar o servidor.
+
+[07:48] Vamos abrir o "Local Server" e vou ter a minha página, vou ter a “/autores”, por exemplo, e se eu incluir uma nova página agora no server.js, por exemplo, '/sobre': 'Info sobre o projeto', a partir do momento que salvar quando voltarmos no navegador já consigo entrar no “/sobre” que ele já vai ter recarregado, o "Info sobre o projeto" já apareceu para nós.
+
+Código em server.js
+
+const http = require("http")
+const port = 3000;
+
+const rotas = {
+  '/': 'Curso de Node',
+  '/livros': 'Entrei na pag de livros',
+  '/autores': 'Listagem de autores',
+  '/editora': 'Pag de editora',
+  '/sobre': 'Info sobre o projeto'
+}
+
+//código omitido
+
+[08:35] O Nodemon facilita muito a vida quando estamos desenvolvendo, não precisa ficar toda hora parando e subindo o servidor novamente. Vale muito a pena usar essa biblioteca.
+
+[08:48] Para finalizar porque na próxima aula já vamos começar com o Express, a minha recomendação é criar o “gitignore” de uma vez, eu vou criar o novo arquivo .gitignore e toda vez que fizer a integração com o meu GitHub, subir o meu projeto, vou subir desconsiderando a pasta "node_modules". É muito importante salvar, ter essa opção de “gitignore” porque quando você versionar e subir o seu código não vai subir com todas essas dependências.
+
+Código em gitignore:
+
+node_modules

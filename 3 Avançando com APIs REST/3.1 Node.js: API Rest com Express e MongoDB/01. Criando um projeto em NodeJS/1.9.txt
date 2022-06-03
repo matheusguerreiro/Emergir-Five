@@ -1,0 +1,4 @@
+Marcos está criando um novo projeto no Node e resolveu usar o módulo http para auxiliá-lo na criação do servidor e suas rotas. Depois de usar o comando const http = require("http"); para carregar o módulo http, qual seria a forma adequada de criar o servidor?
+
+const server = http.createServer((req, res) => { /* implementar o código */  });
+  Alternativa correta! Através do método createServer toda vez que o servidor HTTP receber uma requisição, a função de callback passada para o método será executada.

@@ -1,0 +1,2 @@
+O termo API (Application Programming Interface ou, em português, Interface de Programação de Aplicações) é amplamente utilizado quando se trata de desenvolvimento de software. É muito importante que você conheça esses principais termos, entenda-os melhor, para que possa sempre estar antenado às melhorias e boas práticas que são utilizados na comunicação dos sistemas distribuídos. Para aprofundar seus conhecimentos e entender mais a fundo o significado, confira esse Alura+(https://cursos.alura.com.br/extra/alura-mais/o-que-e-uma-api--c697). Bons estudos!
+

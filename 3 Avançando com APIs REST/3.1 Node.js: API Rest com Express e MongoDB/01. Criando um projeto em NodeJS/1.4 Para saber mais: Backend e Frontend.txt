@@ -1,0 +1,2 @@
+Para complementar seus estudos, separamos alguns conteúdos extras com mais exemplos sobre o que tratamos nesse primeiro vídeo. Esse Alura+(https://cursos.alura.com.br/extra/alura-mais/qual-e-a-diferenca-entre-back-end-e-front-end--c174) destaca mais diferenças e exemplos de backend e frontend. Não deixe de conferir!
+

@@ -1,0 +1,64 @@
+[00:00] Vamos trabalhar com o conceito de livraria, vamos supor que queremos fazer uma API para a livraria da Alura. Seguindo o que foi falado do REST, de construir uma API com boas práticas e seguindo o padrão REST vamos ter uma URI, o identificador único para livros, vai rodar em um servidor local que é o localhost na porta 3000 é preciso usar os métodos HTTP para que eu possa fazer as operações que quero.
+
+[00:37] Geralmente precisamos fazer o CRUD (Create, Read, Update, Delete). O create é a parte de criar um recurso, fazemos isso através do método post, você vai fazer um post para API de livros e vai conseguir cadastrar um novo livro. O segundo que é o read é o que vamos fazer com o método Get, posso ou buscar todos os livros cadastrados ou buscar um livro específico passando ainda um “/id” indicando o Id desse livro.
+
+[01:15] O update que vamos fazer com o put para atualizar um livro e, por fim, delete que vamos usar para excluir um livro. É isso que vamos fazer. No vídeo anterior iniciamos com o get, já buscamos os livros, só que ainda não implementamos a busca por Id e nem fomos tão específicos. Vamos começar agora e vamos continuar a fazer os métodos.
+
+[01:47] Vamos começar com a criação, porque para testarmos a visualização, a exclusão acho que o ponto mais importante é partirmos da criação, de conseguir pegar aquele array com dois livros e acrescentar um livro. Vamos para o nosso VS Code e vamos fazer esse passo a passo.
+
+[02:05] Vamos abrir o VS Code, em app.js no momento ele já está rodando e tenho só um get livros que já me devolveram esse livro. O que queremos fazer agora é pegar esse array com dois livros e incluir mais um. Embaixo desse get vou fazer mais um método que vai ser o app.post() e no post eu também preciso dizer a URI, eu vou repeti-la passando livros e vou ter o mesmo conceito de requisição e resposta e o que eu quero fazer com essa requisição e resposta, app.post('/livros', (req, res) => {
+
+[02:53] Para eu fazer um post preciso mandar uma representação desse recurso. No navegador quando digitamos a rota só conseguimos listar, eu não consigo mandar alguma coisa. Vamos usar o Postman e vamos através dele conseguir mandar uma representação do livro em formato JSON.
+
+[03:17] Antes de eu abrir o Postman eu vou fazer o código para entendermos e depois vamos lá para testar. O que vier no corpo da minha requisição preciso acrescentar na minha constante livros, o que eu vou usar para fazer isso é um método chamado push que é para eu incluir um novo item em um array.
+
+[03:43] Eu vou colocar livros.push e no meu array eu vou querer colocar o que vier no corpo da requisição, vamos colocar entre parênteses o livros.post(req.body) que é o que está vindo no corpo da requisição, é o que vamos fazer no Postman.
+
+[04:04] E depois que eu fizer isso vou devolver uma resposta para confirmar que o livro foi cadastrado com sucesso. Vou fazer um res.status(201), para criação geralmente o status é 201 que dizemos que está "ok", que foi criado, vamos colocar um link também para o material complementar falando de status, o que significa cada status, os intervalos de resposta, "", o que é sucesso, o que é falha, o que é erro do servidor, o que é erro de requisição. Eu vou deixar esse material complementar.
+
+[04:43] Só que eu vou digitar um 201 e vou mandar uma mensagem dizendo que o livro foi cadastrado com sucesso, res.status(201).send('Livro foi cadastrado com sucesso') })´. A princípio isso já faria a minha rotina funcionar, meu método funcionar. Eu preciso testar isso, para testar isso vamos usar o Postman, vamos abrir o Postman e começar a fazer os testes.
+
+app.post('/livros', (req, res) => {
+  livros.push(req.body);
+  res.status(201).send('Livro foi cadastrado com sucesso')
+})
+
+[05:13] Existe a versão do Postman para web, mas estou usando uma versão Desktop, se você quiser tenho a indicação também de onde fazer o download e como utilizar o Postman, o link complementar.
+
+[05:28] Vou clicar neste sinal de mais do lado esquerdo para fazer uma nova requisição, a primeira requisição que vou fazer é aquele próprio get para garantir que está tudo funcionando. Tem outras ferramentas também que você pode usar para fazer esse teste, algumas pessoas preferem o Insomnia. No curso vou usar o Postman que é o mais utilizado geralmente, vou inserir http://localhost:3000 no campo.
+
+[06:01] Quando faço essa requisição ele já me volta "Curso de Node" e mostra o status, voltou com o status "ok" porque foi justamente o status que nós programamos. Se incluir um /livros na minha requisição, no meu endpoint, na minha URI ele vai voltar já em formato JSON com os dois livros que eu deixei previamente cadastrado, "O senhor dos anéis" e "O Hobbit". E também voltou aqui o status 200.
+
+[06:36] Agora precisamos incluir um novo livro, para isso vou usar o post, então no campo ao invés de get vou selecionar o post. O endpoint é o mesmo e vou precisar passar o corpo da requisição, eu vou ir em “Body” selecionar a opção “raw” e marcar que vou mandar um JSON, estou mandando um JSON para que você acrescente no array e digitar como quero mandar o JSON.
+
+[07:15] Eu vou mandar exatamente com os mesmos campos que eu tenho no meu objeto, "Id" e "título". Vou fazer o "id":e vou colocar, por exemplo, ele é um número inteiro vou colocar o "id": 3, e o título do livro vai ser "titulo": "O Silmarilion" e vou clicar no botão “Send” do lado direito da tela para enviar esse livro para que seja cadastrado. E ele me retornou a mensagem: "Livro foi cadastrado com sucesso".
+
+{
+    "id": 3,
+        "título": "O Silmarillion"
+}
+
+[07:52] E para conferir se, de fato, cadastrou e incluiu o livro no array: vou alterar para get novamente e confirmar se tenho o "Id3" cadastrado, ficou null. Ficou null porque alguma coisa ele não conseguiu interpretar, fiz a requisição, mas ele não conseguiu compreender. Provavelmente no formato do JSON ele não está preparado para ler, vamos precisar usar um recurso para identificar e corrigir esse problema.
+
+[08:33] Vamos voltar para o VS Code para vermos isso acontecendo. Ao abrir o VS Code em app.js para fazer com que o App reconheça o que enviamos pelo Postman, preciso fazer logo abaixo da minha instância do Express um app.use e dizer que é para usar o app.use(Express.json()) que é um recurso do Express que vai conseguir fazer interpretar o que está chegando via post ou via put e transformar aquilo em um objeto para eu poder armazenar, visualizar e manipular.
+
+import express from "express";
+
+const app = express();
+
+app.use(express.json())
+
+//código omitido
+
+[09:25] Vamos voltar agora no Postman e confirmar se com essa linha incluída se ele vai passar a reconhecer o livro que cadastramos. Vamos voltar aqui no Postman, vou fazer o get, ele vai ter só os dois livros porque estamos trabalhando com o live reload. A partir do momento que fui lá e inclui aquela linha, o Nodemon desligou o servidor e ativou de novo e eu perdi aquele post que tinha feito porque está em memória, está em variável ainda não estamos conectando com o banco de dados.
+
+[10:01] Novamente vou fazer o post com a requisição com esse corpo de "Id3" e "título". Quando selecionar o botão send retorna uma mensagem que o livro foi cadastrado com sucesso, isso é uma outra coisa que vamos evoluir mais adiante porque da primeira vez ele não tinha sido cadastrado com sucesso e a mensagem foi de que ele cadastrou com sucesso, esse tipo de tratamento nós também vamos ver adiante.
+
+{
+    "id": 3,
+        "título": "O Silmarillion"
+}
+
+[10:33] Quando eu fizer o get agora ele tem que me mostrar a partir do momento que indiquei que estou usando o Express.json. Se formos olhar no array já chegou mais um título "id": 3, "titulo": "O Silmarillion". Basicamente é isso, já temos o get e tem um post, já conseguimos ler dados da API, fazer uma requisição para obter livros e já conseguimos fazer uma requisição para cadastrar livros na variável em memória, por enquanto.
+
+[11:12] Aos poucos vamos evoluir esse CRUD e depois passar todo esse código de forma mais organizada e melhor dividida acessando um banco de dados porque vai ficar cada vez mais interessante. Espero que você esteja curtindo e vejo você no próximo vídeo.

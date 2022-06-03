@@ -1,0 +1,2 @@
+Vimos que para testar nossa API e fazer requisições do tipo POST, foi necessário utilizar o aplicativo Postman, que nos permitiu selecionar de forma simples o verbo HTTP a ser utilizado na requisição. Para complementar seus estudos, assista esse Alura+(https://cursos.alura.com.br/extra/alura-mais/introducao-ao-postman-c182) que mostra alguns recursos adicionais do Postman.
+
