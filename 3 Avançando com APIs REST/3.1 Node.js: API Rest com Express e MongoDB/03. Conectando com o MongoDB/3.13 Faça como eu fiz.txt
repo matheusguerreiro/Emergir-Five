@@ -1,0 +1,5 @@
+Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Caso já tenha feito isso, excelente. Se ainda não fez, é importante que você implemente o que foi visto no vídeo para poder continuar com a próxima aula, que tem como pré-requisito todo o código escrito até o momento.
+
+Caso você tenha optado por utilizar o banco de dados localmente, lembre-se de colocar no arquivo dbConnect.js a string de conexão com o banco de dados, conforme o exemplo abaixo:
+
+mongoose.connect("mongodb://127.0.0.1:27017/alura-node");

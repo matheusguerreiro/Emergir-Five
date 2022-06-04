@@ -1,0 +1,2 @@
+Além do formato JSON (JavaScript Object Notation), o MongoDB, que é um banco de dados orientado a documentos, utiliza também documentos no formato BSON (Binary JSON) para armazenar dados. Para saber mais sobre o que é o BSON, assista a esse Alura+(https://cursos.alura.com.br/extra/alura-mais/json-bson-entendendo-os-documentos-do-mongodb-c84).
+

@@ -1,0 +1,43 @@
+[00:00] Na última aula instalamos a biblioteca do Express e já vimos como lidar com as requisições lá dentro da aplicação. Vimos como obter uma listagem de livros, como cadastrar um livro, como atualizar e agora chegou o momento de persistirmos os dados, conectar com algum banco de dados e fazer esse trabalho de persistir os dados e devolver os que estão no banco.
+
+[00:27] Uma das dúvidas mais comuns é que tipo de banco utilizar. Aqui no curso vamos usar o MongoDB, mas é muito comum você como desenvolvedor back-end ter que tomar essa decisão de escolher qual banco você vai utilizar no projeto. E aí sempre tem esse questionamento, eu uso um banco relacional ou não relacional?
+
+[00:51] Eu vou listar aqui algumas características de forma breve dos dois tipos de banco para ajudar você na sua decisão de usar ou um tipo de banco ou outro e lembrando que para os exemplos que eu falar aqui temos cursos na Alura tanto de bancos relacionais quanto de banco NoSQL. Se você achar que vale a pena investir, escolher um banco para investir e estudar procure os cursos aqui da Alura que você vai ter um excelente aproveitamento, vai melhorar o seu aproveitamento no curso.
+
+[01:28] Banco relacional ou NoSql, como escolher entre um ou outro? Trabalhar com dados tem sido cada vez mais complexo na área de TI porque temos uma variedade de dados muito grande. Vamos pensar no WhatsApp, por exemplo, são bilhões de pessoas todos os dias, todos os momentos mandando mensagens de texto, de vídeo, links, áudio, você tem muitos tipos de dados e você precisa armazenar isso em algum lugar.
+
+[02:04] Como escolher entre um banco relacional ou um banco não relacional? O banco relacional tem como característica a utilização de tabelas para armazenamento dos dados, você tem tabelas com linhas e colunas, cada coluna é como se fosse um campo e cada linha é um registro aí nessa tabela, de forma bem assimilar a uma planilha, por exemplo, que você cadastra lá, você tem linhas colunas e você insere os seus dados.
+
+[02:34] Ele trabalha com relacionamento através de chaves primárias e chaves estrangeiras. Eu exemplifiquei aqui com duas tabelas, uma tabela de livros e uma tabela de autores. Observe que na tabela de baixo que é a tabela de autores eu tenho aqui o ID que é uma chave primária do autor que vai ser um identificador único para esse autor, eu tenho o nome do autor e a nacionalidade.
+
+[03:04] Na tabela de cima que é a tabela de livros eu tenho um ID do livro que é uma chave primária, o identificador único do livro, tem o título e tenho aqui um autor_id.
+
+[03:20] Esse autor ele vai fazer uma chave estrangeira com a tabela de autor para eu não ter que ter na minha tabela de livros especificando o nome do autor, a nacionalidade do autor e todos os campos que eu quisesse para autor, eu referencio esse autor apenas com um código ali que é a chave estrangeira. A chave estrangeira que está aqui na tabela de livros faz referência a chave primária da tabela de autores.
+
+[03:53] Por exemplo, no meu primeiro livro eu disse que o autor_id é o autor 2, isso me faz crer que o autor desse primeiro livro, Anjos e Demônios, é o Dan Brown. Essa relação entre tabelas acontece através das chaves, temos as chaves primárias e as chaves estrangeiras que vai fazer eles se relacionarem.
+
+[04:18] Para termos uns exemplos de bancos, temos o MySQL que é um banco relacional, tem o PostgreSQL, tem o SQL Server, são tipos de bancos relacionais. Todos tem SQL porque a manipulação de dados nos bancos relacionais se baseiam em SQL, Structured Query Language, que é uma linguagem de consulta estruturada.
+
+[04:55] Essa linguagem tem uma sintaxe padrão para que você faça operações nesse banco, por exemplo, se eu quero recuperar todos os livros eu vou fazer uma consulta colocando essas palavras reservadas: select * from livros e se eu quero incluir uma condição eu vou colocar: where id > 2. É uma forma com que eu faço a consulta, que eu organizo a consulta e a operação que eu quero fazer.
+
+[05:27] Por exemplo, nessa segunda eu estou fazendo uma exclusão na tabela de autores para o autor Paulo Coelho, estou usando o delete from, estou falando de qual é a tabela que eu vou apagar e estou incluindo a condição e a mesma coisa embaixo, estou inserindo dados em uma tabela, eu tenho essa palavra reservada insert into.
+
+[05:53] A mesma coisa seria se eu quisesse juntar dados entre tabelas, eu iria usar uma linguagem estruturada para fazer esse tipo de operação. Por isso que tudo é meio que SQL porque eles usam o SQL para fazer as queries e fazer as operações.
+
+[06:19] Vamos falar um pouco agora dos bancos NoSQL, que é Not Only SQL, não apenas linguagem estruturada de consultas. Nesses casos, nos bancos não relacionais, os dados não precisam estar divididos em tabelas. Os dados podem estar em uma estrutura única de um documento, por exemplo, eu posso ter uma única coleção chamada livros e dentro de livros eu tenho um cadastro de tudo ali dentro daquele livro, eu tenho o cadastro do autor, eu tenho o objeto autor, eu tenho o objeto editora com vários dados da editora.
+
+[06:56] Vou dar um exemplo aqui, aquele mesmo caso de tabela de livros e autores, aqui seria um documento representando um livro e dentro desse documento eu tenho um objeto que já referência o autor.
+
+[07:13] Eu já tenho ali o cadastro daquele autor completo, eu não preciso buscar esse dado externamente quando eu for pegar todas as informações de um livro, já está tudo aqui. É por isso que os bancos não relacionais têm sido muito utilizados para big data porque fica mais fácil obtermos as informações sem ter que fazer vários joins em várias tabelas vendo qual é a chave que relaciona um campo ao outro. Assim eu consigo buscar todos os documentos e as informações já estão todas ali.
+
+[07:49] Isso cada dia mais tem ganhado o mercado por conta disso, pela facilidade não só de buscar dados, mas você de escalar, distribuir esses dados em vários clusters ali. Cada vez mais você vai ouvir falar em bancos não relacionais.
+
+[08:09] Esses bancos têm vários tipos de armazenamento, por exemplo, bancos que são orientados a documentos, o MongoDB é um exemplo desse, ele é um tipo de banco que vai armazenar uma coleção de documentos do tipo Json, por exemplo, que é o que vamos ver aqui no curso.
+
+[08:30] Tem bancos que armazenam com o tipo chave-valor, que aí tem Oracle, tem o Infinity DB. Tem também bancos que armazenam com o tipo de grafos, o Neo4J é um exemplo desses. E para citar mais um exemplo têm bancos que o tipo de armazenamento é colunas amplas, podemos citar, por exemplo, o Cassandra, o HBase.
+
+[08:59] Existem vários modelos de bancos NoSQL e você vai decidir baseado no seu negócio qual é a melhor estratégia, qual é o melhor banco para utilizar para o seu projeto. Aqui, como eu citei, vamos usar o MongoDB, aqui é a página principal do MongoDB e se olharmos em "Produtos" ele tem vários tipos de produtos, ele tem o Mongo Atlas que é o serviço em nuvem que é o que vamos utilizar na próxima aula, vamos configurar uma conta no Atlas e fazer todo o cadastro para usar ele em nuvem.
+
+[09:37] Você tem uma versão Enterprise que é uma versão paga, tem a Community que é uma versão gratuita e que você pode instalar local, tem o Realm e tem várias opções de ferramentas para você ter acesso a esses dados. Vamos falar um pouco sobre elas também no material complementar que é o Compass, o Shell, tem plugin do VS Code, tem o Atlas CLI que também vamos ter acesso aos dados por ele e tem conectores para você fazer a conexão ao banco de dados. Um exemplo é o Mongoose que vamos usar aqui no curso também.
+
+[10:15] Na próxima aula vamos colocar a mão na massa, começar a usar o MongoDB e eu espero que vocês gostem dessa parte de persistência e de evoluir a nossa API. Espero por vocês.

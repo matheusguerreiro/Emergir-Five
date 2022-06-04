@@ -1,0 +1,43 @@
+[00:00] Agora vamos efetivamente fazer o link do banco com o nosso esquema de livros para que eu possa fazer a inserção e a recuperação dos dados. Para isso vamos criar uma nova pasta dentro de "src" chamada "Models", é lá que vamos concentrar todos os nossos modelos que representam uma coleção no banco. Lá vai ter o livro, o autor, a editora, tudo relacionado a regra de negócio e de como ele está incluído no banco.
+
+[00:34] Dentro de "src" eu vou criar uma nova pasta chamada "models" e dentro dessa pasta eu vou criar um arquivo chamado "Livro.js". Também é comum quando estamos tratando de coleção, de uma entidade de banco usarmos a letra maiúscula, por isso eu vou colocar Livro com letra maiúscula diferente dos outros arquivos e vou usar no singular. É a representação de um livro, como que é um livro.
+
+[01:07] Repetindo o que eu também já falei anteriormente, trabalhar com Express e trabalhar com programação de forma geral você é livre para usar vários padrões, tem várias empresas que usam padrões diferentes. Tentamos sintetizar aqui o que é mais comum, o que mais vemos no mercado, mas pode ser que você vá trabalhar em algum lugar ou que você já use um padrão diferenciado e não tem problema nenhum. Aqui o padrão vai ser o livro no singular com letra maiúscula, é assim que vamos representar a nossa coleção de livros.
+
+[01:46] Aqui eu também vou precisar importar o Mongoose e dizer que esse é um esquema para que o Mongoose possa entender que aquilo é uma coleção de documentos e eu vou dizer que aquilo é um esquema, que esse arquivo que estou fazendo vai ser um esquema. Eu vou fazer o import primeiro import mogoose from "mongoose"; e eu vou criar aqui a constante que vou chamar de cons livroSchema =, e vou dizer que é para fazer um novo Mongoose Schema, const livroSchema = new mongoose.Schema( {.
+
+[02:34] E vamos começar a definir o que eu tenho de parâmetros, o que eu tenho de atributos. O primeiro atributo aqui que vamos configurar vai ser Id, eu vou dizer que eu tenho um Id e vou colocar que o tipo dele é um string, id: {type: String},, vou separar por vírgula e vou colocar, por exemplo, titulo. O título eu também vou colocar: titulo: {type: String, } e vou colocar que ele é requerido, vou colocar a opção: titulo: {type: String, required: true}.
+
+[03:36] O id vai gerar sozinho para nós eu não preciso colocar que ele é requerido, ele é auto gerado. Vou criar mais um parâmetro que vai ser o autor: {type: String, required: true}, editora: {type: String, required: true}, e por fim aquele atributo número de páginas que vai ser um tipo number porque é numérico e eu não fazê-lo requerido, numeroPagina: {type: Number};.
+
+[04:43] Vamos deixar só título, autor e editora como requeridos. Depois vamos fazer uns testes com relação a isso para conseguirmos ver se ele está validando certo isso, essa questão do ser requerido ou não.
+
+[05:02] Criei o meu Schema e agora eu preciso criar uma variável e permitir que ela seja exportada para que possamos usá-lo em outro momento, em outro arquivo. Vou criar uma constante chamada livros que vai corresponder a coleção inteira e vou dizer que ele é um const livros= mongoose.model() e eu vou dizer que a minha coleção lá no banco vai se chamar livros, const livros= mongoose.model('livros').
+
+[05:40] Se não tivesse criado lá ele ia criar sozinho com esse formato, botão da string de conexão indicando o nome do banco e colocando aqui o nome da coleção ele já criaria sozinho para nós. Eu vou mostrar isso aí porque depois que fizermos alguns testes básicos eu vou apagar aquele banco e vamos ver que ele vai recriar do zero. Aqui estou definindo de fato o nome que eu quero que seja criado lá no meu banco, como o Mongo nós temos essa facilidade.
+
+[06:12] Eu vou dizer que eu meu model eu vou ter uma coleção de livros e os livros vão seguir esse Schema, esse padrão de tipos e atributos, eu vou colocar const livros= mongoose.model('livros', livrosSchema);. Feito isso é só exportar, vou dar um export default livros; e aí o Livro está pronto para usarmos ele em outro ponto.
+
+[06:44] O nosso pacote Model já tem o modelo que representa os livros. Agora precisamos ir lá naquele "app.js" que é o nosso aplicativo principal fazer a importação do livros para visualizarmos aquele Get.
+
+[07:03] Aqui no “app.js” quando usávamos o Get olhávamos o que tinha nessa constante aqui, na constante de livros que era um array com dois livros. Todas às vezes em que íamos no Postman e fazia um Get ele mostrava esses dois livros para nós, agora não, agora eu vou importar esse meu Schema aqui para que quando eu fizer esse método Get ele me mostre o que tem nos meus livros lá da base de dados.
+
+[07:34] Para isso eu vou importar aqui, logo abaixo dbConnect eu vou importar esse meu modelo livros, lembrando que esse aqui ainda não é definitivo aos poucos vamos evoluindo e melhorando o nosso código para ele ficar limpo, bem escrito, de fácil entendimento e manutenção. Só para irmos passo a passo para que fique bem claro o que estamos construindo.
+
+[08:02] Eu vou fazer o import livros from "./models/Livros.js". Já está aqui no “Livro.js”, eu vou comentar essa constante aqui para que ela não seja mais usada, quando eu falar livros ele vai está se referindo a esse livro do meu Model e não mais a essa constante.
+
+[08:36] E eu vou alterar o método Get, quando eu fizer o get livros, esse aqui especificamente que é o de obter todos os livros, eu vou chamar a minha coleção de livros do Mongo e quando eu digitar o livros e ele já identificar que é o livro referente ao banco ele já vai me permitir usar o método find que é para buscar os livros e é justamente o que vamos usar aqui. Eu vou usar o método find para ele ir lá e buscar para mim todos os livros que ele tiver.
+
+[09:15] Depois vamos ver alguns desses métodos, o findById, o remove têm vários métodos que vamos trabalhar aqui, vamos começar com o find. O find ele já por padrão ele já traz todos os livros, essa é uma condição, um método que já vai trazer todo mundo.
+
+[09:37] Vamos criar aqui uma callback para caso tenha um erro, geralmente por padrão vamos criar assim: se tiver um erro recuperando os livros eu vou programar alguma coisa aqui dentro, livros.find((error, livros) => {. Para esse caso, por exemplo, eu não vou fazer aqui, não é só para podermos ver a conexão com o livro, mas sempre vamos ter mais ou menos esse padrão aqui de escrita, a coleção, o livro e o que eu vou fazer. Se tiver um erro eu mostro que teve um erro, se tiver sucesso eu mostro a coleção.
+
+[10:16] Aqui eu vou colocar direto essa linha aqui, res.status(200).json(livros), que é a linha para devolver a coleção e se tiver um erro vamos saber porque ele não vai funcionar. Vou colocar aqui encontre os livros e depois devolve esses livros em formato Json, app.get('/livros', (req, res) => { livros.find((err, livros) => { res.status(200).json(livros) }).
+
+[10:36] Agora vamos abrir o Postman para poder testar esse get. O meu servidor aqui já está rodando, eu não o paralisei desde a última alteração, vamos verificar aqui com get se ele vai passar trazer aquele livro que cadastramos da Casa do Código. Agora vamos abrir o Postman e vamos na nossa “localhost:3000/livros” e vamos ver que conteúdo vai voltar quando eu fizer uma requisição get.
+
+[11:12] Observe que já apareceu exatamente o livro que nós cadastramos lá, o Id que ele gerou, o livro Lógica de Programação, do autor Paulo Silveira, editora Cada do Código e o número de páginas. Observe que de forma bem simples fomos lá, cadastramos, criamos um livro e agora já conseguimos fazer essa conexão aqui com a nossa aplicação. Já não precisei mais da constante, agora todas as ações que eu fizer serão relacionadas ao banco persistindo mesmo dados no banco.
+
+[11:50] Nessa aula aprendemos de forma geral em toda a sequência de vídeos a diferença de banco relacional e NoSQL, trabalhando com o MongoDB que é um banco orientado a documentos e coleções, temos uma coleção de livros e vamos inserir vários documentos nessa coleção.
+
+[12:11] Vimos como criar essa conexão entre a nossa API e o banco utilizando o Mongoose e aos poucos vamos evoluir o projeto fazendo todas as requisições, o Get, o Post, o Put e o Delete para completar essa API. Espero vocês adiante para continuarmos a fazer Get, o Post, o Put e todos os verbos que precisamos para completar o nosso CRUD, até lá.

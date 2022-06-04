@@ -1,0 +1,51 @@
+[00:00] Agora ficou mais claro o que é um banco de dados relacional e o que é um banco de dados não relacional e chegou o momento de escolhermos que tipo de banco vamos usar no projeto.
+
+[00:10] Aqui no curso eu vou usar o MongoDB e ao invés de instalar uma versão local e utilizá-lo pelo terminal, a inserção de dados e consulta, eu vou mostrar aqui como configurar a versão MongoDB Atlas que é o serviço do Mongo em nuvem. Vamos ter um banco de dados e vai conectar com ele remotamente, a versão gratuita nos dará um recurso para trabalhar com mais ou menos 512 megas de dados. Isso em Json corresponde a muito espaço, dá para fazermos um bom proveito e testar.
+
+[00:45] É um serviço que você pode escolher várias coisas, como eu vou mostrar aqui aonde você vai hospedar, como que você vai gerenciar. Basicamente a versão paga dele é excelente, ele gerencia basicamente tudo você só precisa se preocupar em jogar os dados lá e ele faz a replicação, faz tudo necessário.
+
+[01:07] Aqui eu vou deixar os links para a versão Community Server que é a versão paga você quer instalar localmente, eu indico também o MongoDB Shell que é o terminal que você pode usar para inserir, testar e fazer dados. Vai ter um material extra onde vamos falar sobre isso.
+
+[01:26] Aqui vamos buscar o mongo db atlas e eu vou utilizá-lo aqui e mostrar para vocês. Aqui eu vou colocar para entrar com o Google porque é uma conta gratuita que vamos usar e ele vai me perguntar: "Você concorda com as políticas de privacidade", vou marcar que sim, vou dar um Submit e aí vamos ter o passo a passo para criar o primeiro cluster.
+
+[01:56] Você tendo uma conta você logo com o Gmail ou você pode criar uma nova. A primeira coisa que ele detecta é que eu não pertenço ainda a nenhuma organização, se eu quero criar uma organização aqui e eu vou dizer que sim, vou clicar em Create an Organization e aí vou colocar o nome da organização, vou colocar Alura.
+
+[02:21] Aqui ele me diz o que o MongoDB Atlas é capaz de fazer, configuração automática de database, backup contínuo, ele tem várias opções aqui, correção de bugs automaticamente, criar e escalar via API Rest, tem vários recursos e vou clicar em Next.
+
+[02:44] E ele pergunta: "Você quer adicionar membros para a sua organização?", você não precisa adicionar ninguém agora só continua na criação para poder usar, só para ver a interface como funciona e aí uma vez que você criou a organização você vai clicar em “New Project” para iniciar um novo projeto.
+
+[03:07] E aí ele vai te pedir um nome e tem que ser um nome único para você colocar no seu projeto para o seu cluster, eu vou colocar aqui Node-express e aí vou criar projeto aqui novamente, eu não quero adicionar membros e nem permissão e ele vai fazer a criação para nós.
+
+[03:36] Eu tenho aqui a minha organização Alura, o meu projeto Node-express e aí ele já me leva para o próximo passo que seria para criar um database, eu vou colocar aqui “Build a Database”. Ele já oferece para nós um Serverless, um Dedicated ou o Free, eu vou colocar o Free, eu quero o gratuito para vermos como usa. Ele já coloca também os valores, vamos começar com uma versão gratuita.
+
+[04:13] Nessa versão ele já dá opções de onde queremos hospedar, se é na AWS, na Google, na Azure, eu vou colocar aqui na AWS mesmo, deixar esse São Paulo aqui bem padrão que ele deixou, mas você poderia escolher o que você quer verificar, como você quer trabalhar, vou manter o primeiro e vou simplesmente clicar em “Create Cluster”.
+
+[04:43] Ele aqui já nos mostra que vamos ter 512 megas de armazenamento, ele não deixa você fazer setups adicionais porque só faz na versão paga e ele te pede o nome do Cluster, eu vou trocar aqui ao invés de Cluster0 eu vou chamar de Alura e vou clicar em “Create Cluster”.
+
+[05:15] Vamos colocar o captcha padrão normal, estou fazendo bem passo a passo. No momento dessa gravação o site está assim, mas pode ser que quando você estiver criando a sua conta tenha uma detalhe ou outro de diferença, mas o passo a passo é esse: criar organização - criar o projeto - criar o cluster.
+
+[05:38] E aí ele já pede para você criar um usuário e uma senha, eu vou criar o meu usuário Alura e a senha eu vou colocar uma senha bem básica, 123 só para facilitar quando eu estiver mostrando para vocês a string de conexão. Eu vou criar o usuário aqui, esse vai ser o usuário que vai ter acesso a tudo.
+
+[06:03] Uma vez criado esse usuário eu preciso começar a trabalhar e criar o meu database. Quando criamos o projeto, depois eu vou mostrar isso, vou apagar o banco que criamos aqui para criarmos um todo do zero. Quando estamos usando no VS Code e criando um projeto e as coleções, ele já vem aqui pela string de conexão e cria sozinho, mas eu vou só mostrar aqui como seria para criar um banco, criar um livro já que o nosso projeto é livraria, só para começarmos a visualizar aqui.
+
+[06:43] Aqui ele pede para vermos o IP, você adicione aqui o seu IP para ele saber que pode ter intercorrências desse IP, eu vou usar esse IP para acessar e você também pode alterar depois para que outras pessoas tenham acesso, mas por enquanto vou mantê-lo assim e vou dar um “Finish and Close”. E aí ele dá um "Parabéns. Você conseguiu configurar tudo, vamos para os Databases."
+
+[07:17] Vou pedir para nunca salvar. Já vai mostrar aqui a minha organização Alura, o meu projeto Node-express e o meu cluster Alura que eu por enquanto não tenho nada. Se eu vier aqui em “Browse Collections”, nesse botão que aparece aqui, ele ainda está criando, aparece a mensagem Your cluster is being created..., seu cluster está sendo criado. Como demora de 1 a 3 minutos eu vou pausar o vídeo e quando ele estiver 100% pronto continuamos.
+
+[07:50] Terminou a criação, ele já mostra que eu não tenho nenhuma conexão ainda, não tenho absolutamente nada e tenho 0% de armazenamento usado. Ele te dá essa estatística para que você possa perceber no momento que estiver acabando a versão gratuita e você vai passar para a versão paga ou dar uma limpeza nas suas coleções.
+
+[08:16] Vamos clicar aqui nesse “Browse Collections”, nesse botão que aparece na tela principal para criarmos um banco e uma coleção de livros. Aqui no “Collections” eu ainda não tenho nenhum e aí ele pergunta: "Você quer um exemplo ou você quer adicionar os seus próprios dados?", eu vou colocar "adicionar os meus próprios dados". E ele me pergunta: "Qual o nome do Database que você quer criar?", eu vou escrever: alura-node, e eu vou chamar minha coleção de livros porque nela eu vou inserir vários documentos representando livros.
+
+[09:03] Só para dar um exemplo, no nosso dia a dia não vamos fazer por aqui, você não vai inserir um livro manualmente ou nenhum dado que você estiver usando no banco você vai inserir manualmente. Só para a hora que formos testar o método Get lá no nosso projeto, eu já vou deixar um livro cadastrado para percebermos que ao utilizá-lo no projeto é que vai aparecer o livro que foi cadastrado aqui corretamente e aí vamos saber que a nossa conexão foi correta e ele já recuperou o livro da coleção.
+
+[09:38] Ele aparece aqui no canto à esquerda, no nome do database "alura-node" e o nome da coleção "livros", só que a minha coleção está vazia. Eu vou nesse botão chamado “Insert document” para inserir um livro e eu vou inserir um único livro aqui, ele já sugere, perceba, o Id, esse já é um Id auto gerado pelo Mongo para ter um identificador único para cada item da coleção, eu vou mantê-lo e vou colocar com um segundo atributo aqui o titulo: e ao lado eu vou colocar o nome do título do livro que eu quero colocar.
+
+[10:22] Eu vou colocar aqui um livro lá da casa do código, é o livro de título: "Lógica de Programação", observe que aqui ele já nos mostra o tipo de dado que é string, eu poderia escolher outro tipo de dado para cadastrar, mas eu vou manter como string mesmo.
+
+[10:50] E aqui vou inserir um terceiro campo que vai ser o autor:, o autor desse livro é o Paulo Silveira, também string e eu vou acrescentar mais dois campos que é a editora: "Casa do Código" e vou colocar, por exemplo, númeroPaginas: que vai ser atributo inteiro. Vou trocar aqui e dizer que ele é um inteiro e vou colocar que ele tem, por exemplo, numeroPaginas: "150".
+
+[11:38] Feito isso basta clicar no botão “Insert” que ele já vai criar aqui o nosso livro. Aqui até ficou errado, eu posso usar essa interface dele mesmo, ele me dá essa opção para eu editar por aqui. Além dele ser um serviço na nuvem que você vai criar os seus bancos você pode usá-lo como IDE para você alterar um dado, você fazer uma consulta, você excluir, você tem todo acesso aos dados por aqui sem precisar de uma ferramenta auxiliar.
+
+[12:21] No material extra que eu vou deixar, eu vou mostrar o Compass e outras ferramentas onde você pode visualizar todos esses dados por elas. Você também pode entrar pela conta, logar e visualizar, fazer consultas, fazer update, fazer a exclusão, fazer o que você quiser.
+
+[12:40] Mais adiante vamos configurar o Mongoose para poder fazer acesso a esses dados e quando fizermos o método Get já vamos ver esse livro aqui, Lógica de Programação, sendo visualizado lá pelo Postman. Espero vocês, cadastrem suas contas e vamos seguir nos nossos estudos.

@@ -1,0 +1,43 @@
+[00:00] Agora que o banco está criado e já tem um livro, precisamos efetivamente configurar esse banco lá no nosso projeto para ter essa interação, o que eu mandar pela API ser cadastrado no banco, o que eu pedi para listar ele ver no banco, buscar e mostrar para mim lá no Postman. É o que vamos fazer agora.
+
+[00:21] Para isso vamos usar uma biblioteca chamada Mongoose, a documentação dela está aqui “mongoosejs.com”, temos um exemplo aqui de como fazer, como colocar a string de conexão, vou mostrar aqui também como é que vamos buscar a nossa string de conexão no Atlas. E vamos fazer de fato esse link entre a aplicação e o banco.
+
+[00:46] Aqui no NPM se digitarmos mongoose também vamos conseguir ver a última versão que é a 6.2.6 liberada há dois dias, na data da gravação desse vídeo. Eu vou usar exatamente ela que está aqui também na documentação, a última 6.2.6. E aí vou pedir também para que vocês instalem essa versão para evitar qualquer problema de compatibilidade.
+
+[01:13] No momento em que você estiver fazendo a sua instalação, caso tenha uma muito superior, se der algum erro de compatibilidade retroceda e instale exatamente a mesma versão que estou usando aqui, para poder conseguir fazer tudo funcionar.
+
+[01:29] Vamos aqui no nosso projeto, no VS Code, e aqui no terminal eu vou fazer um npm install com a versão do Mongoose, npm install mongoose@6.2.6 e ele vai fazer a instalação para mim aqui. Já pensando no nosso projeto em boas práticas ele fez bem rápido aqui, se olharmos aqui no "package.json" já está a dependência aqui certinha, o Nodemon que é a nossa de desenvolvimento, mas o Express e o Mongoose são dependências necessárias para a produção, elas ficam separadas do Nodemon.
+
+[02:19] Seguindo aqueles padrões de boas práticas, como eu vou configurar a conexão com o banco, eu vou criar aqui dentro do pacote "src" um novo pacote chamado "config" para armazenar o arquivo de configuração com o banco. Vamos criar uma nova pasta chamada “config” e dentro dessa pasta eu vou criar um arquivo, por exemplo, chamado “dbConnect.js”, que é o arquivo que vai definir os parâmetros para a conexão com o banco.
+
+[02:57] Se eu quiser usar o Mongoose eu vou precisar importar a biblioteca, importar o Mongoose para poder fazer uso dele. Vamos usar import mongoose from "mongoose". A primeira coisa que vamos fazer é pedir o connect, quando eu chamar mongoose ele tem um comando aqui de connect que é onde eu vou passar a minha string de conexão aqui, mongoose.connect("").
+
+[03:48] Como vamos colocar a string de conexão do que cadastramos no banco do Atlas? Vou mostrar para você. Aqui na documentação ele mostra como seria uma versão local, se você optou por instalar a versão local provavelmente é essa string de conexão que você colocar porque ele sempre vai estar operando nessa porta 27017 como padrão.
+
+[04:18] Se você seguiu o passo a passo e manteve no Atlas você clicar nessa opção "Database" no menu da esquerda e em "Database" tem outra opção chamada "Connect". Nessa opção vamos conseguir ver como é feita a conexão, por exemplo, o que você quer fazer? Ele pergunta aqui. Eu quero conectar a minha aplicação, eu vou selecionar Connect your application e ele já vai gerar para nós uma string de conexão.
+
+[04:58] Ele já perguntou: “qual a versão driver do Node que você tem?” Tem várias opções, Node, Perl, PHP, Java, no nosso caso é Node mesmo e é acima da 4, “4.0 or later”. O formato de colocar a string é desse jeito aqui.
+
+[05:15] Eu vou copiar, já tem um botão de copiar, e eu vou colocar isso lá na minha string de conexão a única coisa que eu vou trocar é o password. Aqui ele já nos dá um aviso: substitua o que está na posição de password pela senha que você incluiu.
+
+[05:37] Eu vou colocar aqui aquela string de conexão, ficou grande por isso você descompactar e onde está esse <password> eu vou colocar a minha senha que é a 123. Eu vou tirar essas opções de tentativa de gravar, eu vou tirar essas duas opções do final retryWrites e majority, pode apagá-las e aqui onde está myFirstDatabase? vamos colocar o nome do database que criamos. Se você criou exatamente igual a mim o seu database é o alura-node.
+
+[06:33] Aqui vou fechar com ponto e vírgula, mongoose.connect("mongodb+srv://alura:123@alura.dkjed.mongodb.net/alura-node");. Depois desse mongoose.connect eu vou criar uma variável chamada db para eu poder exportar e outra parte da minha aplicação poder usar e fazer efetivamente a conexão. Vou fazer aqui um let db = e esse db vai receber a conexão feita com o Mongoose, como o Mongo, vai ser o let db = mongoose.connection. E eu vou fazer uma exportação, um export default db; dessa variável db que vai conter a minha conexão.
+
+[07:19] Para o Mongoose chamar e fazer a conexão eu vou fazer isso no "app.js". Antes de fazer alguma coisa no "app.js" eu vou chamar a conexão, abaixo do import express eu vou fazer uma importação do meu arquivo de configuração e vou pedir para ele testar essa conexão. Vamos editar aqui na linha 2 2 import db from e vou colocar o caminho do meu arquivo, importa db from "./config/dbConnect.js". Antes de criar o app eu vou criar a conexão, vou chamar o db e vou passar o on que é o método do que vai está acontecendo aqui, db.on().
+
+[08:24] Eu preciso prever o erro, se der algum erro eu preciso saber aqui no meu terminal o que aconteceu. Temos que fazer um bind, um link entre o terminal e o log que o mongo estiver mostrando para nós.
+
+[08:45] No primeiro parâmetro se acontecer um evento de erro eu vou dar um console.log.bind e nesse bind eu vou dizer que lá no console eu vou mostrar uma mensagem erro de conexão que vai está junto com a mensagem de erro que acontecer no banco, para saber que aquele é um erro referente ao banco.
+
+[09:18] Eu vou incluir aqui Erro de conexão, por exemplo, db.on("error", console.log.bind(console, 'Erro de conexão')), já vamos conseguir saber aqui caso aconteça algum erro dentro do nosso próprio console e vamos conseguir ver o que aconteceu.
+
+[09:34] E a segunda instrução que precisamos colocar é para ele abrir a conexão, vou colocar um db.once para ele tentar uma vez já fazer essa abertura, e o nome do evento que faz essa abertura é o open, o open vai abrir a minha conexão com o banco e aí eu vou criar uma arrow function, db.once("open", () => {, e uma vez que a conexão foi aberta e está tudo certo eu vou dar uma mensagem: a conexão com o banco foi feita com sucesso. Vai ser console.log('conexão com o banco feita com sucesso')}.
+
+[10:22] E aí depois disso vamos rodar a aplicação e vamos iniciar e ver se ele conseguiu chegar lá com essa conexão, eu salvei aqui e vou rodar aquele nosso comando npm run dev. E vamos olhar aqui no console Servidor escutando em http://localhost:3000, o que já tinha antes e aqui ele entrou no conexão com o banco feita com sucesso. Perfeito, eu já consegui fazer a conexão, mas como eu tenho certeza se fez a conexão ainda mesmo se eu não programei os métodos Get e nem nada?
+
+[11:03] Eu vou fazer uma coisa aqui agora, eu vou colocar uma senha errada e vamos ter certeza se ele vai dar erro, tem que cair no erro aqui. Lá no "dbConnect" onde está 1, 2, 3 eu vou trocar para 1, 2, 3, 4 que é uma senha errada e vou salvar. De cara ele já me deu um erro, deu um codeName AtlasError e deu aqui "mongo server erro, bad authentication", autenticação falhou.
+
+[11:35] Ele não aceitou aqui, não foi feito mais com sucesso. Ele já conseguiu me mostrar que falhou, significa que quando ele deu a mensagem de conexão feita com sucesso é porque realmente estava tudo correto.
+
+[11:54] Eu vou voltar aqui para a senha 1, 2, 3, vou salvar, ele vai passar da conexão certinha também e no próximo vídeo vamos incluir o esquema do livro e vamos conseguir ver aquele livro que cadastramos lá no nosso Atlas. Espero por vocês.

@@ -1,0 +1,2 @@
+No processo de desenvolvimento de software, muitas vezes recorremos a bibliotecas e ferramentas desenvolvidas por terceiros. Por conta disso, é sempre importante ler a documentação oficial para acompanhar os exemplos, atualizações e recomendações de uso para o tipo de aplicação que você está desenvolvendo. Para maiores informações sobre o Mongoose, acesse a documentação oficial nesse link(https://mongoosejs.com/docs/guides.html).
+

@@ -1,0 +1,128 @@
+Conforme avançamos na programação back-end, nos deparamos com o momento de decidir qual banco de dados utilizar. Agora que você já foi apresentado ao banco de dados NoSQL MongoDB, vamos conhecer as diferentes GUI - Graphical User Interface (Interface Gráfica do Usuário, em português), para interagir e manipular os dados lançados no banco.
+
+Partiu aprender um pouco sobre as diferenças do MongoDB Atlas, Shell, Compass e o Robo 3T, e como podemos aproveitar suas funcionalidades?
+
+Sobre o MongoDB Atlas
+Como visto na aula, com o MongoDB Atlas não precisamos nos limitar a um único provedor de nuvem, podemos aproveitar todos os benefícios dos principais provedores simultaneamente. Ele é o primeiro banco de dados que permite utilizar clusters de várias nuvens de provedores como a AWS, Google Cloud e Microsoft Azure.
+
+Print do site do MongoDB, com fundo branco, demonstrando o texto dá uma visão geral sobre o MongoDB Atlas e demonstrando que ele é multi-plataforma e permite hospedagem na AWS, Google Cloud e Microsoft Azure
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem1.2.png
+
+Com essa liberdade é possível aproveitar os melhores serviços que cada provedor oferece, como inteligência artificial e proteção contra incidentes de áreas geográficas. Podemos construir, implantar e executar nossos aplicativos com uma infraestrutura em nuvem altamente segura.
+
+Quer aprender mais sobre o universo da computação em nuvem e entender mais sobre os principais provedores? Clique no link para mergulhar em conteúdo e dar os primeiros passos na formação em Cloud Computing.
+
+Sobre o MongoDB Shell
+Para você que pretende utilizar o seu banco de dados localmente, será necessário fazer o download e instalação do MongoDB e configurar o Shell. É interessante instalar o MongoDB na versão “community”, já que é gratuito e satisfatório para fins de estudo ou projetos pequenos.
+
+Confira o passo a passo para instalação do MongoDB localmente:
+
+Clique neste link para fazer o download. Selecione a opção On-premises que é o modo local, escolha a versão e o package. Para um download mais direto, indico usar o package “msi”.
+Após iniciar a instalação, será aberta a tela de boas vindas e o termo de licença de uso, você terá a opção de escolher a versão Complete (completa) e a versão Custom (customizada). Recomendo inicialmente a versão completa para ter acesso a todos os recursos.
+Agora chegamos na configuração. Nessa etapa a tela já aparece com a opção Install MongoD as a Service, essa opção mantém o MongoD como um serviço da plataforma e manterá o servidor ativo sempre que você ligar o computador, isso pode sobrecarregar o processamento e consumo de memória, se você não tem interesse, sugerimos desmarcar essa opção. Feito isso, prossiga clicando na opção Next.
+A página seguinte será de instalação do MongoDB Compass, vamos falar sobre ele mais a frente, esse é o momento caso queira antecipar a instalação e utilizar para manipular os dados por essa GUI (Graphical User Interface, ou Interface Gráfica do Usuário, em português) . Após isso, finalizamos a instalação do MongoDB.
+
+Print da tela de instalação do MongoDB Compass, com fundo cinza, que é aberta ao finalizar a instalação do MongoDB
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem5.png
+
+Agora que a instalação do MongoDB foi feita, vou exemplificar como manipular alguns dados através do Shell.
+
+Instalação e utilização do Shell
+
+Essa famosa “tela preta” que os programadores usam, se chama prompt de comando, um terminal (shell) que os sistemas operacionais possuem para executar operações por linha de comando.
+
+Com o MongoDB Shell (mongosh) você conseguirá uma interação com o banco de dados do Mongo, inserindo documentos e administrando as coleções através das linhas de comando. Para realizar o download do mesmo, acesse esse link. Atenção à etapa de destino, onde você poderá escolher a instalação de forma global ou apenas para você (just for you). Depois de instalado, ir à pasta de destino e abrir a aplicação.
+
+Ao abrir o aplicativo “mongosh”, será aberto um prompt de comando do próprio MongoDB Shell. A diferença do mongosh para um terminal comum de sistema operacional, é simplesmente pelo layout mais elegante, mais interativo no uso de cores e intuitivo na manipulação dos dados, além de não precisar ficar com o servidor ligado durante toda produção no banco de dados.
+
+Print da tela do mongo shell, com fundo preto, demonstrando a string de conexão  mongodb://127.0.0.1:27017 e destacando a versão 1.1.9
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem6.png
+
+Executando comandos no MongoDB Shell
+Agora que você já ativou o Mongo Shell, é possível criar coleções e manipular os objetos direto do banco de dados através do terminal. Clique no link para acessar a documentação das operações básicas.
+
+Vamos aprender alguns comandos?
+
+Para criar o banco de dados:
+use <nome-do-database>
+
+Print da tela do mongo shell, com fundo preto, demonstrando o uso do comando ‘use livraria’ e mostrando o retorno ‘switched to db livraria’ 
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem7.png
+
+Para mostrar todos os bancos de dados ativos:
+show dbs
+
+Print da tela do mongo shell, com fundo preto, demonstrando o uso do comando ‘show dbs’ e mostrando o retorno com os bancos admin, config, livraria e local e os respectivos tamanhos de cada um deles 
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem8.png
+
+Para criar uma coleção(collection):
+db.createNome-da-collection dbs
+
+Print da tela do mongo shell, com fundo preto, demonstrando o uso do comando ‘db.createlivros’ e mostrando o retorno com a mensagem livraria.createlivros.
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem9.png
+
+Para mostrar todas as collections (só mostra se tiver inserido algum registro na collection):
+show collections  dbs
+
+Print da tela do mongo shell, com fundo preto, demonstrando o uso do comando ‘show collections’ e mostrando o retorno com a coleção livros.
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem10.png
+
+Para inserir um novo registro dentro da collection no banco de dados:
+> db.Nome-da-collection.insertOne({ objeto a ser inserido })  dbs
+
+Print da tela do mongo shell, com fundo preto, demonstrando o uso do comando ‘db.livros.insertOne’ passando um objeto JSON com o título ‘The Hobbit’ e quantidade 5,  mostrando o retorno com a mensagem acknowledge true, indicando que foi armazenado com sucesso.
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem11.png
+
+Para inserir vários novos registros dentro do banco de dados (formato array):
+db.Nome-da-collection.insertMany([{ objetos a serem inseridos }])dbs
+
+Para buscar todos os registros sem filtro algum utilizamos o comando find():
+> db.Nome-da-collection.find()  dbs
+
+Print da tela do mongo shell, com fundo preto, demonstrando o uso do comando ‘db.livros.find()’ e retornando um array de objeto JSON representando três livros.
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem12.2.png
+
+Para buscar um registro com filtro utilizamos o find({ }):
+> db.Nome-da-collection.find({filtro-que-selecionar})  dbs
+
+Print da tela do mongo shell, com fundo preto, demonstrando o uso do comando ‘db.livros.find({quantidade: 5})’ e retornando um array com dois objetos JSON cuja quantidade é igual a cinco.
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem14.png
+
+Para atualizar registros dentro do banco de dados, utilizamos o comando updateOne (para apenas um objeto) ou o updateMany (para mais objetos) daquele filtro selecionado:
+db.Nome-da-collection.updateOne({filtro},{ $set: {campos a serem atualizados}})dbs
+
+db.Nome-da-collection.updateMany({filtro},{ $set: {campos a serem atualizados}})dbs
+
+Para deletar uma collection (tem que estar trabalhando na collection):
+db.Nome-da-collection.drop()dbs
+
+Sobre o Mongo Compass
+O Mongo Compass é uma interface gráfica oficial do MongoDB. Numa forma bastante sutil e intuitiva, você consegue visualizar, manipular e analisar seus dados, criando coleções e documentos individuais. Ou seja, você consegue acessar a maioria dos mecanismos que a linha de comando (o Mongo Shell) oferece, de forma mais visual e acessível.
+
+Print da tela inicial do MongoDB Compass, com fundo branco, demonstrando na área central os três bancos de dados previamente criados: admin, config e local.
+https://caelum-online-public.s3.amazonaws.com/2404-nodejs-api-rest-express-mongodb/03/aula3-imagem17.png
+
+Recursos:
+
+É desenvolvido pela própria equipe do MongoDB;
+Não requer usar linguagem de consulta na linha de comando;
+Analisa e investiga problemas de desempenho;
+Barra de consulta integrada e suporte para analisar o status do servidor;
+Faz amostras, classificação e modificações de resultados com filtros mais específicos, ajudando no estudo dos dados armazenados. Ex: Uma loja virtual fez amostras de dados e classificou a faixa etária e região dos usuários, ajudando na criação de promoções e parcerias para atrair mais o público.
+Se você não fez o download do Compass durante a instalação do MongoDB Local, clique no link para iniciar o processo.
+
+Sobre o Robo 3T
+Essa também é uma interface gráfica gratuita, muito utilizada e de código aberto. A experiência com o Robo 3T é bem positiva comparada ao Compass, por ter um layout que permite fácil entendimento e manipulação para devs iniciantes.
+
+Recursos:
+
+Tem linha de comando incorporada dispensando o uso do Shell no Linux ou do CMD no Windows;
+Visualização e exportação das querys no console;
+Sintaxes dos comandos, sinalizados por meio de diferentes cores.;
+Tem suporte para MongoDB 4.0+;
+É desenvolvido pela 3T Software.
+O download do Robo 3T pode ser feito pelo link.
+
+Gostou de conhecer um pouco mais sobre a várias GUI’s da família MongoDB? Você pode ampliar ainda mais seu conhecimento sobre MongoDB acessando nossos cursos:
+
+MongoDB: modelagem de dados

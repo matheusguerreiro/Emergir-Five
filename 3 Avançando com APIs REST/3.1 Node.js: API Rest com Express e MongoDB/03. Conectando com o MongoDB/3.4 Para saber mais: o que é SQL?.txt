@@ -1,0 +1,192 @@
+Como vimos na aula, os bancos relacionais utilizam SQL (Structured Query Language) como linguagem padrão para realizar as consultas e operações. Para aprimorar seus conhecimentos, confira esse artigo que detalha algumas características sobre a linguagem e esse outro artigo que exemplifica os principais comandos.
+
+O que é SQL?
+
+SQL é uma linguagem padrão para trabalhar com bancos de dados relacionais. Ela é uma linguagem declarativa e que não necessita de profundos conhecimentos de programação para que alguém possa começar a escrever queries, as consultas e pedidps, que trazem resultados de acordo com o que você está buscando. SQL significa Standard Query Language, literalmente a linguagem padrão para realizar queries.
+
+A linguagem SQL é utilizada de maneira relativamente parecida entre os principais bancos de dados relacionais do mercado: Oracle, MySQL, MariaDB, PostgreSQL, Microsoft SQL Server, entre muitos outros. Cada um tem suas características, sendo o MySQL e o PostgreSQL extremamente populares por possuírem versões gratuitas e de código aberto.
+
+É também uma linguagem que muitos profissionais acabam precisando aprender: seja quem usa Excel de forma pesada e acaba migrando as informações para um banco de dados, seja um cientista de dados que usa Python para agregar os dados das diferentes fontes de informações.
+
+SELECT: uma query de consulta a um banco
+Imagine que você tem uma tabela de banco de dados, que realmente pode ser feito uma analogia com uma planilha de Excel, para guardar as informações das suas notas fiscais:
+
++----+----------------------------+------------+-------+
+| id | titulo                     | pagamento  | valor |
++----+----------------------------+------------+-------+
+|  1 | canetas                    | 2019-07-05 |   150 |
+|  2 | notebook                   | 2019-07-01 |  1200 |
+|  3 | macbook                    | 2019-07-02 |  2100 |
+|  4 | microfone                  | 2019-07-05 |    90 |
+|  5 | matricula alura            | 2019-07-09 |   900 |
+|  6 | gasolina reembolso diretor | 2019-06-10 |   200 |
++----+----------------------------+------------+-------+
+Se você quer buscar todas as notas fiscais que tem valores acima de mil reais, a query que você deve rodar é uma que vai selecionar (SELECT) todos os campos (*) onde (WHERE) o valor da nota seja maior que mil (valor > 1000):
+
+SELECT * FROM notas_fiscais WHERE valor > 1000
+E o resultado será algo como:
+
+mysql> SELECT * FROM notas_fiscais WHERE valor > 1000;
++----+----------+------------+-------+
+| id | titulo   | pagamento  | valor |
++----+----------+------------+-------+
+|  2 | notebook | 2019-07-01 |  1200 |
+|  3 | macbook  | 2019-07-02 |  2100 |
++----+----------+------------+-------+
+2 rows in set (0.00 sec)
+Com você pode ver, é bastante simples e direto. Quase uma sentança escrita em inglês. Esse caso foi no mysql mas essa query é padrão em todos os bancos de dados.
+
+Poderíamos ainda apenas listar todos os campos ordenando pela data de pagamento, usando ORDER BY pagamento:
+
+mysql> SELECT * FROM notas_fiscais ORDER BY pagamento;
++----+----------------------------+------------+-------+
+| id | titulo                     | pagamento  | valor |
++----+----------------------------+------------+-------+
+|  6 | gasolina reembolso diretor | 2019-06-10 |   200 |
+|  2 | notebook                   | 2019-07-01 |  1200 |
+|  3 | macbook                    | 2019-07-02 |  2100 |
+|  1 | canetas                    | 2019-07-05 |   150 |
+|  4 | microfone                  | 2019-07-05 |    90 |
+|  5 | matricula alura            | 2019-07-09 |   900 |
++----+----------------------------+------------+-------+
+6 rows in set (0.00 sec)
+Quais são os principais comandos SQL?
+Os principais comandos SQL são:
+
+SELECT: busca linhas em tabelas de acordo com um critério definido dentro da chamada cláusula de WHERE
+INSERT: insere novas linhas na tabela. no nosso caso, colocaria novas notas fiscais dado os argumentos que são passados para o INSERT. Por exemplo, no nosso caso: INSERT INTO nf (titulo, pagamento, valor) VALUES 'canetas', '2019-07-15', 150.
+UPDATE: atualiza linhas do banco de dados de acordo com um critério de WHERE, como mudar o CPF
+DELETE: remove linhas da tabela de acordo com um critério.
+Há ainda uma infinidade de subcomandos para fazer buscas melhores e mais elaboradas, como JOIN, LIKE, HAVING e GROUP BY.
+
+Não se assuste! O trabalho básico com tabelas, linhas, colunas, relacionamentos e chaves não demanda um conhecimento extenso de SQL. Ele vai se fazer necessário para otimizar consultas e tomar decisões de como modelar esses dados.
+
+Modelagem de banco de dados.
+SQL e Modelagem de Dados.
+
+Além desses comandos, você será exposto a formas de criação de tabelas e de colunas, como CREATE TABLE e ALTER TABLE. A modelagem de banco de dados é a forma que definimos com as tabelas vão armazenar e relacionar os nossos dados, isso é, como estruturar esse relacionamentos para que não fique algo difícil de dar manutenção e validação como acaba sendo com planilhas.
+
+Por exemplo, a tabela acima criamos usando:
+
+CREATE TABLE notas_fiscais (
+    id INT AUTO_INCREMENT,
+    titulo VARCHAR(255) NOT NULL,
+    pagamento DATE,
+    valor DOUBLE,
+    PRIMARY KEY (id)
+); 
+Como posso aprender a trabalhar com SQL?
+O ideal é começar trabalhando com uma base bastante simples, com uma única tabela, que tenha o modelo de dados próximo do que você conhece e busca. Aconselho que utilize o MySQL ou o PostreSQL.
+
+
+SQL: Comandos básicos
+
+Provavelmente, você já ouviu falar bastante por aí em SQL. O SQL é muito importante na vida dos desenvolvedores e DBAs (database administrador/administradores de banco de dados). Se você pretende seguir na área de tecnologia, é de extrema importância que aprenda o quanto antes. Neste artigo, vamos abordar o que é e quais os comandos básicos.
+
+Imagem com fundo azul escuro, com um ícone do SQL e as palavras insert, select, update e delete destacado em branco
+
+O que é SQL?
+A linguagem SQL, em português “Linguagem de Consulta Estruturada", é usada para executar comandos em bancos de dados relacionais, ou seja, bancos de dados baseados em tabelas.
+
+Se você pensa que o SQL não é utilizado na rotina de um(a) desenvolvedor(a), está bem enganado(a). Como pensa que é feito aqueles relatórios enormes dentro do seu sistema ERP(enterprise resource planning/sistema de gestão integrado)? Sim, é com SQL.
+
+Por fim, ela é dividida em alguns subgrupos, como:
+
+DML – Data Manipulation Language: comandos que alteram informações nas tabelas, seja para inserir ou excluir dados (ex: select, delete e insert);
+
+DDL – Data Definition Language: são comandos que modificam o banco de dados (ex: drop – apaga algum objeto e create – permite a criação de novos objetos);
+
+DCL – Data Control Language: é o grupo responsável pelas permissões, restrições ou bloqueios (ex: grant – permite o acesso e/ou modificações no banco de dados);
+
+DTL – Linguagem de Transição de Dados: é responsável por salvar as alterações feitas pelos usuários (ex: commit – autoriza que as alterações sejam salvas).
+
+Porém, vamos aprofundar no **DML que são os comandos mais básicos do SQL.
+
+SELECT
+Imagine que você tem uma tabela de banco de dados para guardar alguns dados dos seus clientes:
+
+id	nome	telefone	genero
+1	Roberta	9999-9999	F
+2	Denis	8888-8888	M
+3	Valéria	7777-7777	F
+4	Isabel	5555-555	F
+
+Então, para consultar todos os dados dos seus clientes, a query que você deve rodar é uma que vai selecionar (SELECT) todos os campos (*) da tabela (FROM) clientes:
+
+SELECT * FROM clientes
+O resultado será o seguinte:
+
+id	nome	telefone	genero
+1	Roberta	9999-9999	F
+2	Denis	8888-8888	M
+3	Valéria	7777-7777	F
+4	Isabel	5555-5555	F
+
+Não mudou muita coisa, certo? Então vamos buscar os dados de todos clientes do gênero feminino:
+
+A query que você deve rodar é uma que vai selecionar (SELECT) todos os campos (*) da tabela (FROM) clientes onde (WHERE) o gênero seja igual a F:
+
+SELECT * FROM clientes WHERE genero = ‘F’
+
+O resultado será o seguinte:
+
+id	nome	telefone	genero
+1	Roberta	9999-9999	F
+3	Valéria	7777-7777	F
+4	Isabel	5555-5555	F
+Simples, não é?
+
+INSERT
+O INSERT insere novas linhas, novos dados dentro da tabela.
+
+Em nosso caso vamos inserir novos dados na tabela de clientes, passando os argumentos no insert:
+
+INSERT INTO clientes (id, nome, telefone, genero) VALUES (5, ‘Miguel’, 4444-4444, ‘M’)
+Esse comando está inserindo um novo registro em nossa tabela clientes, o cadastro do Miguel.
+
+E então, temos:
+
+id	nome	telefone	genero
+1	Roberta	9999-9999	F
+2	Denis	8888-8888	M
+3	Valéria	7777-7777	F
+4	Isabel	5555-5555	F
+5	Miguel	4444-4444	M
+
+UPDATE
+O UPDATE atualiza as linhas dentro da tabela, mas não podemos esquecer o WHERE onde inserimos uma condição, ou seja, uma regra que impõe a execução do comando. Se a condição não for informada a tabela inteira será atualizada.
+
+A Isabel ligou em nossa loja para informar que trocou o seu número de telefone, então temos que atualizar dentro do nosso banco de dados:
+
+UPDATE clientes SET telefone = 2222-2222 WHERE id = 4
+
+Aqui, o que o comando está fazendo? Está atualizando a linha 4 da tabela clientes, onde está o cadastro da Isabel.
+
+A regra a ser utilizada é o id da Isabel, onde vai identificar a linha a ser atualizada.
+
+E então, temos a tabela atualizada:
+
+id	nome	telefone	genero
+1	Roberta	9999-9999	F
+2	Denis	8888-8888	M
+3	Valéria	7777-7777	F
+4	Isabel	2222-2222	F
+5	Miguel	4444-4444	M
+
+DELETE
+O DELETE apaga as linhas, os dados dentro da tabela. Assim como o UPDATE, não podemos esquecer do WHERE. Caso contrário, toda tabela será apagada.
+
+Miguel deixou de ser nosso cliente, então precisamos apagar os dados dele:
+
+DELETE FROM clientes WHERE id = 5
+
+Neste caso, o comando exclui a linha 5 da tabela clientes, que é o cadastro do Miguel.
+
+E então, temos a tabela atualizada:
+
+id	nome	telefone	genero
+1	Roberta	9999-9999	F
+2	Denis	8888-8888	M
+3	Valéria	7777-7777	F
+4	Isabel	2222-2222	F
+Gostou deste artigo e quer conhecer ainda mais sobre banco de dados e SQL?

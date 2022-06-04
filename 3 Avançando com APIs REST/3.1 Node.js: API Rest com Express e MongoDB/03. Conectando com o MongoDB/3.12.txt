@@ -1,0 +1,20 @@
+Dando continuidade ao curso de Node, Marcos resolveu incluir um novo arquivo no pacote models para representar o schema de um cliente da Livraria Alura. Considerando que ele criou o schema conforme a imagem abaixo, marque as alternativas que apresentam afirmações corretas:
+
+import mongoose from “mongoose”;
+
+const clienteSchema = new mongoose.Schema({
+    id: {type: String},
+    nome: {type: Number, required: true},
+    cpf: {type: Number},
+    endereco: {type: String}
+});
+
+const clientes = mongoose.model('clientes', clienteSchema);
+
+export default clientes;
+
+O campo nome está definido de forma incorreta.
+  Alternativa correta! O campo nome está definido com o tipo Number, que é numérico. O correto seria defini-lo com o tipo String.
+
+Somente o nome será um campo obrigatório ao tentar cadastrar o um cliente através de uma requisição POST na API criada.
+  Alternativa correta! Ao incluir o parâmetro required como true, caso o campo não seja informado no corpo da requisição, apresentará erro de validação.

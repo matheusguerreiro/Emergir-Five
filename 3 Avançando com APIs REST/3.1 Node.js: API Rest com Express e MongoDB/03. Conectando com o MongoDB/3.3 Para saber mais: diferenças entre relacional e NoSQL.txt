@@ -1,0 +1,2 @@
+Aqui no curso usaremos o MongoDB, que é um banco NoSQL orientado a documentos. Para que fique mais claro a diferença entre banco de dados relacional e não-relacional e qual o conceito dos bancos NoSQL, assita a esse Alura+(https://cursos.alura.com.br/extra/alura-mais/o-que-e-nosql--c1142) que complementa as informações compartilhadas no vídeo e exemplifica em que cenário é ideal utilizar cada um desses tipos.
+
