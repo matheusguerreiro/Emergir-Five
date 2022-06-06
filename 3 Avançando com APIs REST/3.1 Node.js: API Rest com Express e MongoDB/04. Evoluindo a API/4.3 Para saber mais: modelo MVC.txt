@@ -1,0 +1,2 @@
+Em desenvolvimento de software, é muito comum utilizarmos padrões para organizar e projetar melhor nosso código. MVC é um acrônimo para Model-View-Controller e é um dos padrões arquiteturais mais utilizados no desenvolvimento de aplicações web. Para saber mais sobre esse padrão, assista a esse Alura+(https://cursos.alura.com.br/extra/alura-mais/padrao-model-view-controller-c94).
+

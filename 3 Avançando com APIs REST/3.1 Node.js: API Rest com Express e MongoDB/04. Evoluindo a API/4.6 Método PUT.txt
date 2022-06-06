@@ -1,0 +1,53 @@
+[00:00] Temos aqui o nosso método para listar todos os livros e o método para cadastrar um novo livro. Agora vamos implementar aqui a nossa atualização, o que vai acontecer quando fizermos uma requisição do tipo put. Aqui no nosso “livroController.js” seguindo a mesma lógica que estamos aplicando, eu vou criar um novo método aqui após eu cadastrar livro que vai ser o atualizarLivro.
+
+[00:30] Aqui vou compactá-los só para ficar fechado e focarmos na que realmente estamos utilizando, eu vou criar aqui um static atualizarLivro = e aí o nosso cabeçalho vai ser bem parecido passando requisição e resposta, vai ser uma função static atualizarLivro = (req, res) => { }, e vamos programar aqui o que vai acontecer nessa função. Quando estamos trabalhando com o PUT, que é a atualização, vamos precisar basicamente de dois parâmetros, duas informações bem relevantes.
+
+[01:14] A primeira é qual é o Id do livro que eu quero atualizar e o segundo qual é o conteúdo pelo qual eu vou substituir o meu cadastro. Eu já tinha um livro e qual vai ser o novo conteúdo que eu vou lançar para esse livro. Um desses parâmetros vai acontecer aqui pelo cabeçalho da rota, no endereço da rota eu vou passar o Id e no corpo da requisição eu vou passar o conteúdo que vai ser atualizado.
+
+[01:51] Aqui eu vou criar uma const, uma variável id que vai receber o que vier como parâmetro na requisição, vai ser rep.params. Quando eu quero obter alguma coisa que está sendo passada lá no endereço da rota, obtemos isso pelo params, vai ser const id = req.params.id; e aí eu já vou saber qual é o Id do que eu quero atualizar.
+
+[02:25] A nossa implementação vai ser da seguinte forma: eu vou pegar a minha coleção de livros e vou usar um método chamado findByIdAndUpdate que é localiza pelo Id e atualiza. Vamos fazer esse livros.findByIdAndUpdate(), o primeiro parâmetro que vamos passar é qual é o Id do que eu quero atualizar, livros.findByIdAndUpdate(id, ), e o segundo é o meu critério de atualização.
+
+[02:58] Aqui no Mongo quando vamos fazer alguma atualização usamos uma palavra reservada que é o set, o que eu vou mandar para substituir. Vamos colocar aqui o cifrão set dois pontos e vou indicar que ele é para jogar nesse livro desse Id o que estiver no req.body que é o que está vindo no corpo da requisição, livros.findByIdUpdate(id, {$set: req.body}).
+
+[03:27] Essas formas de você fazer consultas e update e operações no banco temos essas informações no nosso curso de MongoDB aqui da Alura. Se você curtir trabalhar com MongoDB, se você gostar eu recomendo fazer esses cursos também para aprimorar e ter mais prática de como utilizar o Mongo.
+
+[03:51] Aqui já defini o Id do que eu vou atualizar, o que vai ser substituído e aqui eu vou incluir uma função onde eu vou verificar caso aconteça algum erro, livros.findByIdAndUpdate(ind, {$set: req.body}, (err) => { }). A nossa callback quando tentar gravar vai verificar se teve erro ou não. Aqui vou fazer aquele if, dessa vez vou fazer ao contrário, eu vou fazer se não for erro eu devolvo o que atualizou com sucesso, se não eu devolvo a mensagem de erro. Para eu fazer o se não for erro eu ponho a negativo, eu coloco o ponto de exclamação erro, que é a nossa variável err, if(!err).
+
+[04:35] Se não for erro eu vou devolver o status(200) e vou devolver uma mensagem de que o livro foi atualizado com sucesso. Eu vou colocar o res.status(200).sende vou enviar uma mensagem dizendo que o livro foi atualizado com sucesso, res.status(200).send({message: 'Livro atualizado com sucesso'}). E aí se não correr tudo bem, se acontecer algum erro eu vou mandar um status(500) de que o servidor não conseguiu processar a operação.
+
+[05:22] Depois desse if eu vou colocar um else { se não correr tudo bem eu vou devolver 500 e vou enviar também a mensagem passando o que houve de erro de mensagem, res.status(500).send({message: err.message}).
+
+[05:55] Aqui está pronto, já temos aqui o que precisamos fazer para atualizar um livro. E como o servidor está rodando aqui eu vou fazer esse teste lá no Postman, mas antes disso eu preciso dizer lá na rota que vou ter agora mais uma rota ali para o PUT. Vamos aqui no nosso arquivo "livroRoutes.js" e vou incluir aqui o ponto .put(“”) e eu tenho que dizer se houver uma requisição para /livros/:id, aqui colocamos dois pontos para indicar que vai chegar um parâmetro aqui do tipo Id.
+
+[06:38] Se houver uma requisição do tipo PUT para o end point barra livros barra Id, eu vou chamar o .put("/livros/:id", LivroController.atualizarLivro). Já indicamos aqui no routes, fizemos alteração no “Controller”, agora basta testar aqui no Postman.
+
+[07:03] Aqui no Postman o meu get está me voltando dois livros, o da Lógica de Programação e o Back-end Java. Vamos supor que eu queira atualizar esse Back-end Java para Back-end JavaScript, eu vou selecionar esse Id, vou colocá-lo aqui no caminho da rota e vou alterar aqui a minha requisição para o tipo put e vou alterar somente o título, ao invés de Back-end Java eu vou colocar Back-end JavaScript e aí vou fazer um “Send” para ver o que ele vai me devolver.
+
+[07:43] Ele devolveu a mensagem de que o livro foi atualizado com sucesso, vamos confirmar se ele atualizou mesmo. Vamos fazer um get, como ainda não programou a requisição get por Id eu vou fazer um get geral e aí eu vou confirmar aqui que o livro se tornou agora "Back-end JavaScript", ele atualizou corretamente para nós.
+
+[08:11] Vamos tentar atualizar se eu passar um Id errado, esse Id aqui eu vou colocá-lo aqui, mas eu vou tirar as últimas letras, por exemplo, e vou voltar aqui o título para Back-end Java só para ver o que acontece. Se selecionarmos o put vamos ver se ele vai dar a mensagem de erro.
+
+[08:37] Ele já deu a mensagem de erro, avisou para nós que eu não consegui fazer esse cast aqui para esse Id que você indicou, esse string não conseguiu chegar lá. Ele já protegeu aqui para que não consigamos trocar aqui ou criar mesmo um novo livro caso eu passe um Id errado, ele não teve nenhum comportamento inadequado. Ele se comportou exatamente como esperávamos, se eu passei um Id errado ele não tem nada para atualizar.
+
+[09:16] Isso aqui depois podemos até personalizar essa mensagem, dizer que não encontrou o Id, isso aí é tudo programável. Vamos aproveitar que acabamos de implementar a atualização e vamos implementar também o get por Id porque fica mais fácil do que toda hora ficarmos confirmando se ele realmente não atualizou o nome errado e aí temos que fazer o get, olhar lá no segundo livro e confirmar que continua o nome correto. Vamos programar aqui de uma vez aproveitar e obter livro por Id.
+
+[09:55] Aqui vamos voltar no nosso controlador, eu vou compactar esse aqui também e vou fazer esse obter livro por Id aqui embaixo do listarLivros só para ter uma coerência dos métodos, primeiro os gets, depois o post, depois o put e por fim o delete. Eu vou criar aqui um static e como eu usei listar nesse primeiro método eu vou colocar listar no segundo também, vou colocar static listarLivroPorId() e aqui vamos passar requisição e resposta, static listaLivroPorId = (req, res) => { }.
+
+[10:43] E aqui eu vou fazer a mesma coisa, pegar uma constante, atribuir o Id que está chegando porque se eu quero obter por Id eu também tenho que indicar qual é o Id ali no meu endereço da minha URL, eu vou colocar aqui o const id = req.params,id; e vou usar um método aqui que é simplesmente o findById. Tem vários métodos que vamos usar aqui que é o findById e remove para apagar, teve o findByIdAndUpdate que é para atualizar, esse caso aqui só queremos encontrar por Id.
+
+[11:23] Vamos chamar livros.findById() e nesse findById vamos passar qual é o Id e vai passar aqui a nossa callback com erro e a nossa coleção de livros, aqui eu tenho o erro e tenho o próprio livros, se eu conseguir achar eu vou devolver o livro e se eu não conseguir achar eu vou devolver a mensagem de erro, livros.findById(id, (err, livros) => {.
+
+[12:02] Se der erro, vou fazer novamente aquela condição, if(err) se acontecer um erro eu vou devolver um status, mas aqui eu vou devolver, por exemplo, um 400 porque como estou só buscando por Id se eu não conseguir encontrar esse Id eu sei que provavelmente o usuário digitou um Id que não existe, eu vou devolver com 400 que é um erro de usuário, é uma erro de quem está solicitando e não um erro do servidor, res.status(400).
+
+[12:36] E aí vou fazer um send e vou mandar a mensagem e vou concatenar, vou fazer o string template aquele que fazemos com as aspas para que ele possa me passar aqui o erro original e mais a identificação que eu quero usar, res.status(400).send({message: "${err.message} - Id do livro não localizado.`}).
+
+[13:22] Se der erro eu vou devolver com o status 400 e vou dizer que eu não encontrei o Id do livro. Se não, eu vou colocar aqui no else, eu vou devolver o livro que o usuário pediu e vou devolver o status 200. Aqui vamos mandar a resposta else { res.status(200).send(livros);, vou mandar o livro que acabou de ser localizado aqui no findById.
+
+[13:57] Vou no nosso "livrosRoutes.js" para incluir também essa nova rota de get ById. Faço aqui embaixo um .get para seguir aquela coerência, .get("/livros/:id") e aí vou passar o método LivroController.listarLivroPorId). Aqui está pronto, vamos confirmar agora se eu passar o Id usando o método get se ele vai listar unicamente um livro para mim. Aqui eu quero ver esse Back-end JavaScript, o get “http://localhost:3000/livros/” e vou colocar o Id desse livro.
+
+[15:06] Quando eu fiz o get ele já mostrou certinho aqui para mim com o status(200) o cadastro somente desse livro. E seu fizer aquele mesmo procedimento de tirar o Id, colocar um Id que não existe quando eu faço o send ele me dá aquela mensagem padrão e coloca aquela minha mensagem personalizada: “Id do livro não localizado."
+
+[15:31] Com isso conseguimos fechar a nossa atualização e o nosso processo de obter um livro por Id. Posteriormente vamos fazer a obtenção de um livro por outros critérios também, por enquanto estamos fazendo só de acordo com o padrão mesmo que tem em qualquer API, sempre vai ter um obter por Id os métodos que já implementamos que é o obter todos, obter por Id, o atualizar e o cadastrar.
+
+[16:04] Na próxima aula vamos ver o delete e vamos ver posteriormente outras formas de consultar esse livro.

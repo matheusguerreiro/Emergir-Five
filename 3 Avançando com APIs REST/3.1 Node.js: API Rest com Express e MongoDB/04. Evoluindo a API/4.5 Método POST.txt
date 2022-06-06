@@ -1,0 +1,39 @@
+[00:00] O método de listar livros está pronto, já testamos, vimos que está ok, buscou o livro que cadastramos lá no banco. Agora vamos efetivamente fazer o método que vai cadastrar um livro para que possamos ver o processo inverso, esse livro será incluído lá no nosso banco, lá no Atlas.
+
+[00:21] Aqui vai ser o mesmo procedimento, eu vou criar aqui um método estático chamado cadastrar livro e aqui ele também vai ter a requisição e a resposta, static cadastrarLivro = (req, res) => { }. E vamos programar aqui o que vai ter que acontecer com essa requisição e resposta.
+
+[00:58] Quando vamos fazer o cadastro de um livro, como vimos, vamos ter que mandar essa representação do livro no corpo da requisição e aí fazer um cadastro do livro, efetivamente com o que o usuário nos mandou na requisição. Eu vou criar aqui uma nova variável chamada, vou fazer um let livro e vou dizer que é para criar um novo modelo de livro de acordo com o que veio no corpo da requisição.
+
+[01:37] Para fazer isso colocamos que ele vai ser um new livros, livros é o que representa a nossa coleção. Usamos o livro para representar para dá o find e o livros que vem do livro, modelo de livro que é o Schema para indicar que estou criando um novo livro baseado no req.body, let livro = new livros(req.body);. Assim vamos criar um livro, especificamente.
+
+[02:12] Agora temos que persisti-lo no banco, vamos fazer livro.save() e aí esse save que vai persistir no banco eu vou ter que ver se vai acontecer algum erro ou não, se ele vai conseguir gravar corretamente.
+
+[02:31] Aqui eu vou passar uma variável para prever o erro err, para identificar que é o erro, e vou programar com uma arrow function o que vai acontecer se por acaso eu tiver algum erro persistindo esse livro no banco, livro.save((err) => { }. Vamos programar isso com o if, se acontecer o erro, se existir algum erro vamos dar uma resposta de status do tipo 500, de que o servidor não conseguiu processar o que você está mandando. Eu vou devolver essa resposta e vou mandar também a mensagem original para que o usuário entenda o que aconteceu.
+
+[03:24] Eu vou colocar aqui um Json, vou colocar aqui o message dois pontos e vou concatenar aqui com string template a mensagem de erro e uma mensagem minha personalizada. Para obter a mensagem de erro colocamos if(err) { res.status(500).send({message: `${err.message}` - falha ao cadastrar livro.}).
+
+[04:07] Eu já sei que se acontecer um erro nesse processamento aqui, nesse procedimento do save ele vai devolver um status 500 e vai dar a mensagem "falha ao cadastrar livro". Se não eu vou cair aqui no else { que vai ser o meu caso de sucesso, onde eu vou devolver aquele status.
+
+[04:29] Geralmente quando estou criando um recurso o status é o 201 que é o created, vai ser um res.status(201). e vou mandar o próprio livro que eu acabei de criar, eu represento colocando livro. e vou usar um recurso chamado toJSON que vai converter isso para o Json e mandar para o usuário, res.status(201).send(livro.toJSON()) }.
+
+[05:00] Aqui basicamente seria assim que estaria cadastrada a nossa rotina, o nosso método cadastrarLivro. Agora precisamos incluir isso na rota para dizer que se acontecer uma requisição post para a rota livros ele tem que chamar o método cadastrarLivro. Eu vou no "livrosRoutes.js" e aqui embaixo do .get eu vou colocar um .post dizendo que se houver uma requisição post para livros eu vou chamar .post("/livros", LivroController.cadastrarLivro).
+
+[05:47] Basicamente isso, só precisei alterar no “Controller” e no “Router” e aí já estamos pronto para testar se vai dar certo. Vamos lá no nosso Postman, aqui eu vou buscar o livros só para pegar uma cola, copiar o título. O que vamos mandar o Id gera sozinho, para cadastrar um novo livro eu tenho que mandar esses quatro parâmetros aqui, esses quatro atributos aqui que eu preciso mandar para o meu objeto.
+
+[06:25] Vou marcar aqui o método post, no meu Body eu vou colocar ao invés de só título como usávamos antes vamos colocar quatro características aqui, o título, autor, editora e número de páginas.
+
+[06:44] Número de páginas eu vou colocar 100, a editora eu vou deixar Casa do Código, livro eu vou colocar o livro Back-end Java, por exemplo, e vou colocar o autor desse livro que é o Eduardo Felipe Zambom Santana e vou cadastrar esse livro. Vamos dar um “Send” e ele me devolveu o título certinho, o autor, editora, número de páginas, devolveu o Id e devolveu esse parâmetro aqui que é um parâmetro de versionamento.
+
+[07:33] Tem a opção de não trabalharmos com ele, isso é para ele controlar a evolução dos seus modelos, se por acaso o modelo de livros em algum momento mudar ele vai automaticamente mudar esse versionamento.
+
+[07:50] Tem a opção de quando estamos criando lá no Mongoose o nosso Schema colocarmos o version key para false. No próximo vídeo vou mostrar como faz, mas é recomendado não incluir como false a não ser que você tenha certeza absoluta que você não quer fazer esse versionamento. Pode deixar que ele cria isso "_ _v": 0 aqui sozinho para você.
+
+[08:15] Vamos fazer agora o get e vamos ver se ele já vai trazer os dois livros, do Java e o do Lógica de Programação. Já trouxe os dois aqui, do Back-end e do Casa do Código. Esse aqui não tem o parâmetro porque fomos diretamente lá e incluímos, esse parâmetro "_ _v": 0 é um tipo de versionamento que o Mongoose faz.
+
+[08:40] Aí podemos verificar aqui também no Atlas se dermos um refresh aqui no livros vamos ter agora dois itens na nossa coleção. O post já ficou correto aqui, já implementamos ele, já pode ser removido aqui do “app.js” não precisamos mais deste post, não faz mais sentido tê-lo aqui. Aos poucos já fomos eliminando tudo e daqui a pouco o “app.js” vai está do jeito que precisamos sem absolutamente nada, só os imports e o uso das rotas.
+
+[09:21] Testamos aqui um caso de sucesso do post, cadastrou corretamente só que tem mais uma coisa que podemos testar. Quando criamos o nosso modelo de livro dissemos que algumas coisas aqui são requeridas, por exemplo, a editora. Teoricamente se eu tentar cadastrar um livro sem a editora ele tem que me dá o erro, vamos confirmar se isso está acontecendo. Aqui no Postman eu vou tentar cadastrar novamente esse livro como se fosse o Back-end Java 2 sem editora. E vamos ver se ele vai permitir que eu grave esse livro desse jeito.
+
+[10:06] Ele já me deu aqui um erro 500, não permitiu. Ele deu a mensagem: "livros validations failed", ele fala: o path editora é requerido. Ele mostra para nós que eu determinei um campo como requerido e não passei ele na minha solicitação, por isso ele não deixa gravar. É bem interessante. Sempre o que de fato for requerido é importante incluir o parâmetro required to para ele fazer esse controle corretamente.
+
+[10:41] Adiante vamos ver o PUT e do DELETE também para fechar o nosso CRUD já no padrão atualizado, o padrão com as boas práticas de arquitetura.

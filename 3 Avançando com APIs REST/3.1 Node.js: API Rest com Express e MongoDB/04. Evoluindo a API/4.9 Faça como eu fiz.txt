@@ -1,0 +1,4 @@
+Chegou a hora de você persistir os dados no banco de dados e finalizar o CRUD, seguindo os passos feitos por mim durante essa aula. Caso já tenha feito, excelente. Se ainda não, é importante que você execute o que foi visto no vídeo para poder continuar com a próxima aula.
+
+Agora que você viu como buscar, criar, atualizar e excluir documentos do MongoDB através de requisições feitas ao endpoint do recurso utilizando o Postman, você poderá aprimorar sua API incluindo mais recursos que tenham relação com o tipo de aplicação que você está desenvolvendo. Em nosso exemplo, fizemos o CRUD de livros, pois estamos desenvolvendo um projeto para controle de uma Livraria. Na próxima aula, incluiremos o CRUD de autores e relacionaremos os dados entre eles. Até lá!
+

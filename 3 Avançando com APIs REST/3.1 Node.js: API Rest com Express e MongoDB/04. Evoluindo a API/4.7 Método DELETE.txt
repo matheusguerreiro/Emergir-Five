@@ -1,0 +1,25 @@
+[00:00] Chegou a hora de finalizarmos o nosso CRUD, vamos fazer um método chamado excluir livro.
+
+[00:07] No nosso “livroController.js” eu vou fechar esse de atualizarLivro e vamos criar o static excluirLivro que é quando eu não quero mais aquele cadastro e quero fazer a exclusão dele. É o último item do nosso CRUD, o delete. Aqui vou ter requisição e resposta assim como os anteriores, static excluirLivro = (req, res) => { }. E eu vou ter a constante de Id porque eu vou precisar saber qual é o livro que eu vou apagar, por isso vou precisar do Id.
+
+[00:47] Aqui vamos colocar const id =req.params.id, que é o que vai ser passado no caminho da requisição. E aí eu vou precisar localizar e excluir, eu vou pegar a minha coleção de livros e vou o método findByIdAndDelete, que é localizar por Id e exclui, e vou passar aqui o Id, livros.findByIdAndDelete(id, ) e vou passar somente o erro como parâmetro na função, não vou passar o livros como eu passei no anterior, livros.findByIdAndDelete(id, (err) => { }).
+
+[01:33] Passei somente o erro como parâmetro porque esse aqui se eu conseguir remover está removido, eu não tenho que mandá-lo de volta para mostrar que eu removi, eu simplesmente vou dar uma mensagem que eu consegui remover com sucesso. Aqui no livros.findByIdAndDelete se for diferente de erro, aqui vou fazer a negativa novamente só para usarmos cada hora com um para ter essa familiaridade, se não acontecer nenhum erro eu vou devolver um if (!err){ res.status(200).send e vou devolver uma mensagem que vai dizer que o livro foi excluído com sucesso.
+
+[02:14] Aqui eu vou abrir e fechar as chaves, message e vou colocar res.status(200).send({message: 'Livro removido com sucesso'}). Se der erro, no caso do else, não consegui remover eu vou passar um status(500) que o servidor não conseguiu fazer aquela exclusão e eu vou devolver a mensagem original de erro, else { res.status(500).send({message: err.message}). É bem simples esse aqui, é só localizar, excluir, dar a mensagem. É bem padronizado, tudo muito parecido, não tem muito mistério.
+
+[03:14] Aqui no “livrosRouter.js” eu vou fazer o mesmo procedimento, fazer .delete("/livros/:id", LivroController.excluirLivro). A nossa está completa com o CRUD para obter, cadastrar, atualizar e fazer o delete e vamos efetivamente apagar isso lá no Postman.
+
+[03:56] Eu vou fazer um get de todos os livros e vou escolher excluir esse segundo, o Back-end JavaScript. Eu vou selecionar o Id, vou colocá-lo no endereço e vou mandar o delete e ele me deu a mensagem: "Livro removido com sucesso". Se eu fizer um get por esse Id ele não encontrou, não tem um get aqui por esse Id.
+
+[04:26] Se eu fizer o get geral vamos confirmar que ele realmente sumiu, não tem ele aqui só tem o primeiro item. Aqui se eu tentar fazer uma exclusão passando o Id errado, eu vou passar esse Id faltando alguns caracteres, ele vai dar a mensagem que não conseguiu encontrar baseado no Id que eu passei. Essa mensagem dele não é nada intuitiva, por isso é bom sempre incluirmos a nossa porque só alguém lendo e traduzindo de repente não teria noção do que é porque o Id está errado.
+
+[05:04] É sempre bom quando podemos personalizarmos as nossas mensagens, colocar de forma que fique mais intuitivo para quem estiver consumindo a nossa API saber o que está acontecendo ali de erro. Com isso fechamos o nosso CRUD e agora eu vou pegar aquele "app.js" e vou remover tudo de lá que eu não preciso, eu fui tirando nos primeiro métodos e nesses outros aqui eu nem exclui, mas eu não preciso de mais nada disso aqui.
+
+[05:44] Não preciso do buscaLivro porque no Mongo temos os métodos, o "app.js" fica simplesmente aqui com a conexão ao banco. Eu não preciso mais desse models/Livro.js, vou remover também, o arquivo fica bem limpo ele só tem o uso do Express, da conexão com o banco e das rotas.
+
+[06:14] Meu primeiro passo aqui é tentar conectar com o banco, criar uma instância do Express e colocar o route passando o app para que as rotas sejam direcionadas. O nosso código ficou bem limpo, podemos utilizá-lo assim de forma bem básica.
+
+[06:41] Aqui, inclusive, vou tirar essas linhas em branco aqui e deixá-lo bem junto e aí o nosso arquivo fica assim, temos o arquivo "server" que vai ser por iniciar o servidor e escutar em uma porta, o "app" que vai conectar com o banco e passar para o arquivo de rotas a instância do express para utilizarmos as rotas e na nossa estrutura de controlador model e routes é onde eu defino os métodos no controlador, para que método eu vou direcionar baseado nas rotas no "livroRoutes" e o model que é a representação da minha coleção lá no banco através desse Schema.
+
+[07:30] Fechamos aqui e na próxima aula vamos começar a fazer consultas por outros métodos que não seja o Id e vamos incluir também uma segunda entidade aqui que é a de autor, para ver os dados de autor e livros serem associados. Espero por vocês.

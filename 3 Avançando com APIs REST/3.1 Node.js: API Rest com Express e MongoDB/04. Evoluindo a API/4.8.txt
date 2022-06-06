@@ -1,0 +1,4 @@
+Tendo em vista que Marcos criou uma classe chamada EditoraController e nela incluiu métodos estáticos para manipulação dos dados. Qual opção exemplifica a forma mais adequada de configurar a rota para atualizar os dados de uma editora?
+
+.put(“/editora/:id”, EditoraController.atualizarEditora)
+  Alternativa correta! Aqui está sendo usado corretamente o verbo PUT, o endpoint recebe um id como parâmetro para identificar qual editora será atualizada e o nome do método remete à operação que realmente desejamos realizar.
