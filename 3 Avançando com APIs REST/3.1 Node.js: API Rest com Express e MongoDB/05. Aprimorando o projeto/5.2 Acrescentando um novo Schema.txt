@@ -1,0 +1,43 @@
+[00:00] Agora vamos incluir uma nova entidade aqui no nosso banco que vai ser o autor porque geralmente os nossos projetos terão várias entidades se relacionado. Se você pensar no e-commerce, por exemplo, você tem o cliente, o fornecedor, o método de pagamento, o método de transporte. Em projetos grandes no geral sempre você vai ter vários controladores, vários models e várias entidades ali e regras de negócio trabalhando para entregar o que você precisa no projeto.
+
+[00:33] Aqui na parte de livraria nós também vamos fazer isso. E com a flexibilidade do Mongo ou poderíamos incluir todas as informações dentro da própria coleção de livro que ele nos permite ter um objeto dentro de outro e dentro de outro ou podemos, inclusive, fazer separadamente e depois associar dados, que é o que eu vou mostrar aqui.
+
+[00:56] Vamos ter uma coleção, um controlador tudo para livros, depois outros dados separadamente para autores e quando pedir para obter o livro já vamos associar os dados de autor. Para isso precisamos preparar toda a nossa arquitetura aqui para trabalhar com autor e cadastrar o autor.
+
+[01:16] Aqui como já estamos com tudo muito bem definido, as pastas dos controladores, os models e as rotas, vamos criar três novos arquivos apenas para poder trabalhar com essa entidade de autor.
+
+[01:31] Vamos começar aqui com a model, vou chamar de “Autor.js” e vamos fazer aqui o mesmo procedimento que foi feito com livros. Eu vou fazer o import no Mongoose, import mongoose from "mongoose"; e eu vou criar uma variável chamada const autorSchema que vai representar como vai ser o meu Schema lá no banco. Vai ser um const autorSchema = new mongoose.Schema( ) e eu vou definir aqui quais os campos eu vou ter no meu Schema.
+
+[02:17] Eu vou ter o Id que é o principal, é o identificador único que vai ser auto gerado pelo Mongo, ele vai ser do tipo string id: {type: String}. Vamos ter um segundo campo que vai ser o nome do autor que também vai ser com o tipo string e eu vou colocá-lo como requerido, o required dele vai estar como true, nome: {type: String, required: true},. E vou colocar só mais um para ficar simples, nacionalidade que também vai ser string, mas não vai ser obrigatório, nacionalidade: {type: String}.
+
+[03:09] Aqui eu vou colocar o campo de version key, para esse caso aqui eu vou colocar como false, versionKey: false. Lembrando, o version key versiona os seus modelos, isso pode lhe ser útil porque pode ser que a partir de um determinado momento você inclua um novo atributo, um novo campo e você quer que ele seja requerido nas consultas ou quando você for buscar um determinado dado você sabe que a partir daquela versão de Schema esse dado vai existir, de uma versão para trás quem não estiver naquele novo modelo não vai ter o campo.
+
+[03:56] O versionamento do modelo pode ser útil para você ou pode não fazer diferença nenhuma, vai depender do tipo de negócio, da forma que você vai modelar o seu banco se para você é interessante ou não. Para autor eu vou colocar como false para ele não criar lá aquele _v com a versão, vamos ter um com o versionamento e outro sem versionamento só para ver a diferença aqui.
+
+[04:27] Está pronto aqui o meu autor Schema, agora eu preciso criar uma constante chamada autores e associar com esse Schema e o nome da coleção. Vai ser const autores = mongoose.model("autores", autorSchema). Por fim eu vou exportar esses autores para que eu possa usá-los em outro arquivo, export default autores;.
+
+[05:11] Para ganharmos tempo o controlador vai ser basicamente uma cópia de livros, tudo o que foi feito para livros, a parte de obter livro, atualizar livro, excluir livro vai ter que ser feita para autor. Eu vou criar aqui o "autoresController.js" e vou copiar tudo o que eu fiz para livros aqui só que mudando para autor.
+
+[05:51] Vou copiar todo o conteúdo de "livrosController.js", vou jogar aqui para "autorController.js" e vou alterar. Aqui onde tem livroseu vou trocar para autores, uma vez que seleciono aqui livros eu posso apertar o "Ctrl + D" que ele vai selecionando todos os pontos para mim que tem livros para eu confirmar e dizer que eu quero alterar. Ele já selecionou aqui para mim, voltou para a posição e eu vou fazer a alteração agora, onde tem livros eu vou chamar autores, ele já alterou em vários pontos aqui.
+
+[06:34] Agora eu vou fazer a mesma coisa para onde tem a palavra livro, onde tem a palavra livro eu vou trocar para autor. Ele já selecionou aqui o primeiro, o segundo, esse terceiro aqui por ID, aqui também, esse aqui eu vou trocar, mas depois é só trocar a letra para minúscula.
+
+[07:00] Basicamente tudo está selecionado e eu vou trocar por autor. Ele já trocou aqui em tudo, vamos só dar um passada para ver qual teria que ficar minúsculo mesmo. class AutorController está certo, listarAutores fica maiúsculo esse Autores, aqui eu vou encontrar autores na coleção, perfeitamente, listarAutorPorId aqui também está certo, cadastrarAutor também ficou minúsculo, aqui também em autor.save e aqui autor.toJSON no cadastrarAutor. Vou fazer esses ajustes e acho que é só isso mesmo, acho que está certinho.
+
+[08:04] Para confirmar se atualizamos tudo, se trocamos tudo dar um "Ctrl + F" e procura por livro ou livros, não tem resultado e se não tem significa que fizemos a troca completa de todos os termos. Agora vamos criar a rota para poder fazer os cadastros de autor. Aqui dentro de "routes" eu vou criar um novo arquivo chamado "autoresRoutes.js" e vou também fazer a mesma coisa, vou fazer uma cópia do "livroRoutes.js" e vou jogar aqui em autores.
+
+[08:42] Ao invés de buscar LivroController, eu vou selecionar, vou apertar "Ctrl + D" em todos eles e vou trocar para AutorController e aqui em todos os lugares que está com livros eu mudar para autores. Aqui eu vou alterar o nome dos métodos, listarAutores se ele ficar amarelo é porque está certo, esse de livro eu vou apertar um "Ctrl + D", faltou trocar esses. Basicamente está certinho, já alterei aqui, fiz a substituição onde era livro ficou autor e só falta mudar em mais um ponto que é no “index.js”.
+
+[09:44] No “index.js” que é o nosso arquivo que centraliza as rotas eu preciso importar a rota de autor e utilizá-la aqui. Eu vou fazer o import autores from "./autoresRoutes.js" e vou usar aqui embaixo, onde tem o app.use que eu já faço uso do express.json eu vou usar aqui livros, autores. Feito isso podemos ir no Postman e testar o cadastro de um autor para ver se vai ficar correto, vamos testar os quatro verbos para que no próximo vídeo já consigamos fazer a associação dos dados.
+
+[10:33] Vamos no Postman, aqui eu tenho o get livros vou fazer o get autores para ver se a rota vai voltar vazia porque eu não tenho nada cadastrado ainda, voltou vazio corretamente.
+
+[10:46] Agora vou fazer um post, nesse meu post eu preciso indicar um autor, o meu autor tem obrigatoriamente nome vou colocar o meu aqui, "nome": "Jacqueline Oliveira", e ele tem nacionalidade, "nacionalidade": "brasileira" e aí vou fazer o send para ver se ele vai cadastrar. Cadastrou corretamente e gerou um ID para mim e não gerou aquele version key com o modelo do versionamento.
+
+[11:24] Agora eu vou fazer um update, eu vou trocar, vou fazer um put e vou trocar aqui para esse Id e ao invés de Jacqueline Oliveira vai ser "nome": "Jacqueline Magalhães", que é o meu segundo sobrenome. Vou fazer o send, ele disse que foi atualizado com sucesso e agora eu vou testar aquele obter por Id. Vou fazer um get para esse Id aqui que eu acabei de atualizar, atualizou certinho.
+
+[11:58] Por fim, eu vou fazer uma exclusão. Vou cadastrar novamente aqui, vou fazer um post novamente com essa Jacqueline Magalhães para ele gerar duas vezes no banco e depois eu excluir um deles. Eu fiz um send aqui, se eu fizer um get ele vai listar dois autores aqui, Jacqueline Magalhães duas vezes, mas com IDs diferentes. Eu vou escolher um desses Ids e vou mandar apagar, só para testar o nosso CRUD completo.
+
+[12:37] Diz que foi removido com sucesso, se eu fizer o get agora só pode ter um autor. Certinho aqui um autor. Incluímos uma nova entidade no Schema, já duplicamos os métodos de cadastrar, atualizar, obter e excluir e fizemos o teste aqui. Se olharmos aqui na nossa coleção lá no banco, se eu fizer um refresh ele já tem que aparecer aqui mais uma coleção de autores com essa informação aqui, ele já criou certinho não precisava ter criado aqui antes, é o que eu tinha comentado.
+
+[13:17] Só de criar lá na aplicação ele já vem aqui, já cria a coleção, já inclui, você não precisa ter previamente incluído aqui. No próximo vídeo vamos verificar como associar um livro a um autor, é o que vamos ver adiante. Espero por vocês.

@@ -1,0 +1,35 @@
+[00:00] Agora vamos incluir uma consulta diferenciada para que eu posso recuperar os livros não mais por ID, por exemplo, pela editora. Eu quero buscar todos os livros de uma determinada editora.
+
+[00:15] Vamos criar um método aqui também no controller que vai ser listarLivrosPorEditora. Vamos seguir o nosso padrão e criar aqui no final um static listarLivroPorEditora, ele vai ter aquele mesmo padrão nosso de requisição e resposta, e eu vou programar aqui o que ele vai fazer pela editora, como ele vai fazer essa busca, static listarLivroEditora = (req, res) => { }.
+
+[00:56] A primeira coisa que vou criar aqui é uma variável chamada const editora que vai receber o que vier na minha URL como query param. Porque no nosso end-point você pode passar parâmetros como ID e você pode passar query params também, que são parâmetros que vão ser concatenados, você pode passar mais de um parâmetro.
+
+[01:22] Eu vou deixar um material extra falando sobre query params, como chamar na URL algum dado passando para parâmetro. Para fazer isso aqui vamos obter const editora = req.query.editora. Eu vou chamar de editora porque o que a pessoa vai passar como parâmetro é a editora. O find vai ser livros.find e eu vou passar como primeiro parâmetro qual é o meu filtro, para eu fazer um filtro eu vou filtrar pelo campo editora e o meu critério de busca vai ser o que eu atribui lá na variável editora, livros.find({'editora': editora}). Esse primeiro parâmetro é isso: localiza o que a editora for igual ao que eu passei aqui.
+
+[02:24] E aqui vamos incluir como vazia essa opção de query e vamos fazer a função passando a variável de erro, passando os livros e escrevendo aqui o nosso código. livros.find({'editora': editora}, {}, (err, livros) => { }).
+
+[02:49] Quando fizermos o listarLivrosPorEditora eu vou receber aqui na query um parâmetro chamado editora que eu vou atribuir uma variável e vou fazer um livros.find passando essa variável, o conteúdo dessa variável como critério de busca. E simplesmente vou colocar aqui só para devolver res.status(200), não vou programar o erro que agora, aquela situação caso dê errado ou caso dê sucesso, vou só pedir para enviar aqui, res.status(200).send(livros).
+
+[03:36] Não vou programar aqui só porque vamos cadastrar algumas editoras novas, alguns livros com editoras diferentes para ver a nossa busca acontecendo, mas você pode fazer o if, se der errado manda uma mensagem senão devolve os livros.
+
+[03:55] Feito isso aqui eu preciso incluir lá nas minhas rotas, no "livrosRoutes" esse método que vai buscar por ID. Uma coisa importante aqui é que todo o meu código vai está depois da barra, vai está assim, por exemplo, .get("/livros/busca") e depois do busca ele vai ter o query param, que são os parâmetros de consulta.
+
+[04:40] Quando trabalhamos com Express a parte de rotas tem que ser do mais específico para o menos específico, se eu colocar esse get("/livros/busca") abaixo desse outro que é o ID, ele sempre vai priorizar esse que obtém por ID e vai acabar gerando um erro. Eu vou mostrar até isso ir acontecendo aqui quando trocarmos a ordem, mas primeiro vamos fazer o caminho feliz que é o caminho de sucesso onde o busca está primeiro.
+
+[05:13] Aqui se eu fizer .get("/livros/busca", ) eu tenho que chamar .get("/livros/busca", LivroController.listarLivrosPorEditora). Vamos fazer esse método aqui e vai verificar lá no nosso Postman se vai dar certo.
+
+[05:31] A primeira coisa que eu vou fazer é cadastrar aqui um novo livro com uma editora diferente, vou fazer um post para livros e eu vou pegar uma cola aqui no título, no autor e na editora e aqui em autor eu vou passar somente o ID, não vai ter nome, não vai ter nada porque essa associação ele já faz para nós. Eu vou passar o livro Curso de Node com a editora Alura.
+
+[06:22] Ele já cadastrou para mim e eu vou fazer aqui de novo um Curso de JavaScript, só para ter mais livros, com a editora Programação. Quando eu fizer um get livros ele vai ter aqui três livros: Lógica de Programação, Curso de Node e o Curso de JavaScript.
+
+[06:59] Eu quero fazer uma busca pela editora, eu quero buscar, por exemplo, só o que está com a editora Alura. Aqui no get eu vou passar o caminho /busca e vou passar um ponto de interrogação para indicar que estou passando parâmetros e vou passar o parâmetro editora e vou colocar um sinal de igual para dizer qual editora que eu quero buscar, e vou passar aqui Alura, /livros/busca?editora=Alura.
+
+[07:33] Se observarmos aqui em params ele já preencheu, a chave é editora e o valor é Alura, bastou digitarmos no endereço, e vou fazer um Send. Quando eu faço esse Send ele já traz corretamente aqui para mim somente o livro da editora Alura. Conseguimos programar buscas por qualquer critério que quisermos, você pode escolher um campo e já deixar disponível várias formas de consulta para o seu usuário, para ele buscar por editora, buscar por título, buscar por autor, tem esse recurso aqui.
+
+[08:15] O que eu falei da ordem o que acontece, se eu colocasse a busca abaixo do obterPorId ele iria entender que tudo isso aqui é um ID que estou tentando recuperar. Porque ele iria primeiro especificamente na rota de ID e ele me daria um erro. Eu vou trocar a ordem lá só para demonstrar isso, vou pegar essa busca aqui e vou colocar abaixo do get por ID, quando eu fizer isso e tentar ir lá no Postman e fazer esse mesmo get que eu tinha feito antes ele me dá esse erro: "não consegui achar esse ID. ID do livro não localizado”.
+
+[09:00] Ele entrou primeiro naquela rota, na hora que estivermos projetando as rotas temos que pensar nisso, dá mais específica para a menos específica. Essa de busca é bem específica, ele tem que tentar entrar ali primeiro para ver se foi passado algum parâmetro ali na busca.
+
+[09:19] Eu vou trocar aqui a ordem no VS Code, colocar de volta a ordem que estava para conseguirmos visualizar a nossa busca aqui corretamente. Está aí, fizemos a nossa consulta por um campo específico que foi da editora e aí fechamos aqui o nosso conteúdo de fazer uma busca diferenciada.
+
+[09:47] Espero que vocês tenham gostado, bons estudos e se precisar de alguma informação extra, caso alguma coisa não tenha funcionado como previsto aqui não deixem de colocar no fórum para que outras pessoas possam interagir e tirar as dúvidas, esclarecer e ter esse espírito de colaboração para todos se ajudarem e conseguir fazer a API completa do jeito que fizemos aqui. Muito obrigada por sua participação e até uma próxima.

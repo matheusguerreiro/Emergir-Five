@@ -1,0 +1,33 @@
+Marcos ficou animado com tudo que aprendeu no curso e começou a projetar uma API REST para controlar dados de sua empresa de prestação de serviços de consultoria. Ele criou os schemas chamados Nota e Servico, conforme imagens a seguir:
+
+import mongoose from “mongoose”;
+
+const notaSchema = new mongoose.Schema({
+    id: {type: String},
+    numeroNota: {type: Number, required: true},
+    servico: {type: String, required: true},
+    quantidade: {type: Number, required: true},
+    valorTotal: {type: Number, required: true}
+});
+
+const notas = mongoose.model(‘notas’, notaSchema);
+
+export default notas;
+
+import mongoose from “mongoose”;
+
+const servicoSchema = new mongoose.Schema({
+    id: {type: String},
+    descricao: {type: String, required: true},
+    servico: {type: String, required: true},
+    valorUnitario: {type: Number}
+});
+
+const servicos = mongoose.model(‘servicos’, servicoSchema);
+
+export default servicos;
+
+Para associar os dados e já incluir todas as informações do serviço ao buscar os dados da Nota através de uma requisição GET, considerando que ao cadastrar a nota foi indicado no campo ‘servico’ exatamente o id que representa o serviço na coleção servicos no banco de dados, qual seria a alteração a ser feita no schema da Nota?
+
+servico: {type: mongoose.Schema.Types.ObjectId, ref: ‘servicos’, required: true}
+  Alternativa correta! Estamos indicando aqui na chave type que a associação entre os dados irá ocorrer pelo id do serviço, que foi gerado automaticamente pelo MongoDB ao cadastrar um serviço na coleção ‘servicos’ através de uma requisição POST, representado pelo ObjectId. Além disso, na chave ref estamos fazendo referência ao nome da coleção no banco.

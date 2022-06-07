@@ -1,0 +1,39 @@
+Os query params, ou parâmetros de consulta, são um conjunto definido de parâmetros anexados ao final de uma URL. Os query params são aquelas extensões da URL que ficam após o '?' e ajudam a definir um conteúdo ou ações com base nos dados passados.
+
+Para adicionar vários parâmetros, um '&' é adicionado entre cada um. Eles podem ser criados por qualquer variação de tipos ou comprimentos de objetos, como String, Arrays e Numbers. Segue um exemplo:
+
+Vamos supor que você construa uma requisição com req.query da seguinte maneira
+
+app.get('/users', (req, res) => {
+     const nomeDoUsuario = req.query.nome;
+     res.json({ nome: `${nomeDoUsuario} `});
+});
+
+A forma de consultar a informação via get será conforme abaixo:
+
+http://localhost:3000/users?nome=[nome]
+
+O que está entre os colchetes [] são os query.params, por exemlo, http://localhost:3000/users?nome=jacqueline
+
+Nesse caso, ele acessou o endpoint users e passou um conteúdo para um parâmetro denominado nome e o método app.get atribuiu esse valor a uma variável nomeDoUsuario e está devolvendo esse conteúdo em formato json.
+
+Por outro lado, o req.params do framework express, que estamos utilizando no curso, funciona como se fosse um parâmetro para rotas. Você irá realizar as requisições diretamente por uma rota e não apenas fazer uma consulta.
+
+Exemplo:
+
+vamos supor que eu queira acessar um livro com o id 1 via req.params
+
+app.get('livros/:id', (req,res) => {
+      const id = req.params.id;
+       res.json({ id: `$id}`});
+});
+
+A forma de consultar essa informação seria pelo endpoint: http://localhost:3000/livros/1
+
+Diferentemente do primeiro exemplo, onde utilizamos req.query, aqui nesse exemplo estamos utilizando req.params.
+
+Repare que a diferença entre ambos é que o req.query é utilizado quando o conteúdo passado servirá para fazer uma consulta ou para alguma finalidade (como a do exemplo mesmo, que devolvemos na resposta o nome que foi passado na própria URL), já o req.params é utilizado quando o parâmetro é um segmento da URL que vai compor a rota.
+
+Para isso, na definição de rotas utilizamos a identificação :id para indicar que o parâmetro que virá terá o nome de id, conforme o exemplo abaixo:
+
+router.get("/livros/:id", LivroController.listarLivroPorId)

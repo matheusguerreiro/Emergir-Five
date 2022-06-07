@@ -1,0 +1,2 @@
+Chegou sua vez de finalizar o projeto incluindo um novo schema e criando novas consultas por campo específico, assim como fizemos nessa aula. Caso já tenha feito isso, excelente. Se ainda não fez, é importante que você implemente o que foi visto no vídeo para praticar e ficar familiarizado com os conceitos de modelos, controladores, rotas, esquemas de representação de recursos no banco de dados e a implementação geral do CRUD, que é o que você vai precisar em praticamente qualquer projeto back-end.
+
