@@ -1,0 +1,2 @@
+Já desenvolvemos bastante coisa, então é importante que você implemente o que fizemos até agora, se ainda não tiver feito isso. Você pode criar e testar à vontade em seu projeto.
+

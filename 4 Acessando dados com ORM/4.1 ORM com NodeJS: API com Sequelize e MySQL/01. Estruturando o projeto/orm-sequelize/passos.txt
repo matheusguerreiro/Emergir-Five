@@ -1,0 +1,8 @@
+terminal diretório do projeto
+npm init -y
+npm i express
+npm i body-parser
+npm i nodemon -D
+terminal raiz - sudo apt install mysql-server
+npm i mysql2
+npm i sequelize sequelize-cli path

@@ -1,0 +1,17 @@
+Para este curso, precisaremos instalar algumas ferramentas - caso você ainda não tenha feito isso anteriormente:
+
+MySQL: é o banco SQL que vamos utilizar para guardar os dados da nossa API. Temos um tutorial com o passo a passo para instalação no Windows e alguns comandos iniciais. Para instalação no MacOS, baixe o arquivo DMG e siga as instruções de instalação. Se estiver usando Linux (Debian/Ubuntu), você pode baixar direto via terminal com sudo apt install mysql-server.
+
+MySQL Workbench: durante o curso faremos as consultas ao banco direto pelo terminal, porém se você quiser, pode fazer isso usando um programa como o MySQL Workbench.
+
+NodeJS: Se você já fez outros cursos dessa formação, o NodeJS já deve estar instalado. você pode conferir com o comando node --version ou node -v no terminal, caso retorne um número de versão, como por exemplo, v10.16.0, o NodeJS já está instalado. Caso precise instalar, os links estão na página oficial do NodeJS. Este curso foi desenvolvido usando a versão 10.20.0.
+
+Postman: É o ambiente onde faremos os testes da nossa API, enviando requisições e recebendo respostas. Caso não tenha instalado, pode baixar na página oficial do Postman. Neste curso utilizamos a versão 7.21.2.
+
+O restante das instalações vamos fazer durante o desenvolvimento do projeto.
+
+Além das instalações, deixamos alguns arquivos prontos, que serão utilizados durante o projeto: o diagrama relacional que iremos usar como guia para criarmos as tabelas do banco e também alguns arquivos .js. Estes arquivos vão servir para popular as tabelas do banco com dados de teste, e que disponibilizamos para que você possa aproveitar melhor o conteúdo do curso sem ter que se preocupar com isso.
+
+Você pode baixar a pasta do projeto e deixar disponível na pasta do seu projeto, e vamos indicar durante o curso quando utilizar os arquivos. O diagrama de banco que vamos utilizar como referência pode ser baixado no mesmo link.
+
+Agora podemos começar!

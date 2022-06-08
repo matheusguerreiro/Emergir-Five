@@ -1,0 +1,17 @@
+No curso vamos usar o terminal do mysql apenas para fazer consultas às tabelas do banco que criamos para o projeto.
+
+Para acessar o terminal em sistemas Unix (Linux/MacOs) basta usar o comando mysql -u [usuário] -p. Por exemplo, para acessar com o usuário root: mysql -u root -p. O terminal vai solicitar a senha que você definiu para este usuário nas configurações iniciais e em seguida exibir o prompt do mysql: mysql>
+
+Caso seu usuário atual do sistema não seja um usuário sudoer (ou seja, um usuário com privilégios de “administrador”) pode ser necessário o sudo no início do comando: sudo mysql -u [usuário] -p (você vai precisar da senha correspondente)
+
+Se você utiliza Linux e está com problemas para fazer o Sequelize acessar o banco (o erro de “acesso negado ao usuário 'root'@'localhost'”), como vimos no vídeo, você pode criar um novo usuário para este projeto com os comandos:
+
+mysql> CREATE USER '[seu nome de usuário]'@'localhost' IDENTIFIED BY '[sua senha]'; - substitua as infos dentro dos colchetes pelas de sua preferência e não esqueça de deletar somente os colchetes - as aspas simples fazem parte do código.
+
+Em seguida, dê ao novo usuário privilégios:
+
+GRANT ALL PRIVILEGES ON * . * TO '[seu nome de usuário]'@'localhost';
+
+Importante: Veja que o comando acima dá ao usuário recém-criado privilégios totais de acesso! Ao mesmo tempo que isso é OK enquanto se trabalha localmente, não é o que costuma acontecer quando se trabalha em um projeto com acesso de diversos usuários e informações sensíveis no banco, por razões de segurança.
+
+Por último, rode o comando: FLUSH PRIVILEGES; para recarregar as permissões.

@@ -1,0 +1,24 @@
+Ariadne recebeu um diagrama de dados para implementar utilizando Sequelize, contendo algumas tabelas como essa:
+
+| tabela clientes                   |
+|-----------------------------------|
+| id                  | int         |
+| nome                | varchar(255)|
+| data_nasc           | date        |
+| credito             | float       |
+
+Para este projeto será utilizado o MySQL, então no diagrama foram utilizados os tipos de dados do MySQL(https://dev.mysql.com/doc/refman/8.0/en/data-types.html) (INT, VARCHAR, DATE, VARCHAR e FLOAT).
+
+Ariadne irá usar o Sequelize para gerar os modelos, migrações e tabelas, então antes de executar o comando para criação do modelo Clientes ela precisa conferir no a documentação do Sequelize link aqui(https://sequelize.org/master/manual/model-basics.html#data-types) qual é o tipo de dado equivalente:
+
+Print da tela do navegador na página da documentação do Sequelize, com lista dos tipos de dados numéricos, ou data types, utilizados pela ferramenta. As mesmas informações no print podem ser consultadas no link da documentação do Sequelize: https://sequelize.org/master/manual/model-basics.html#data-types.
+https://caelum-online-public.s3.amazonaws.com/1742-sequelize/02/imagem01.png
+
+Print da tela do navegador na página da documentação do Sequelize, com lista dos tipos de dados utilizados pela ferramenta para datas e horários. As mesmas informações no print podem ser consultadas no link da documentação do Sequelize: https://sequelize.org/master/manual/model-basics.html#data-types.
+https://caelum-online-public.s3.amazonaws.com/1742-sequelize/02/imagem02.png
+
+Utilizando os tipos de dados do Sequelize, como ficaria o comando para a criação do modelo?
+
+
+npx sequelize-cli model:create --name Clientes --attributes nome:string,data_nasc:dateonly,credito:float
+  Alternativa correta! os tipos de dados do Sequelize estão de acordo com os equivalentes no MySQL, com atenção para o tipo date do MySQL que se torna `dateonly' para o Sequelize.

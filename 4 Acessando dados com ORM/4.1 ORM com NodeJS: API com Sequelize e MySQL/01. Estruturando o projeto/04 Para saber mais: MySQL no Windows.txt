@@ -1,0 +1,5 @@
+O processo de instalação e uso do MySQL no Windows é um pouquinho diferente do Linux e MacOs, mas temos um tutorial(https://www.alura.com.br/artigos/mysql-do-download-e-instalacao-ate-sua-primeira-tabela) que pode te ajudar no processo.
+
+Após a instalação o guia continua com a criação de tabelas direto no MySQL. Você não precisa fazer essa parte agora para continuar com o curso de ORM com Sequelize, porém se quiser e tiver curiosidade, vai fundo!
+
+No momento em que escrevemos este curso, a última versão do MySQL é a 8.0. Ao fazer a instalação completa, também será instalado o MySQL Command Line Client, um cliente de conexão via terminal do próprio MySQL. A partir dele você pode se conectar ao banco e executar as queries como fazemos no vídeo.

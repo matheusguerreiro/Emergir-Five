@@ -1,0 +1,6 @@
+Nesta aula, aprendemos:
+
+Criar modelos e arquivos de migração via terminal
+O que são e para que servem migrações com ORMs
+Executar migrações para criação de tabelas no banco
+Popular tabelas automaticamente através de arquivos seed

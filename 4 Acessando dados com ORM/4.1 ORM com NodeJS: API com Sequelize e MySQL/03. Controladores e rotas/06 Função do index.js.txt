@@ -1,0 +1,24 @@
+Como vimos até agora, durante o desenvolvimento do projeto foram criados diversos arquivos index.js:
+
+api/index.js no início do projeto
+api/models/index.js criado direto pelo Sequelize através do comando sequelize init
+api/routes/index.js criado durante o último vídeo
+
+Sobre a função de cada um destes arquivos, podemos afirmar que:
+
+
+api/index.js é o ponto de entrada da aplicação, onde iniciamos o servidor e chamamos a biblioteca Express para gerenciar as rotas da API.
+
+api/models/index.js é o arquivo que gerencia todos os modelos da pasta models e é atraveś dele que o Sequelize conecta os modelos ao banco de dados de acordo com o ambiente escolhido (durante o projeto estamos trabalhando com o ambiente 'development', de desenvolvimento.
+
+api/routes/index.js é o ponto de entrada que gerencia os arquivos de rotas, importa os métodos de cada arquivo api/routes/[arquivo] através dos require e chama estes métodos de acordo com a rota acessada pelo usuário.
+
+
+Alternativa correta! O arquivo api/index.js está importando, através da const routes, todos os métodos do arquivo api/routes/index.js. Ele faz isso através da linha:
+
+const routes = require('./routes')COPIAR CÓDIGO
+Nesse caso não é necessário incluir o nome do arquivo no caminho, pois o JavaScript, por padrão, já procura um arquivo index.js dentro da pasta routes. O arquivo api/routes/index.js, por sua vez, organiza todos os arquivos de rotas que estão dentro da pasta, e repassar essa informação para o ponto de entrada da aplicação.
+
+E por que não ter apenas um arquivo com todas as rotas, ou chamá-las direto em api/index.js ? Porque, à medida em que a aplicação cresce em complexidade, é possível ter muitas rotas, dependendo da operação que queremos fazer. Então quanto mais separadas ficam as responsabilidades, mais fácil de se localizar no código, modificar linhas, atualizar funcionalidades e etc.
+
+Quando importamos const database = require('../models') no controlador PessoaController.js ocorre o mesmo processo: o JavaScript localiza o arquivo index.js dentro da pasta models e a partir dele o Sequelize identifica qual o ambiente, conecta com o banco correto, indexa os modelos presentes na pasta e faz as operações.

@@ -1,0 +1,13 @@
+[00:00] Olá! Boas-vindas ao curso de Sequelize e ORM com NodeJS e MySQL. Nesse curso, vamos escrever uma API para um sistema de controle de alunos e turmas de uma escola de inglês. Vamos partir de um diagrama de banco, onde as tabelas já estão dadas, e, a partir desses dados, escreveremos nossa API do zero.
+
+[00:17] A diferença é que, dessa vez, usaremos um ORM, um mapeador de objeto relacional. Sequelize é o nome do ORM que usaremos. O Sequelize abstrai os comandos de operações de SQL, e faz com que possamos usar linguagem de programação que já estamos usando no backend para nos conectarmos e operarmos o banco. Ou seja, no nosso projeto, não iremos inserir queries de SQL dentro da aplicação que está escrita em JavaScript.
+
+[00:40] Utilizaremos apenas JavaScript para nos conectarmos, passarmos instruções para o banco, fazermos as operações de CRUD, etc. Então, o JavaScript, através do Sequelize, vai se encarregar de traduzir as instruções para o SQL, para o banco, e fazer as operações necessárias.
+
+[00:56] Usando o Sequelize, nossa aplicação fica mais legível, elegante, é mais fácil fazer a manutenção, mais padronizada. Então, vamos ver alguns tópicos que iremos abordar no nosso curso. Vamos conhecer o Sequelize, criar uma API do zero com algumas ferramentas que ele tem para isso. Essas ferramentas são uma mão na roda. Iremos ver como utilizar um ORM para conectar aplicação ao banco SQL, para gerenciar essas conexões, etc. utilizando apenas JavaScript.
+
+[01:24] Iremos organizar a nossa aplicação no padrão MVC. Não é apenas organizar a aplicação, organizar os arquivos, mas também como aplicamos o conceito MVC no fluxo da aplicação. Vamos ver como utilizar as ferramentas do Sequelize e para fazer o CRUD junto ao banco e devolver dados no formato JSON.
+
+[01:40] Você vai aproveitar melhor esse curso se já tiver feito os cursos básicos de criação de API com Node e SQL que temos na nossa formação aqui na Alura. Não entraremos em detalhes durante o curso a respeito do JavaScript, do ambiente do Node e como fazer a conexão inicial com banco e o CRUD.
+
+[01:57] Muitas aplicações em Node utilizam Sequelize. Então, depois que você entender como o Sequelize funciona, conhecer alguns dos seus métodos, você já consegue desbravar projetos que utilizam esse ORM, descobrir mais ferramentas conforme a complexidade do projeto que você está trabalhando e também criar suas próprias APIs. Eu sou Juliana Amoasei, vou acompanhar você nesse curso. Então, vamos lá!

@@ -1,0 +1,45 @@
+[00:00] Então vamos criar um controlador e, em seguida, uma rota para nossa tabela de Pessoas, que é a tabela que, por enquanto, estávamos trabalhando. Depois expandimos a lógica da nossa tabela Pessoas para o restante das tabelas que vamos usar no nosso projeto, mas, por enquanto, vamos fazer só pessoas.
+
+[00:17] Até aqui, o Sequelize fez bastante coisa, mas essa parte de controlador não tem comando. Ele não fez, então temos que fazer direto no código. Vou acessar “api> nova pasta” e chamar essa nova pasta de “controllers”, que é o nome padrão. Dentro de “controllers”, vou criar um arquivo que chama “PessoaController.js”. O “p” de Pessoa está em maiúsculo não é por acaso, é porque PessoaController será uma classe.
+
+[00:55] Vamos ver como que vai funcionar. Primeiro, antes de começarmos a trabalhar, devemos lembrar de importar tudo o que precisamos para esse arquivo. Se o controlador vai se conectar com o modelo, precisamos passar para ele onde estão nossos modelos. Então vou criar essa const chamada database e dentro dela usarei o require para puxar os arquivos de modelo. O código fica: const database = require(‘../models’). O /models fica entre aspas por ser uma string.
+
+[01:41] Quando escrevemos dessa forma, por padrão, o JavaScript já vai dentro da pasta “modelos” e procura um arquivo chamado index, então não precisamos escrever models/index.js, só models ele já acha.
+
+[01:55] Agora vamos criar a classe. Não vou entrar em detalhes sobre o que são classes JavaScript, como elas funcionam. Se você precisar dar uma relembrada sobre o que elas são, temos a formação de JavaScript, vou deixar o link no material, para dar uma relembrada nas classes, como elas funcionam. Mas se você já viu as classes funcionando, não vai precisar.
+
+[02:21] Então, vamos criar a classe PessoaController, abre e fecha chaves, classe não recebe parâmetro, então não vamos precisar da função Construtora. O que a precisaremos é, dentro da classe, criar os métodos que usaremos. Como que eu sei quais são esses métodos? O que estou fazendo? Vamos dar uma relembrada.
+
+[02:43] Então, vamos ao banco puxar nossa tabelinha de pessoas que eu já deixei aberta no terminal do SQL. Mas se você quiser abrir: select* from Pessoas;, selecionar tudo da tabela Pessoas.
+
+[02:56] Então, temos as quatro operações principais, são as que mais fazemos quando estamos desenvolvendo APIs como estamos fazendo nesse projeto, que é o CRUD. Então, criamos novos registros, lemos, read, os registros que já estão no banco, atualizamos, update os recursos e deletamos recursos. Faremos essas quatro operações básicas e começaremos por ler o que já tem no banco. Primeiro lemos o que tem no banco, depois cria coisas novas, depois atualiza...
+
+[03:36] Então, vamos criar um método que vai ler o que está aqui no banco, se conectar com o banco, ler o que está acontecendo, pegar todos os registros e nos mostrar no formato .json para podermos abrir no Postman. Então, o nosso método vai se chamar pegaTodasAsPessoas (req, res), que vai pegar todas as pessoas que estão no banco. Os parâmetros que esse método vai receber são: requisição e resposta, porque estamos trabalhando com requisições HTTP. Abre e fecha parênteses, abre e fecha chaves, desculpa.
+
+[04:09] Antes de começarmos a escrever o que tem dentro desse método, vamos colocar duas palavras-chave: a primeira é static. Estou declarando com ela que esse método ele pode ser chamado no código, então posso chamá-lo sem ter que criar uma nova instância de classe, sem ter que criar um new PessoaController. Veremos isso um pouco mais para frente, quando começarmos a chamar esses métodos. Não precisamos criar uma PessoaController, salvar isso em uma constante. Para isso, usamos a palavra-chave static.
+
+[04:48] A outra palavra-chave que usaremos é async, uma das palavras-chave do par async/await, que diz que esse método precisa esperar resolver alguns outros métodos internos que usaremos aqui dentro para então devolver a resposta. Faz parte da questão de sincronia e assincronia do JavaScript. Então vamos lá?
+
+[05:14] Vamos criar uma nova const, que será chamada deconst todasAsPessoas = await, e dentro dela eu vou guardar o resultado do que buscaremos no banco. Então, aqui, eu vou pedir para o JavaScript esperar ir até o banco, pegar as coisas e voltar, então ele vai dar um await, a palavra-chave que faz par com async.
+
+[05:39] O que eu faço? Eu tenho que ir à database e, dentro dela, o JavaScript vai procurar por pessoas, pelo método que está em “api> migrations> pessoas.js”, onde estamos retornando pessoas.
+
+[05:57] Então, eu vou em database, que já chamamos no início do código, dentro de database ele vai procurar Pessoas, e só prestando atenção, não é o nome do arquivo, e sim a const que está sendo retornada, estamos puxando através de database. Por isso que tem sempre que prestar atenção, porque palavras com letra maiúscula e minúscula fazem diferença.
+
+[06:26] E o que vem aqui? Vamos usar um método do Sequelize, chamado “encontrar tudo”, findAll. Não vai levar nenhum parâmetro porque está encontrando tudo, não precisamos, nesse momento, dar nenhum parâmetro.
+
+[06:42] Então, o que está acontecendo? Esse controlador vai consultar a tabela de pessoas e trazer o resultado. E aí que entra o Sequelize em ação, porque a query que seria selectAll, cadê meu terminal? A * query* que seria select * from pessoas e que poderíamos colocar no formato SQL dentro do código mesmo, foi substituída por um método escrito em JavaScript, que é esse método findAll do Sequelize.
+
+[07:11] Ele que é responsável por fazer as queries necessárias no banco e tudo o que temos que fazer é tratar o resultado da requisição e passá-la para frente. Então, vamos testar ver, se está funcionando. E, para isso, vamos precisar de uma rota, porque para puxarmos, precisaremos ir ao Postman e falar “vai na rota tal e chama esse método”.
+
+[07:34] Antes de fazermos isso, vamos retornar, que estamos só criando a const e se não pedimos para retornar as coisas, ele não vai retornar.
+
+[07:45] Então, faremos duas coisas, na verdade, para deixarmos esse método um pouco mais bonito: vamos retornar return res.status(200). json (todasAsPessoas), a resposta da requisição. Nessa resposta, vamos mandar um status code, de 200, que é o ok, o .json, formato que vimos no começo e que queremos inserir agora, e todasAsPessoas, porque ainda não está convertida para o .json, formato em que queremos receber, ainda precisa passar, ser convertida, e aí ser retornada.
+
+[08:24] Então, agora o método já está aqui, já tem o que retornar. Antes só de testarmos, vamos envolver tudo isso aqui por um try-catch, para deixarmos esse código mais organizado e para o JavaScript poder avisar se tiver algum tipo de erro. Então, no try, colocamos. Eu vou dar um “Ctrl + X”, recortar as linhas de código do const e do return, e eu vou colar dentro do try.
+
+[08:55] Depois do try, temos o catch error. O que acontece quando tem algum erro: retornamos a um status de erro, vamos retornar 500, que é um erro de parte do servidor. E aí vou pedir para ele converter esse erro para o formato .json, mostrando, nesse .json, a mensagem de erro.
+
+[09:34] Então, o que está acontecendo? Eu fiz um try-catch para caso dê algum erro, aconteça alguma coisa, o JavaScript ser capaz de pegar um erro no ar e nos mostrar esse erro no formato .json no próprio Postman, onde faremos nossos testes de rota.
+
+[09:55] A última coisa que temos que fazer, antes que eu esqueça, é exportar tudo isso. Então, module.exports = PessoaController, para poder ficar disponível para ser utilizado no restante do código. Então, agora é testar e ver se deu tudo certo.

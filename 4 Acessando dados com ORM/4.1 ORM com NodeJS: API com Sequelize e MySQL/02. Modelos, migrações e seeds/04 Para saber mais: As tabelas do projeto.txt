@@ -1,0 +1,11 @@
+Para iniciarmos o projeto, já recebemos um diagrama de tabelas. Isso foi feito para que possamos focar no principal, que é o desenvolvimento da API!
+
+https://caelum-online-public.s3.amazonaws.com/1742-sequelize/02/imagem03.png
+
+O diagrama vai servir como base e guia para desenvolvermos: como vão funcionar os modelos, quais serão os atributos de cada tabela e como cada tabela vai utilizar informações de outras para termos dados que façam sentido.
+
+A aplicação que estamos desenvolvendo é voltada para uma escola de inglês, então as tabelas (ou entidades relacionais) refletem o funcionamento de uma escola: as pessoas que fazem partes dela, os conteúdos ensinados (a escola de inglês trabalha com níveis de proficiência - básico, intermediário e avançado), as turmas de cada nível e os registros de matrícula controlam tudo. Se pararmos para pensar, há muitas formas de “expressar” um negócio em tabelas. Como você faria isso?
+
+Alguns jeitos de criar tabelas funcionam melhor do que outros, quando falamos de performance de banco, repetição desnecessária de informações, etc. O processo de otimizar as tabelas de acordo com a necessidade do negócio é o que chamamos de normalização.
+
+Modelagem e normalização de banco de dados é um assunto extenso, tanto que temos alguns cursos da Alura voltados apenas para isso e administração de bancos de dados é uma carreira em si. Mas o desenvolvimento back-end também envolve uma certa “intimidade” com o banco de dados, que não aprofundaremos aqui mas deixamos o link do curso para você continuar seus estudos!

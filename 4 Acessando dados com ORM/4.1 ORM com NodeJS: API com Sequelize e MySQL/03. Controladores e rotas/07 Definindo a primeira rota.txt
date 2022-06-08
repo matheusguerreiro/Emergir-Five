@@ -1,0 +1,31 @@
+[00:00] Então se já separamos tudo que é de rota e colocou em “api> routes> index.js”, vamos criar um arquivo só para as rotas de pessoas. Vamos manter aquela ideia de que, quanto mais separado e específico forem os nossos arquivos, melhor. Então “api > routes> nova pasta”, vamos criar um novo arquivo, chamado de pessoasRoute.js. Então, como não temos classe, pessoas começa com minúscula mesmo.
+
+[00:27] Dentro desse arquivo, vamos chamar Router, uma ferramenta do express. Então vamos dar um require de novo na biblioteca: const { Router } = require(‘express’). A próxima constante que criaremos é PessoaController const PessoaController = require (‘../controllers/PessoaController’). Vamos dar outro require e importar nele a classe PessoaController que criamos na pasta de controladores. Então temos que dar ponto ponto para sair da pasta de rotas, inserir /controllers/PessoaController.
+
+[01:11] Porque teremos diversos arquivos dentro da nossa pasta. Cadê minha pasta de controllers. Está aqui. Dentro da pasta de controllers, teremos vários controllers, então controllers/PessoaController, que é o que usaremos dentro desse arquivo aqui vai gerenciar só as rotas de pessoas. Então beleza. Está criado. Usaremos esse recurso de rotas do express e para ter acesso aos métodos dele.
+
+[01:41] Então, como fizemos em app, criando uma const.app para iniciar o express, vamos criar uma const e chamá-la de router para iniciar: const router = Router()esse conjunto de métodos, de rotas, do express. Então já estamos pronto para usar.
+
+[02:03] Então vamos chamar router.get, olha o get de novo, porque o que combinamos que íamos fazer primeiro: criar uma rota para chamar o método em PessoaController, para chamar o método de pegar todas as pessoas. Então, se é pegar, é get, e significa literalmente isso. Então, o que vai fazer essa rota get: o primeiro parâmetro dela vai receber o fim da rota, o end-point da rota, que será “pessoas”. O comando ficará router.get(‘/pessoas’).
+
+[02:45] Então, o que isso está significando? router.get(‘localhost:3000/pessoas’), mas não precisamos colocar o localhost:3000, só precisa declarar rota “pessoas”. Se eu acessar essa rota usando um método do tipo get, o que vai acontecer? Agora o segundo parâmetro será a função que ele vai executar. Ao invés de chamar um callback, chamamos a função que criamos em “api > controllers: PessoaController.js”, o método pegaTodasAsPessoas, que está pronto, só esperando para ser chamado na rota.
+
+[03:21] Então chamamos PessoaController, que já está importando, .pegaTodasAsPessoas, que já deu até a opção de autocompletar. O código fica router.get(‘/pessoas’, PessoaController.pegaTodasAsPessoas).
+
+[03:35] Então, o que está acontecendo: eu disponibilizei os métodos que estão dentro do arquivo PessoasController através da constante PessoaController, chamando-a, e dentro de PessoasController.js, eu tenho o método chamado pegaTodasAsPessoas, e esse método vai dar um find all, achar tudo que que tem dentro do model Pessoas, e vai trazer.
+
+[04:08] Então, quando eu acessar a rota /pessoas com o método get, ele vai executar esse método. Lembrando que quando criamos nosso método pegaTodasAsPessoas, o declaramos como static, então não precisamos escrever aquela constante. Eu não preciso instanciar um novo PessoaController, por exemplo, const pController = new PessoaController para poder usar os métodos. Não preciso criar uma nova instância de PessoasController porque é um método que. Nós vamos criar todos os métodos desta forma, é um método estático
+
+[04:55] Então, a última coisa a fazer para não esquecer é exportar tudo isso aqui para ficar disponível, module.exports = router, para essas rotas ficarem disponíveis. Beleza? Então criamos a rota “pessoas”, que vamos chamar com o método get no Postman, ele vai executar esse método.
+
+[05:18] Uma coisa que não podemos esquecer é que criamos um arquivo chamado routes/index, que é para gerenciar tudo isso. Então, vamos voltar nesse arquivo “api > routes: index.js” para avisarmos que temos uma rota nova, e acionar os métodos e os caminhos dessa rota. Então, por enquanto, está aqui o body-parser.
+
+[05:33] Teremos que adicionar uma const pessoas = require(‘./pessoasRoute’), que chamarei de “pessoas” mesmo, e dizer para ele dar um require na pasta pessoas. Entrar e acessar (‘./pessoasRoute’). Aqui é o arquivo que criamos. Como esse index está dentro da pasta “api> routes”, eu não preciso voltar, estou dentro da mesma pasta e só preciso dizer para ele olhar dentro do arquivo pessoasRoute.js e guardar os métodos que estiverem lá dentro;
+
+[06:15] Então o app já está criado, o bodyParser.json() está ok, e podemos adicionar app.use(pessoas). Então, o que ele vai fazer? Então agora “pessoas” vai agir como intermediário, digamos assim, para o express lidar com essas rotas. Então ele vai chamar o método use, com parâmetro “pessoas”, vir em “pessoas”. Dentro do arquivo pessoasRoute.js, ele vai ter o router com seus métodos. Por enquanto, eu tenho o métodoget, adicionaremos outros.
+
+[07:00] E dentro de index.js, do index das rotas, não precisamos mais da linha 7, do app.get(‘/’, (req, res) => res.send(‘Olá!’)), desse get/ que só responde um “Olá!”, porque fizemos o teste e vimos que a separação de responsabilidades de rota já estava funcionando, então podemos deletá-lo também. E agora podemos ir ao Postman e testar nossa rota /pessoas com método get. Então, vamos lá? localhost:3000/pessoas. Vamos clicar no “Send” e ver se com o método get.
+
+[07:37] Então, quando eu falei de método GET, no Postman você consegue selecionar o método HTTP que você quer usar: GET, POST, PUT. Então, é um método GET, precisamos selecioná-lo e apertar send. E olha só, tudo o que criamos e colocamos dentro do nosso banco de dados. Meu terminal está aqui, tudo o que criamos no nosso banco de dados.
+
+[08:03] Está já convertido para .json e com todas as informações. Então está tudo certo. Agora já sabemos como criar rotas para as pessoas. Vai ficar mais fácil agora aproveitarmos essas mesmas lógicas para fazer as rotas das outras tabelas. Então, vamos a isso daqui a pouco.

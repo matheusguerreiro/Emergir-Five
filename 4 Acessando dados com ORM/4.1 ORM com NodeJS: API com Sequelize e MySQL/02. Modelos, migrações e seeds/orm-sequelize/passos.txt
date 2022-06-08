@@ -1,0 +1,20 @@
+terminal diretório do projeto(tddp):
+  npm init -y
+  npm i express
+  npm i body-parser
+  npm i nodemon -D
+terminal raiz(tr):
+  sudo apt install mysql-server
+tddp:
+  npm i mysql2
+  npm i sequelize sequelize-cli path
+
+
+comandos importantes:
+  systemctl start mysql
+  sudo mysql -u root -p
+  ./node_modules/.bin/sequelize-cli ...
+    para executar aluguma coisa com sequelize precisa passar o caminho inteiro
+  mysql> CREATE USER 'seu nome de usuário'@'localhost' IDENTIFIED BY 'sua senha';
+  mysql> GRANT ALL PRIVILEGES ON * . * TO 'seu nome de usuário'@'localhost';
+  

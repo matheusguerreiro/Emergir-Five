@@ -1,0 +1,31 @@
+[00:00] Então, para testarmos o que fizemos em PessoaController.js, precisamos criar uma rota. Por enquanto, só temos a rota genérica /teste. Vamos aproveitar para tirar essa rota/teste que não precisamos mais, mas vamos aproveitar também para fazer uma coisa mais organizada.
+
+[00:17] Não iremos definir as rotas da nossa aplicação mesmo no ponto de entrada porque como vamos criar bastante rotas, vai começar a ficar tudo muito desorganizado. Então, vamos organizar de forma que qualquer pessoa que abra sua aplicação já saiba onde elas estão. Então, vamos em “API> nova pasta> routes”, rotas, é o nome padrão também.
+
+[00:41] Dentro dela, vou criar um arquivo chamado index.js, que será o ponto de entrada das rotas, da mesma forma que temos o ponto de entrada na aplicação. Definindo aqui, o Express vai nos ajudar a organizar tudo direito. Então, vamos primeiro fazer um teste dessa nova organização, digamos assim. Vamos criar uma const bodyParser = require(‘body-parser’) como fizemos no começo, dar require na biblioteca, porque vamos tirar esse método do ponto de entrada, então já vamos deixá-lo aqui.
+
+[01:24] Vamos exportar uma função, module.exports = app, que vai receber como parâmetro app. Esse app que ela vai receber como parâmetro, deixa eu abrir o ponto de entrada “api> seeders: index.js”. É o app onde iniciamos o express. Então ele vai receber app como parâmetro na função flecha. E aí, dentro dela, chamamos app.use, que também estávamos chamando antes. Podemos até copiar essa linha do “api> seeders> index.js”, app.use(bodyParser.json()).
+
+[02:03] Vamos passar app.use(bodyParser.json()) para o index de rota, vou dar um “Ctrl + c” e dar um “Ctrl + v” dentro de “api> routes> index.js”. E o nosso app.get, que, por enquanto, está fazendo um get em /teste. Agora vamos criar um app.get, o mesmo método GET. E aí, ele vai receber, só que agora não trabalharemos mais com /teste. Vamos deixar aqui só a barra como primeiro parâmetro. Só a barra para vermos o que acontece quando só entramos em local host: 3000.
+
+[02:56] O segundo parâmetro de get(), vamos passar como parâmetro “requisição e resposta”, da mesma forma que fizemos anteriormente. O segundo parâmetro é a função callback. Como response, como resposta, vamos, só por enquanto, enviar outra coisa.
+
+[03:15] Vamos enviar só um “Olá!” para testar a nossa nova rota e ver se deu tudo certo nessa transferência de responsabilidades, que estamos tirando do arquivo index.js do API, tirando do ponto de entrada da aplicação, e jogando a responsabilidade das rotas para onde ela tem que ficar, que é o arquivo index que está dentro da pasta routes.
+
+[03:39] Então, agora que já temos esse arquivo para criar as rotas, não precisamos mais das linhas que criamos no começo, no ponto de entrada da aplicação. Podemos deletar as linhas do comando app.get(‘/teste/, (req, res) => res), que não vamos mais precisar dela.
+
+[03:52] A linha de comando app.listen(port, () => console.log(‘servidor está rodando na porta ${port}‘)), que está mandando a mensagem para o nosso terminal, vamos deixar porque ela é importante. Precisamos dela para saber se o servidor está de pé.
+
+[04:05] Onde está o express, vamos deixar, porque o ponto de entrada vai precisar do express, mas podemos também tirar a linha de comando const bodyParser = require(‘body-parser) porque já jogamos para a pasta routes.
+
+[04:17] O que temos que fazer agora é criar uma nova const chamada de routes, onde vou dar um require. Do mesmo modo que demos em models/index, faremos isso, só que com o arquivo index que está dentro de routes. Ele deu, até autocompletou: const routes = require(‘./routes’). Então, chamamos a const routes e passar para ela o caminho de routes/index.
+
+[04:51] Então, agora nosso ponto de entrada da aplicação já consegue acessar as rotas. Deixaremos o app porque esse app, do “api> seeders> index.js” é o mesmo app do “api> routes> index.js”. Não é porque tem o mesmo nome, é porque o passaremos como parâmetro. Deixamos o mesmo nome para facilitar. A porta, o app.use(bodyParser.json()) podemos tirar porque a gente já jogamos para as rotas.
+
+[05:16] E o que precisamos fazer agora para tudo funcionar? Chamar o nosso método routes, que é a função exportada em “api> routes> index.js”. Então vamos iniciar routes passando como parâmetro para ele app: routes (app), que é onde estamos disponibilizando, iniciando os métodos doexpress, que é o app da função exportada que nossa função está recebendo como parâmetro dentro de routes.
+
+[05:54] O resto pode ficar como está. Passamos para route/index as informações sobre como as rotas funcionam, e, no ponto de entrada, só deixamos a nova instância de express e a importação dos métodos de rota. Então só estamos chamando o index das rotas e passando para ele como parâmetro express, beleza? Podemos testar agora no Postman, vamos lá? Esse teste não vai funcionar mais porque apagamos.
+
+[06:32] E agora, lembra que passamos só barra? Não tiramos /teste? Opa, cannot get teste. Deixa eu ver o que aconteceu aqui. Então, deu erro. Diz que não consegue dar get em /teste. Sem querer, eu devo ter apertado “Enter”. O /teste não vai funcionar mesmo, mas agora, com só barra, vamos dar um send. Um momento só que meu computador deu uma ligeira travada. Olá!
+
+[06:59] Então, já funcionou. Agora podemos voltar lá e tirar esse teste em definitivo, todos os testes de rota, para finalmente colocarmos a rota Pessoas para funcionar. Vamos fazer então isso agora.
