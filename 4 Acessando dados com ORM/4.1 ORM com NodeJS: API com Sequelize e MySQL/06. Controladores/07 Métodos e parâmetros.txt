@@ -1,0 +1,14 @@
+Como foi visto durante o curso, cada método que o Sequelize utiliza para o CRUD (e também as outras operações) pede parâmetros específicos.
+
+Assinale as alternativas que apresentam corretamente os parâmetros que utilizamos em cada método.
+
+
+Modelo.update({ nome: “Marcia M” }, { where: { id: 12 }})
+  Alternativa correta! O método update() recebe como primeiro parâmetro um objeto com os dados que serão atualizados - nome da coluna e valor. No segundo parâmetro passamos o where que localiza o registro que se quer atualizar. O Sequelize vai enviar ao banco a query correspondente com essas informações.
+  Durante o projeto, o objeto que passamos no primeiro parâmetro está sendo recebido através do corpo da requisição HTTP com POST.
+
+Modelo.findAll()
+  Alternativa correta! O findAll() usado sem parâmetro nenhum vai gerar uma query SELECT básica que vai trazer todos os registros da tabela. Se quiser restringir os resultados, pode passar o objeto {where: {}} como parâmetro.
+
+Modelo.findOne( { where: { id: 25 }} )
+  Alternativa correta! Utilizamos o método findOne() passando como parâmetro um objeto com a propriedade where e os atributos/valores com que queremos que o Sequelize faça a query no banco. O método findOne pode utilizar qualquer atributo, ou seja, qualquer valor de qualquer coluna - não precisa ser necessariamente da coluna id. Existem mais métodos para fazer queries de seleção com o Sequelize, você pode pesquisar na documentação o método findByPK, por exemplo.

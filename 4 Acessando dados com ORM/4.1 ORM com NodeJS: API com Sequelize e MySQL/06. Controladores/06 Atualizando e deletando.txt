@@ -1,0 +1,35 @@
+[00:00] Para completarmos o CRUD das matrículas, falta atualizar uma matrícula e deletar uma matrícula. Vamos subir nos métodos, achar o método atualizaPessoa(), e ver se conseguimos aproveitar o que já escrevemos nele para criar o atualizaMatricula().
+
+[00:17] Então, vou copiar o atualizaPessoa(), mandar para baixo e vamos ver o que fizemos nele. Trocaremos atualizaPessoa() por atualizaMatricula(). Lembrando que, no caso das matrículas, atualizaremos uma matrícula específica, então precisamos do id da pessoa, do id do aluno específico e do id da matrícula específica que queremos atualizar.
+
+[00:42] Fizemos isso no método pegaUmaMatricula(), criamos essa const para receber nos parâmetros da requisição o id de aluno, o id de estudante e o id de matrícula. Então podemos usar a mesma novamente, estudanteId, matriculaId. Vamos receber ambos os valores através dos parâmetros da requisição, e também precisaremos de novas infos. É aquele objeto com as informações que vamos atualizar e que serão passadas no corpo da requisição, no formato json, da mesma forma que fizemos anteriormente, ok.
+
+[01:19] O que foi feito no try do método update quando usamos em pessoas? await será database.Matriculas, porque consultaremos o modelo Matrículas. O método update do Sequelize é o mesmo, recebe dois parâmetros: o primeiro também é o mesmo, novasInfos, que são as informações que ele enviará para o banco para atualizar, e o segundo são os parâmetros do registro que ele quer atualizar.
+
+[01:46] Lembrando que, no where, teremos que passar duas propriedades, estudanteId e matriculaId. Lembrando que o Id que está na propriedade é a coluna. Como estamos falando do modelo Matrícula, id: Number(matriculaId), e o segundo que temos que passar é a coluna estudante_id: estudante_id: Number(estudanteId).
+
+[02:27] Só lembrando porque criamos a const pessoaAtualizada e foi ao banco de novo com ofindOne encontrar o registro (vou trocar pessoaAtualizada por MatriculaAtualizada): o método update do Sequelize não retorna um json com as informações atualizadas, ele retorna somente 0 ou 1, fez ou não fez.
+
+[02:52] Então para podermos passar para o nosso usuário um json com as informações, precisamos voltar na database, no caso, no modelo Matrículas, mesmo método findOne, e pediremos para só trazer a matrícula atualizada que tem o número de matriculaId. Está sendo feita primeiro a parte de fazer update, e posteriormente, o Sequelize volta no banco, consulta o ID que foi atualizado, e na linha 99 retornamos para o nosso usuário o json com as informações atualizadas.
+
+[03:34] Vamos então inserir uma rota correspondente para esse método. Deixa eu ver o que já fizemos. Bom, temos uma rota, router.post, não, router.get, que usa o mesmo endpoint: router.get(‘pessoas/:estudanteId/matricula/:matriculaId’, PessoaController.pegaUmaMatricula), que nem colocamos de modelo no Postman: http://localhost:3000/pessoas/1/matricula/5.
+
+[03:57] Então vamos copiar esse método da linha 11 para ficar mais rápido. router.get(‘pessoas/:estudanteId/matricula/:matriculaId’, PessoaController.pegaUmaMatricula). Nesse caso, o método não será get, e sim put, para atualizarmos. O endpoint é o mesmo e o método da classe PessoaController será atualizaMatricula, router.put(‘pessoas/:estudanteId/matricula/:matriculaId’, PessoaController.atualizaMatricula).
+
+[04:17] Podemos testar. Vamos ver como é que está no banco. No banco, a matrícula 5 do estudante 1 um está como confirmada. Vamos mudar para cancelada então, para testarmos. No corpo da requisição, abriremos o objeto e só precisamos mandar a informação que desejamos alterar, que no caso é o status cancelado.
+
+[04:48] Vamos dar o “Sent”. Não é get, eu vivo fazendo esse erro. Tem que mudar para put. Os dados que queremos alterar estão todos digitados: matrícula 5, do id 1, dá o post. E ok, ele nos retornou, o status agora está cancelado, as informações estão atualizadas. Podemos inclusive voltar no terminal do MySQL e dar um select * from Matriculas.
+
+[05:12] E agora o 5 está cancelado. Última coisa a fazer aqui é o método delete, pedir para deletar a matrícula. Então vamos ver o que fizemos para deletar Pessoas. Podemos apagar alguns comentários que eu deixei das aulas passadas. Vamos copiar o método apagaPessoa, levá-lo para baixo, colar e substituir por apagaMatricula.
+
+[05:50] Do que precisamos para apagar matrícula? Das mesmas informações que precisamos para atualizar uma matrícula: precisamos do estudante_id e matricula_id. Podemos copiar e colar const { estudanteId, matriculaId } = req.params, porque precisamos das mesmas informações para apagarmos matrícula específica do estudante específico.
+
+[06:09] No try, o que está acontecendo: está consultando os modelos através da variável database. Nesse momento, consultaremos o modelo database.Matriculas, e usar o método destroy do Sequelize, e a informação é muito importante, se você não passa aqui qual que você deseja destruir, ele pode destruir todas as matrículas do seu banco. Esse where é super importante. Ele só vai destruir o registro onde bater o número de ID.
+
+[0:31] Lembrando que é o ID de matrícula, então é matriculaId. E não temos o que retornar como json porque o registro foi destruído, então não temos como retornar informações, estamos retornando para o nosso usuário apenas uma mensagem dizendo que o ID (matriculaId) foi deletado. E aí você pode também personalizar, colocar a mensagem que achar que é mais pertinente.
+
+[07:07] Vamos criar uma rota em “api> routes> pessoasRoute.js”. O endpoint é (‘pessoas/:estudanteId/matricula/:matriculaId’, PessoaController.pegaUmaMatricula), o método http será delete, e na classe PessoaController, chamaremos apagaMatricula: router.delete(‘pessoas/:estudanteId/matricula/:matriculaId’, PessoaController.apagaMatricula).
+
+[07:27] Vamos apagar outra matrícula, vamos ao terminal do mySQL. Vamos, de repente, apagar a 6. Então, ID 6 do estudante 2, só para trabalharmos com registro diferente, porque estávamos usando sempre o mesmo. Então, usaremos delete, antes que eu esqueça de trocar o put. O http ficará: http://localhost:3000/pessoas/2/matricula/6. Apertamos o send e vamos ver se aparece a mensagem.
+
+[07:53] Ok, ID 6 deletado. Está tudo funcionando. Agora a nossa API. Vamos voltar às tabelas. Agora todas as operações dessas tabelas estão funcionando e nossa API já tem informações, dados, para ser montado, por exemplo, o front do nosso sistema da escola de inglês.

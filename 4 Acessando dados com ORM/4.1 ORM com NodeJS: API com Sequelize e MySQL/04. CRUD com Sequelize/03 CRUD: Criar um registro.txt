@@ -1,0 +1,33 @@
+[00:00] Então, para continuarmos, vamos terminar de fazer o CRUD para nossa tabela de Pessoas. Já fizemos o R de “ler”, read para todos os registros e para um registro só, pegando pelo ID.
+
+[00:13] Vamos continuar criando um registro novo. Então, o método vai ser a mesma coisa, vai ser um método estático, static async criaPessoa(req, res), que vamos criar um novo registro de pessoa. Ele vai receber os mesmos parâmetros que são requisição e resposta.
+
+[00:41] Então, já que vamos criar uma Pessoa, precisamos passar para o Sequelize os dados dessa pessoa que criaremos. Como que passamos essas informações? Através do corpo da requisição, lembram? Falamos de corpo da requisição no começo, quando falamos de body parser. Então vamos criar uma const novaPessoa = req.body, que vai armazenar justamente os dados que vamos enviar no corpo da nossa requisição. Vamos enviar uma requisição HTTP e no corpo dela vamos mandar as informações para criar essa nova pessoa.
+
+[01:22] Nome, se é estudante, entre outros. De novo, vamos criar um try-catch para englobar o nosso código. Então try, que é o que queremos que aconteça, e catch o que o JavaScript vai nos passar se tiver algum erro. No retorno do catch, desculpa, no erro do catch, podemos manter o mesmo erro, do tipo 500, do servidor, e ele vai mandar a mensagem que deu errado. E aqui no try que é onde queremos que dê tudo certo, vamos escrever os nossos métodos.
+
+[02:03] Então eu vou criar uma const, chamada de novaPessoaCriada. Ele vai armazenar a resposta do método create. Como assim? Vamos lá, da mesma forma que fizemos os outros: await, vai esperar acontecer tudo que tem que acontecer: const novaPessoaCriada = await database.Pessoas.create(novaPessoa). O método create ele vai criar um novo registro baseado com alguma informação. Passaremos como parâmetro de create a const novaPessoa, onde guardamos as informações do corpo da requisição: nome, entre outros.
+
+[02:55] Então vai chamar o método create e retornar, como temos feito nos outros métodos, um status dizendo que deu ok (status 200) e um .json com as informações que estamos inserindo no banco.
+
+[03:23] Vão acontecer duas coisas: a constante que vai mandar um novo registro para o banco, vai criar um novo registro com essas informações, e na linha de código de retorno retorna um status ok na nossa requisição, ok, deu tudo certo, e retornando também o Jason para aparecer no nosso Postman com os dados desse novo registro que foi criado. Se apagarmos a linha do retorno, vou apagar const novaPessoaCriada = também, o código vai mandar as coisas, vai criar.
+
+[04:00] Mas não vai retornar nada. Ele não vai dizer se deu certo ou não. É sempre bom ter esse retorno, esse feedback do sistema do que está acontecendo. Para retornar um .json dizendo que deu erro, ou retornar um .json dizendo que deu tudo certo. Mas o que está fazendo criar mesmo é a parte await database.Pessoas.create(novaPessoa).
+
+[04:24] O método já está criado. Vamos fazer o que fizemos com os outros métodos: ir à rota de Pessoas (api> routes> pessoasRoute.js), atualizar nossa rota de pessoas com o verbo HTTP. Às vezes eu chamo de método HTTP, às vezes eu chamo de verbo, vocês podem encontrar das duas formas. Então router.post. Não é mais GET, porque não estamos pegando coisas, registros, vamos criar um registro novo. Vamos postar mesmo um novo registro, e os parâmetros vão ser os mesmos.
+
+[04:57] O primeiro parâmetro é a rota, então é (‘/pessoas’, PessoaController.criaPessoa) é a mesma rota, só que com outro método, veremos isso no Postman. E qual é a função que vai rodar? PessoaController, que está lá dentro. O nome da função é criaPessoa. Então, criaPessoa. Aqui já está router.post (‘/pessoas’, PessoaController.criaPessoa) Não preciso passar nada, porque já Pessoas tem na rota index, está tudo certo, adicionei a rota extra.
+
+[05:39] Vamos testar no Postman. Para facilitar nosso teste, o que eu vou fazer? Eu vou pegar as informações que vamos precisar passar para o nosso novo registo, que estamos criando agora, que é só para não precisarmos digitar tudo do zero. Então vou copiar do Postam o que estava exibido. Como é que fazemos para passar informações no corpo da requisição no Postman? Clicamos em body, corpo, na linha abaixo do botão send, selecionamos raw, que é puro, cru, literalmente. E não pode esquecer de selecionar JSON na mesma linha que se encontra o raw.
+
+[06:21] Eu vou abrir e fechar chaves no campo, e vou colar as informações para facilitar, e só vou trocar o nome para criarmos um novo registro de pessoas.
+
+[06:35] Então vou trocar “Sandra Gomes” por “Paulo Rocha”, substituir por true na linha do ativo, booleano e não string, e aqui o e-mail dele vai ser paulo@paulo, e o role pode ser estudante mesmo. Não tem essa última vírgula no final, você vê que ele sinaliza com um X na linha 6 por estar reclamando que há algo errado. No .json, não pode ter essa última vírgula.
+
+[07:01] E no campo onde digitamos o HTTP, o que faremos? A rota é Pessoas, então apagamos o 5. Se a rota é Pessoas com método post, então ao invés de deixar get selecionado no botão ao lado de onde digitamos o HTTP, selecionamos post. Então, vamos testar e ver se deu certo? Dar um “Send”.
+
+[07:16] E ele nos trouxe exatamente um .json do que foi criado. Está aqui com a data de criação, tudo certo, com ID novo. Podemos, inclusive, ir ao terminal MySQL, e passar de novo a instrução mysql> select * from Pessoas, e ver se o Paulo entrou.
+
+[07:37] Entrou certo, ID 8, Paulo Rocha acabou de ser criado, no dia 21/05, de hoje, show. Tudo funcionando.
+
+[07:47] Para atualizar e deletar registros é parecido. Criaremos um novo método para atualizar um registro existente e depois para deletar um registro qualquer existente. Então, vamos fazer isso em seguida.

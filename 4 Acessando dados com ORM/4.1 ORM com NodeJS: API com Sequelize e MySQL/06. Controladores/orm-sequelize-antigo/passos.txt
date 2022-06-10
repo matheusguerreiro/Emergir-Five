@@ -1,0 +1,59 @@
+criando mais tabelas
+  npx sequelize-cli model:create --name NomeDaTabela --attributes nomeAtributo:tipo
+  npx sequelize-cli model:create --name Niveis --attributes descr_nivel:string OU
+  ./node_modules/.bin/sequelize-cli model:create --name Turmas --attributes data_inicio:dateonly
+  ./node_modules/.bin/sequelize-cli model:create --name Matriculas --attributes status:string
+
+
+--------------------------------------------
+relações e associações
+--------------------------------------------
+  models
+  ------
+    pessoas.js
+    ----------
+      Pessoas.associate = function(models) {
+        Pessoas.hasMany(models.Turmas, {
+          foreignKey: 'docente_id'
+        })
+      };
+
+    turmas.js
+    ---------
+      Turmas.associate = function(models) {
+        Turmas.belongsTo(models.Pessoas, {
+          foreignKey: 'docente_id'
+        })
+      };
+
+  migrations
+  ----------
+    20220609151218-create-turmas.js
+    -------------------------------
+      return queryInterface.createTable('Turmas', {
+        ...
+        docente_id: {
+          allowNull: false,
+          type: Sequelize.INTEGER,
+          references: {model: 'Pessoas', key: 'id'}
+        },
+        ...
+      });
+
+  depois disso tudo para todas as relações e associações pode-se rodar o comando:
+    ./node_modules/.bin/sequelize-cli db:migrate
+---------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------
+populando tabelas
+-----------------------------------------------------------------------
+  tddp
+  ----
+    ./node_modules/.bin/sequelize-cli seed:generate --name demo-pessoa
+    ./node_modules/.bin/sequelize-cli seed:generate --name demo-nivel
+    ./node_modules/.bin/sequelize-cli seed:generate --name demo-turma
+    ./node_modules/.bin/sequelize-cli seed:generate --name demo-matricula
+    popular cada um dos arquivos
+
+  depois disso tudo para todos pode-se rodar o comando:
+    ./node_modules/.bin/sequelize-cli db:seed:all

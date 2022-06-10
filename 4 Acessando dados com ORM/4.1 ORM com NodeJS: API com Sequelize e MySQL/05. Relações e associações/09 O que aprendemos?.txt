@@ -1,0 +1,8 @@
+Nesta aula, aprendemos a:
+
+Interpretar o diagrama de banco
+Identificar os tipos de relação pedidos no projeto
+Associar tabelas através de métodos do Sequelize
+Referenciar tabelas associadas
+Migrar tabelas associadas
+Popular tabelas associadas

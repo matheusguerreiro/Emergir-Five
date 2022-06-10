@@ -1,0 +1,41 @@
+[00:00] Nossa aplicação já está fazendo CRUD para Pessoas, Níveis e Turmas. Ou seja, conseguimos criar pessoas novas, puxar todos os níveis, alterar uma turma, etc. Por que não fizemos a mesma coisa com matrículas, então?
+
+[00:11] Vamos pensar em como nosso sistema está organizado. Faz sentido uma rota onde eu posso vir, no Postman, em níveis, com o método post e criar um novo nível, por exemplo: ‘descr_nivel’, e eu crio um novo nível, digamos assim, conversação básica: ‘descr_nivel’: “conversação básica”. Seleciono POST e crio um novo nível.
+
+[00:38] Ele criou. Faz sentido existir esse end-point para criarmos novos níveis. Agora, quando falamos de Matrículas, um tipo de dado de matrícula só faz sentido se tivermos associado as matrículas a um estudante em especial. Esse end-point, /matrículas: http://localhost:3000/matriculas/, solto, sem estar relacionado a nenhuma pessoa, não faz muito sentido para o sistema.
+
+[01:04] Para deixar organizado, faz mais sentido para o front-end receber um end-point onde ele passa, de repente, o ID da pessoa, e aí ou ver todas as matrículas dela, ou deletar uma matrícula, ou alterar uma matrícula de um ID x, do que receber dessa forma sem estar relacionada a nenhum usuário do sistema.
+
+[01:28] E é por isso que faremos o CRUD de matrícula assim, faremos alguns métodos agora, mas não criaremos para Matrículas um controlador próprio e uma rota própria. Faremos isso dentro do controlador de Pessoas. Ou seja, as matrículas vão estar vinculadas a sempre uma pessoa, um aluno.
+
+[01:47] Vamos ao banco dar uma olhada em como estão nossos registros de matrícula nesse momento lá no banco. Então, darei um select * from Matrículas;.
+
+[02:02] Então, no meu banco, o de vocês pode estar um pouco diferente dependendo das alterações que vocês foram fazendo nos testes. O estudante de ID 1 tem três registros, duas matrículas confirmadas em turmas diferentes e uma matrícula cancelada. Esses IDs da primeira coluna são os IDs das matrículas, de como elas entraram no banco e estão relacionadas à tabela Pessoas através da coluna estudante_id.
+
+[02:24] Então, vamos dizer que eu quero trazer a matrícula 5, a matrícula cancelada, do estudante 1. Como que ficaria então dentro do controlador de Pessoas? O método é bem parecido com os outros que já usamos em Pessoas. Criamos um método para trazer um registro só, o método pegaUmaPessoa, que usa findOne do Sequelize para ir até o banco e trazer só um registro.
+
+[02:53] Então, vamos copiar para aproveitarmos esse método e vermos como fazemos para funcionar com Matrículas. Então, ao invés de pegaUmaPessoa, será pegaUmaMatricula.
+
+[03:04] Recebe requisição e resposta igual, mas que informações preciso passar para o Sequelize para ele trazer o dado certo? Vamos voltar no Postman. No http, eu dei uma simulada. Deixa eu voltar. Eu quero, por exemplo, pegar a matrícula de ID 5 que está relacionada a uma pessoa de ID 1: http://localhost:3000/pessoas/1/matricula/5. Vamos copiar esse http e colocar no nosso código para ele ajudar a nos guiar.
+
+[03:31] Deixa eu colar ele. Então, no final, como é essa rota? Ela funciona da seguinte maneira, em http://localhost:3000/pessoas/1/matricula/5, 1 era o que estávamos passando como ID para Pessoas. Se viermos em “api> routes> pessoasRoute.js”, passamos o parâmetro pessoas/id, pessoas/1, que é o ID da tabela Pessoas. Ele acha no banco.
+
+[04:02] Então, em http://localhost:3000/pessoas/1/matricula/5, 1 é o ID da pessoa e 5 seria o ID da matrícula. http://localhost:3000/pessoas/:id/matricula/:matriculaId. Podemos trocar o :id por estudanteId: http://localhost:3000/pessoas/:estudanteId/matricula/:matriculaId, para ficar claro do que estamos falando.
+
+[04:23] Então, a rota vai ser essa http://localhost:3000/pessoas/:estudanteId/matricula/:matriculaId. Entraremos em pessoas, passaremos um ID de pessoa que existe no banco, para ir em matrícula e passar um ID de matrícula.
+
+[04:33] Quando formos acessar, acessaremos usando os números que já estão no banco. Então, os IDs que pegaremos através dos parâmetros da requisição, lembrando que parâmetros de requisição são aqueles acompanhados pelos dois pontos, serão estudanteId e matriculaId: const { estudanteId, matriculaId } = req.params.
+
+[04:57] Então o Sequelize irá até os parâmetros da requisição, encontrará os dois parâmetros e guardar em const. E aí, como faremos agora dentro do try-catch? Ao invés de umaPessoa, será umaMatricula, e a database, se formos lembrar, é onde damos require nos modelos, em models/index.js, então ele está acessando todos os modelos que estão na pasta. Não queremos o modelo Pessoas, e sim acessar o modelo Matrículas.
+
+[05:34] Porque olha a tabela que estamos nos conectando, é a tabela matrículas. findOne encontra um, o método é esse mesmo. Onde, ID = número de ID. O que é esse ID? Essa propriedade do objeto onde estamos passando o where é o nome da coluna. Então, o que é a coluna ID? É a matrícula ID, que é cinco, no caso:
+
+[06:06] A outra coluna que queremos que o Sequelize bata as informações é estudante_id estudanteId agora é a variável que está guardando a informação que trouxemos dos parâmetros da requisição http, 5, 1, etc.
+
+[06:42] Fez isso, foi ao banco, consultou, trouxe, salvou dentro da variável da constante uma matrícula. Vamos pedir para o Sequelize retornar em json os dados de uma matrícula, certo? Então o método está feito, só precisamos agora ir ao nosso arquivo de rotas e criar essa rota, porque ainda não existe, então vamos lá.
+
+[07:07] Será em pessoasRoute.js “api> routes> pessoasRoute.js”, Matrículas não terá as próprias rotas. Então, router.get(‘/pessoas/:estudanteId/matricula/:matriculaId’, PessoaController.pegaUmaMatricula) o primeiro parâmetro é uma string com a rota que queremos passar, e o segundo parâmetro é o método que queremos que ele chame quando bater na rota: PessoaController e pegaUmaMatricula.
+
+[07:32] É esse mesmo o nome do nosso método? Vamos ver se é isso, pegaUmaMatricula, exatamente esse mesmo. Ok? Agora, podemos ir no Postman e testar com o endereço http://localhost:3000/pessoas/1/matricula/5, só que com get. Então, vamos testar essa rota, ver se ele vai pegar a matrícula 5.
+
+[07:49] Pegou a matrícula 5. Então, o que fizemos? Agora, a nossa aplicação não está fazendo só CRUD separado, cada um na sua tabela. Ela consegue fazer em tabelas que estão relacionadas. Consigo ir ao controlador de Pessoas, relacionar Pessoas com Matrículas e trazer as informações correspondentes.

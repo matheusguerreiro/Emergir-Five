@@ -1,0 +1,19 @@
+[00:00] Antes de continuarmos, muito importante: se você ainda não viu o conteúdo “Faça como eu fiz” que está antes desse vídeo, dá uma pausa aqui e corre lá para ver. Nesse conteúdo, eu explico o que são alguns arquivos novos que eu inseri na pasta de arquivos-base. São os arquivos de rota e os controladores para as tabelas Níveis e para tabela Turmas.
+
+[00:25] Eu também fiz uma atualização no arquivo rotas/index.js. No meu projeto, eu já os coloquei no lugar, então já coloquei dentro da pasta de controllers “api> controllers” Nível e Turmas, e na pasta de rotas também “api> routes”, as rotas Níveis, Turmas, e também já atualizei o index.js que está dentro de routes.
+
+[00:48] Por que fizemos dessa forma? Se você conferir o controlador de Pessoa com, por exemplo, o de nível. Vamos abrir os dois, você vai ver que o código deles é bastante similar.
+
+[01:02] Então o código de nível, se eu der um bate-volta, é bem similar ao que já tínhamos feito no controlador de Pessoas. Então, os métodos que usaremos para fazer o CRUD, findAll para pegar todos, findOne para pegar um, são os mesmos, só trocamos os nomes: NivelController, PessoaController. Fizemos isso para usarmos melhor o tempo do curso, então deixamos esses arquivos prontos para você, e vamos focar juntos no caso especial, que é o caso de matrículas, que dá para ver que ficou faltando.
+
+[01:46] A tabela Matrículas não está aqui por uma razão e veremos isso agora. Mas antes, vamos dar uma testada, ver se tudo funcionou. Então, o GET em http://localhost:3000/pessoas/ já tínhamos feito antes, está funcionando.
+
+[01:57] Vamos dar um GET em http://localhost:3000/niveis/ agora que já temos o controlador de níveis para fazer o método do CRUD R.
+
+[02:05] Ele funcionou, ou seja, se viermos em “api> controllers> niveisRoute.js” níveis. Vou puxar um pouco. Então, o que fizemos? Um get para /níveis, ele foi no controlador de níveis e pegou todos os níveis, que é o método onde chamamos o findAll do Sequelize.
+
+[02:28] Vamos em Turmas agora: http://localhost:3000/turmas/. Vamos dar um get em /turmas, ver se aconteceu a mesma coisa. Também está funcionando corretamente.
+
+[02:34] Já está fazendo get. Então se viermos na rota de Turmas “api> routes> turmaRoute.js”, get em Turmas, ele acessa o método pegaTodasAsTurmas. E se viermos no controlador de turma, aparece o pegaTodasAsTurmas efindAll no método do Sequelize para trazer todas as informações do banco. Então, o seu projeto, que você está usando para estudar, tem que retornar parecido com o que está acontecendo aqui no meu.
+
+[03:04] Já podemos focar no caso especial de matrículas. Vamos fazer isso agora.

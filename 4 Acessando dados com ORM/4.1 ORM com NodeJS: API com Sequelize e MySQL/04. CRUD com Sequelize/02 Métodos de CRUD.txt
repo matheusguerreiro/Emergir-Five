@@ -1,0 +1,37 @@
+[00:00] A partir do que vimos até agora, já sabemos usar o Sequelize para fazer o CRUD, para fazer pelo menos o R do CRUD, o R de read, ler. Então descobrimos como fazer porque criamos um método que fez isso, um método que faz a leitura do que está no banco através do findAll que colocamos sem parâmetros, mas, mais para frente, veremos que podem entrar parâmetros também.
+
+[00:27] A documentação do Sequelize traz alguns exemplos de como fazer as queries básicas com os métodos do Sequelize. Vamos usar alguns agora. A documentação apresenta uma lista. Usar o método chamado create para inserir novos registros, para selecionar tem o findAll, entre outros. Você pode consultar sempre a documentação.
+
+[00:53] Vamos fazer alguns desses métodos agora no nosso PessoaController.js mesmo, que é o arquivo que estou agora. Eu vou fechar um pouco o painel lateral, para termos mais espaço, mas sempre que você tiver dúvidas de qual arquivo estou trabalhando é só olhar o caminho dele. Agora estou em “api> controllers> PessoaController.js”. Beleza?
+
+[01:14] Então já fizemos o R do CRUD para pegar todo mundo, mas vamos dizer agora que eu quero pegar um registro, apenas. Quero pegar só a Sandra, por exemplo. E a Sandra, se abrirmos aqui, a Sandra, o ID dela no banco é 5.
+
+[01:33] Então vamos ver, será que eu consigo pegar. Eu só quero ver o registro da Sandra, o ID 5. Eu consigo pegar só uma pessoa usando ID? Então vamos ver como que isso funciona. Primeira coisa, dentro da classe PessoasController.js, criaremos um novo método. Esse método também vai ser estático, também vai ser async static async pegaUmaPessoa(req, res). E vamos chamá-lo ele de pegaUmaPessoa, que também vai trabalhar com os parâmetros de requisição e resposta.
+
+[02:12] Já que só queremos pegar uma pessoa, precisamos passar para Sequelize qual é o ID queremos. No caso, o ID 5 const { id}. Passamos a ID para o Sequelize através de um parâmetro na requisição. Então, para pegar, vamos voltar no Postman. Para pegar todas as pessoas, é só ir em http://localhost:3000/pessoas.
+
+[02:46] Se eu quiser pegar só a Sandra, que é ID 5, eu vou passar para o Sequelize a informação dessa forma: http://localhost:3000/pessoas/5, que aí estou falando para ele: me traz a informação só do registro que tem essa ID. Se eu der “Enter”. Opa, não tem isso ainda, mas se eu der “Send”, ele não vai achar nada, diz que não consegue dar um get nesse endpoint, que está certo, não criamos ainda. Vamos criar isso agora.
+
+[03:17] Então, como falamos isso para o Sequelize, para o JavaScript? O código ficará: const { id } = req.params, params de parâmetros. Com isso, estamos passando que há um parâmetro com o nome ID, e quando é feita a rota, dizemos onde nela vai o ID. Vamos envolver o código com try-catch, para poder ficar avisado quando e se acontecer algum erro. Colocar o catch, error, já deixar ele aberto.
+
+[03:55] Dentro do try, que é o caso de sucesso, que queremos que aconteça mesmo, vamos criar uma nova const, chamada umaPessoa: const umaPessoa = await database.Pessoas.findOne(), mesma coisa do método todasAsPessoas, podemos até copiar e colar. Vamos substituir o findAll por findOne, existe esse método também quando queremos encontrar somente um registro baseado em alguma informação que vamos passar; no caso, o parâmetro ID.
+
+[04:38] Se queremos passar o parâmetro ID para ele dizer como é que ele acha esse One, esse um registro que ele vai achar, usaremos aqui nos parâmetros uma opção que chama where, um termo que o SQL usa mesmo, de “onde”. Então, encontrar um registro, findOne, onde, Where, esses parâmetros entram em forma de objeto, e o valor de where será um outro objeto, então podemos passar mais parâmetros.
+
+[05:19] No caso, o parâmetro que queremos passar é o ID. Eu vou converter já para Number, para não ter nenhum problema de caso de número e string, então já convertemos para número, onde o número é o ID.
+
+[05:41] O ID de Number é o ID que buscaremos no parâmetro, é o 5. E o ID do where é o nome da coluna ID, então cuidado só para não confundir. Eu vou abrir esse objeto para ficar mais fácil de visualizarmos, apesar de ter uma linha só. Então vai ficar mais fácil de ver o que está acontecendo.
+
+[06:21] Então agora sim. O que estamos passando como parâmetro no findOne, é um objeto. Passamos ele como objeto, que podemos dar várias opções. Então só estamos passando “onde”, na coluna “ID”, o número for igual ao número que vamos buscar no parâmetro, ou seja, ele vai ser 5.
+
+[06:44] Beleza? Vamos guardar a informação dentro de umaPessoa depois que der o await, que for até a database e voltar. E temos que retornar, na resposta da requisição return res.status(200).json(umaPessoa). Vamos mandar um status de 200, ok, e em seguida vamos mandar um.jsoncom conteúdo deumaPessoa, ou seja, com conteúdo desse um registro que fomos buscar baseado no número do ID. E no *catch* podemos seguir o que estávamos fazendo, só pedindo. Vou até copiar e colar do *catch* doconst todasAsPessoas`.
+
+[07:29] Só estamos pedindo para o JavaScript retornar no .json com a mensagem de erro para podermos debugar, se for o caso. Já está criado mais um método, o método pegaUmaPessoa(). E agora precisamos ir ao nosso arquivo de rotas de pessoas. Agora estamos no controlador, no controlador vão os métodos que usaremos para trabalhar com os nossos dados.
+
+[07:58] Na rota de pessoas, “api> routes> pessoasRoute.js”, precisamos avisar que apareceu uma nova rota, que é uma rota também do tipo get. Eu não vou copiar e colar não, vou digitar para irmos conversando. Então, de novo, router ´router.get(‘/pessoas’, PessoaController.pegaUmaPessoa), o método HTTP que usaremos ainda é o GET, porque vamos pegar um registro do banco, e o *end-point* ainda é o mesmo também. Então, o primeiro parâmetro continua sendo/pessoas, e o segundo parâmetro éPessoaController`.
+
+[08:38] Só que agora, ao invés do método pegaTodasAsPessoas(), é o método pegaUmaPessoa(). Lembra que colocamos em nosso PessoasController.js, (“api> controllers> PessoaController.js”), que eu vou receber um parâmetro na requisição? Então, como que eu falo para a rota que eu vou receber um parâmetro que chama ID? /pessoas/:id, lembrando como já até deixamos escrito no Postman. Os dois pontos (:) indicam que vai ter um parâmetro, que ele vai procurar com esse nome, certo?
+
+[09:26] Então podemos salvar e testar no Postman para ver se deu certo. Vamos lá testar? No Postman, já deixamos tudo pronto, método get certo, send.
+
+[09:39] E aí ele trouxe o registro de ID 5, ele pegou a informação de ID 5 aqui que indicamos, foi até o controlador, substituiu ao achar o parâmetro, agora ID é 5, então ele encontrou na database Pessoas e encontrou um registro onde a coluna ID tinha esse número 5, e ele retornou no formato .json. Perfeito. Então, agora podemos continuar com mais. Vamos fazer outros dois métodos do CRUD para a tabela Pessoas, para ficar tudo bem completo.

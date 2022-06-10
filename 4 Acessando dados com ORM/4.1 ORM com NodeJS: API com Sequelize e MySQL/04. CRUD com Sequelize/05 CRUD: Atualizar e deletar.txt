@@ -1,0 +1,63 @@
+[00:00] Continuando a criar métodos de CRUD no nosso controlador de pessoas. Já fizemos o C de crud, que é o create, já criamos um novo registro. Já fizemos o R, tanto para pegar todos os registros quanto para pegar um registro só baseado no ID.
+
+[00:17] E agora falta atualizar um registro e deletar um registro. Então vamos começar por atualizar, depois eu apago esse comentário.
+
+[00:38] Então, como é que atualizamos um registro? Vamos voltar no Postman. Então, suponha que não é Paulo Rocha, e sim Paulo Pedra. Errei o nome e quero atualizar um registro já existente.
+
+[00:56] Como fizemos no Postman, eu preciso enviar a informação nova através do corpo da requisição. Podemos mandar só a informação que desejamos corrigir.
+
+[01:08] No corpo de requisição, na linha 2, trocamos “nome”: “Paulo Rocha” por “nome”: “Paulo Pedra”. Selecionar JSON e raw, tipo “cru”, o arquivo é cru, sem formatação.
+
+[01:18] Então, já sabemos, mais ou menos, como fazer essa parte. Sabemos que temos que enviar - como fizemos no nosso método de criar um novo registro - os dados através do corpo da requisição. Mas também temos que passar outra informação para o Sequelize, que é a informação de qual registro ele vai atualizar. Se queremos atualizar o registro 8, passamos para ele: vá ao registro 8 e atualize com os dados que eu vou te mandar pelo corpo da requisição.
+
+[01:47] Felizmente, já fizemos tudo isso antes. Sabemos tanto como mandar coisas pelo corpo da requisição quanto falar para o Sequelize usar um ID específico. Então, agora, juntaremos tudo o que fizemos nos anteriores nesse novo método. Ele vai ser um método estático, static async atualizaPessoa(req, res) *async*, e vai se chamaratualizaPessoa`. Vai receber os mesmos parâmetros dos outros: requisição e resposta.
+
+[02:17] E o que precisaremos passar para ele mesmo, que acabamos de falar? O que está no corpo da requisição. Eu vou até copiar a linha const novaPessoa = req.body, mas fazendo as alterações para adequar, a linha de código ficará const novasInfos = req.body. A const novasInfos vai nos dizer o que será enviado no corpo da requisição.
+
+[02:47] Qual é a ID do registro que eu quero alterar? Também já fizemos isso, então podemos vir copiar const { id } = req.params e deixar com ID mesmo, porque é a coluna que queremos usar para identificar. Então aqui. const { id } vai pegar os parâmetros da requisição, vai ser pessoas/8: http://localhost:3000/pessoas/8, já podemos deixar aqui, e vai enviar alguma coisa através do corpo da requisição, que, no caso, são as infos que queremos atualizar.
+
+[03:24] Então isso já está tudo informado. Agora podemos seguir com o método. Vamos usar o bom e velho try, que usamos da outra vez. Então dentro do try é o que queremos que aconteça, e o catch. Se der algum erro dentro desse catch, podemos continuar passando a mesma linha, pedindo para ele retornar a mesma coisa: um erro do tipo 500, um erro do servidor, e qual é a mensagem de erro: return res.status(500).json(error.message).
+
+[03:55] E dentro do nosso try, para dar o update, não precisamos criar uma nova const, e eu já vou dizer para vocês o porquê. Só vamos pedir para o JavaScript executar o método. Então ele vai em database, Pessoas, e o nome do método que usaremos é update mesmo: await datbase.Pesspas.update, o método do Sequelize se chama update, bem fácil de lembrar.
+
+[04:32] O que update recebe como parâmetros? O primeiro parâmetro que passaremos para ele é novasInfos, os dados que ele vai usar para fazer o update, para atualizar o registro. Então passaremos o que está recebendo em novasInfos como primeiro parâmetro.
+
+[04:48] O segundo parâmetro é dizer para ele qual registro ele vai fazer o update. Também já sabemos fazer isso porque fizemos isso no where em findOne. Passamos para ele qual é o registro que gostaríamos de atualizar. Queremos atualizar o registro “onde”, where. A ID bate com a ID que mandaremos através do parâmetro da requisição. Então, como é uma linha só, eu vou deixar tudo na mesma linha para ficar mais fácil da gente, com um pouco menos de linhas.
+
+[05:28] Então não vamos precisar guardar a informação localizada no await em uma constante, só estamos, nessa linha, pedindo para o Sequelize fazer esse update no banco. Se quisermos retornar alguma coisa para o nosso Postman, nosso sistema “você fez o update, retorna se deu certo ou não” precisamos fazer um pouco diferente, porque o método update no Sequelize não retorna as informações, e sim 0 ou 1, fez ou não fez.
+
+[06:09] E para quem vai usar o nosso sistema, essa não é uma informação muito válida, a pessoa vai receber um 0 e não vai saber o que fazer. Então agora sim, criaremos uma const chamada pessoaAtualizada, e vai passar para ela as novas informações do registro 8 atualizado com a informação que passamos.
+
+[06:30] Como faremos isso? Já sabemos fazer isso porque o fizemos no método de pegar uma pessoa só, no findOne. Então podemos fazer exatamente a mesma coisa que fizemos no findOne.
+
+[06:52] O que vai acontecer: primeiro ele vai atualizar com o método update e depois pediremos para ele nos retornar esse registro atualizado, para vermos que deu tudo certo. E aí, é o mesmo método que usamos anteriormente.
+
+[07:08] await database.Pessoas.findOne, que ele vai encontrar um registro através do ID, que fizemos anteriormente. Vou subir para ficar tudo com menos linhas.
+
+[07:28] Eu só preciso agora retornar pessoaAtualizada, porque por enquanto o que eu pedi foi para fazer o update, e pedi para ele encontrar um registro e guardar nessa variável. Vamos retornar essa variável com a mesma linha que estamos usando nos outros métodos: retorna na resposta da requisição um status code de 200 (deu tudo ok) e .json que mandaremos de volta é o conteúdo de pessoaAtualizada. Vamos salvar...
+
+[08:06] Já posso apagar o comentário “//atualizar um registro”, que já fizemos. Vamos no Postman testar e ver se deu tudo certo. http://localhost:3000/pessoas/8. O campo já está no objeto, no registro que eu quero mudar e vamos ver se deu tudo certo, se ele vai retornar para gente Paulo Pedra.
+
+[08:30] Opa cannot post pessoas ele não vai conseguir mesmo, porque eu esqueci de passar a rota certa no nosso arquivo de rotas. Então eu criei um método, mas não estou falando em nenhuma parte do nosso código onde que esse método está sendo usado. Vou até copiar aqui o nome dele, atualizaPessoa, para colocar no nosso arquivo de rotas de pessoas (“api> routes: pessoasRoute.js”).
+
+[08:58] Faremos uma linha muito parecida aqui, só que invés de post, o método vai ser put, que é o nome do método para atualizarmos um registro já existente. Então post é para novos registros, get para trazer registros e put para atualizar o novo registro. Ao invés de criaPessoa, nosso método será atualizaPessoa: router.put(‘/pessoas’, PessoaController.atualizaPessoa).
+
+[09:20] Agora podemos voltar no Postman e ver se deu tudo certo. O ID que estamos passando é 8, nosso objeto com o que queremos alterar. Vamos ver se deu certo. Eu sempre faço isso quando estou mexendo no Postman, se vocês fizerem também. É só ver se o método está certo: o método deve ser put, e não post. cannot put Pessoas. Já sei o que eu fiz de errado.
+
+[09:51] pessoas/:id. Se estou pedindo para fazer o put, fazer alteração no registro específico, eu preciso dizer aonde que vai achar o registro. Não adianta eu colocar aqui se eu não avisar na rota aqui existe aqui um parâmetro ID que ele vai usar. Então, vamos de novo. put no método do Postman, pessoas/8 no HTTP. Paulo Pedra. Tudo perfeito.
+
+[10:25] Deletar registros é mais fácil porque não precisamos passar nenhuma informação extra, só precisamos passar o ID, por exemplo. Qual o registro que você quer apagar? Quero pagar o registro que tem o ID X. Então a gente pode apagar o Paulo também, que já sabemos que é o ID 8. Então, vamos criar um novo método de deletar registros: ele vai ser de novo um método estático, async, e vai se chamar apagaPessoa.
+
+[10:55] Ele vai receber requisição e resposta, assim como os outros, vai ter que receber a ID do registro que queremos apagar, então podemos copiar e colar a mesma informação que estamos usando nos outros: const { id } = req.params. E o nosso try-catch vai ter no catch o mesmo retorno dos outros: um status code de 500 e um JSON com a mensagem de erro que ele vai nos mandar.
+
+[11:34] E dentro do try, onde queremos que venha o sucesso, chamaremos o método de delete. Então await database.Pessoas.destroy, sendo destroy o nome do método do Sequelize para destruir registros. Vamos destruir o registro que estamos passando como ID. Qual registro eu preciso passar como parâmetro do destroy? Aquele onde o ID é o ID que estou passando. Podemos até copiar dos outros que é a mesma informação.
+
+[12:13] Então já estou dizendo para ele destruir o registro com ID X, e ele retorna na resposta da requisição o status de 200, return res.status(500).json(error.message: ‘id ${id} deletado’}), e um JSON em que podemos mandar uma mensagem dizendo que deu ok, porque ele não vai ter nada para mostrar: “olha, eu destruí o registro X”, porque o registro já foi destruído.
+
+[12:52] Então enviaremos uma mensagem dizendo que. Eu vou usar a crase para podermos usar os templates strings, dizendo que o ID com o número ID (o ID da const apagaPessoa que estamos recebendo como parâmetro) foi deletado.
+
+[13:16] Beleza? Então vamos passar essa mensagem, só que não teremos registro para retornar né para o nosso usuário, vai dizer para ele somente uma mensagem informando que foi deletado. E aí não pode esquecer de ir na rota de pessoas (api> routes> pessoasRoutes) criar uma nova rota com nome delete para o método apagaPessoa.
+
+[13:48] Vamos testar apagando o nosso Paulo Pedra, o ID é 8. Podemos deixar as informações. Vou puxar isso aqui um pouco para cima. Podemos deixar o corpo sem alteração, porque o método delete não pega nada do corpo, trocamos o put por delete no botão ao lado da barra onde fica digitado o HTTP, vamos dar um “Send”. ID 8 deletado, perfeito.
+
+[14:10] Se acessarmos o banco. Dar um zoom no meu terminal do banco, mysql> select * from Pessoas. Nosso Paulo que estava no select anterior não está no registro novo, que só vai até o ID 7. Então perfeito, podemos continuar criando as outras tabelas que tem no nosso diagrama.

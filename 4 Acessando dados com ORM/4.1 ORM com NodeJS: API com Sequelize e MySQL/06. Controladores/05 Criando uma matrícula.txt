@@ -1,0 +1,25 @@
+[00:00] Então vamos criar mais um método do CRUD? Vamos ver como ficaria para criarmos uma matrícula nova? Também temos no nosso controlador de Pessoas como criar uma pessoa. Vamos aproveitar ele também. Vou dar um copy, ir até o final criar um novo método. Então vai ser criaMatricula(), também lembrando que as matrículas estão relacionadas a um ID de pessoa, sempre.
+
+[00:30] Então o que temos que passar para criar uma matrícula nova? Vamos ao Postman. Eu vou tirar o ID do http, porque se é uma nova matrícula que eu vou postar, ela não tem ID: http://localhost:3000/pessoas/1/matricula. Então eu quero criar uma nova matrícula para pessoa de ID 1.
+
+[00:46] Além de passar o ID da pessoa, eu tenho que passar também uma informação no corpo da minha requisição. No body, eu tenho que passar a informação da matrícula que eu quero criar. Então o Sequelize vai precisar de duas informações: a primeira é receber o ID: const { id } = req.params. Trocarei o id para estudanteId para não ter confusão, para sabermos o que estamos falando. E também precisa de informação sobre a nova matrícula que será criada, informação do corpo da requisição.
+
+[01:35] Então, a nossa const const novaMatricula = { ... req.body } receberá o quê? Faremos um spread das informações que virão no corpo da requisição, ou seja, o que é o corpo da requisição? Lembrando quando criamos Pessoas? São as informações que passamos no formato json através do Postman. Então passaremos. Opa, vamos fazer um spread, quase esqueci dos três pontos do spread antes de req.body.
+
+[02:04] Então faremos um spread com o corpo da requisição e o número de ID do nosso estudante: `const novaMatricula = { ...req.body, estudante_id: Number(estudanteId) }. Mesma coisa do outro.
+
+[02:29] Então no objeto vai ter o ID de estudante, onde queremos inserir o dado de matrícula novo e mais as informações que passaremos no corpo da requisição. O nosso try-catch terá uma const novaMatriculaCriada, consultaremos a database de matrículas, não de Pessoas. O método é create mesmo, para criar um novo registro no banco, e usaremos com o parâmetro do create, as informações que o create precisa para criar esse novo registro no banco, o que geramos e foi guardado dentro da const novaMatricula.
+
+[03:12] E o nosso retorno, para o nosso usuário saber que deu tudo certo, ou não, passaremos no formato json as informações que acabamos de criar, o retorno do método create. O retorno do método create será guardado na const novaMatriculaCriada e será exibido no formato json.
+
+[03:32] Lembrando que, antes de testarmos no Postman, temos que criar a rota: router.post(‘/pessoas/:estudanteId/matricula’, PessoaController.criaMatricula).
+
+[04:05] Agora podemos testar. Do que precisamos para testar? Ir até o Postman, método post, vamos criar uma nova matrícula para estudante 1? O que precisamos passar? As informações que ele espera receber, estudante_id, status e turma_id.
+
+[04:26] Se passarmos status e turma_id. Então, de repente, vamos confirmar na turma 2. Status e turma ID. Por que não precisamos passar estudante_id? Porque estudante_id já será pego através dos parâmetros e já vai compor com o spread no nosso objeto, estudante_id já está sendo passado e não precisamos passar.
+
+[04:52] Precisamos passar no body status, que vou passar “confirmado”, e turma_id, que será a turma 4. Então, vamos testar com o post, se está tudo certo. Ok.
+
+[05:11] Criou no estudante_id: 1, que passamos, na turma 4, status confirmado. Vamos ao banco? Então vamos selecionar select: select * from Matriculas.
+
+[05:29] Então vou dar um select Matrículas. Ele criou uma nova matrícula com ID 8, estudante 1, na turma 4. Então, a partir de agora, já conseguimos criar todo o CRUD que precisamos de matrículas. E nossa aplicação está fazendo sentido, trazendo todas as informações que precisamos e midpoints que fazem sentido para o nosso sistema, para nossa aplicação.

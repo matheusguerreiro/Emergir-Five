@@ -1,0 +1,7 @@
+Nesta aula, aprendemos a:
+
+Utilizar outros métodos do Sequelize para as operações de CRUD
+Enviar dados através de parâmetros de requisição HTTP
+Enviar dados através do corpo da requisição HTTP
+Criar rotas para cada operação
+Associar as rotas a cada método do controlador Pessoas

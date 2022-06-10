@@ -1,0 +1,22 @@
+Paloma decidiu usar os métodos do Sequelize para fazer CRUD e está testando cada método em um banco de dados de testes que ela tinha criado anteriormente.
+
+No banco temos a tabela Livros, com as colunas id, nome, valor e autorId.
+
+| id | nome              | preco | authorId |
+|----|-------------------|-------|---------|
+| 1  | Dom Casmurro      | 10    | 1       |
+| 2  | O Alienista       | 15    | 1       |
+| 3  | Vidas Secas       | 12    | 2       |
+| 4  | Iracema           | 10    | 3       |
+| 5  | Memórias Póstumas | 10    | 1       |
+
+Ela está testando alguns métodos do Sequelize. Por exemplo, para encontrar no banco todos os registros referentes ao autorId de número 1 que tenham como preço o valor 10, qual seria o método e os parâmetros corretos?
+
+
+Livros.findAll({
+  where: {
+    authorId: 1,
+    preco: 10
+  }
+});
+  Alternativa correta! Foi utilizado o método findAll() que vai fazer exatamente isso, encontrar todos os registros no banco. Esse método pode ser utilizado sem parâmetros para trazer todos os registros ou com a propriedade WHERE sendo passada como parâmetro - no caso, todos os registros com o mesmo autorId e o mesmo preco.
