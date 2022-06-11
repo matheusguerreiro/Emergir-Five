@@ -1,0 +1,19 @@
+[00:00] Se o Soft Delete deixa o usuário só fingir que deleta um registro, entre aspas, então isso quer dizer que podemos restaurar um registro caso precisemos? Dá sim. Isso fazemos no controlador. Vamos abrir o controlador de pessoas, pessoaController, porque aqui estão os métodos que estamos usando para pegar coisas no banco, alterar coisas no banco, etc.
+
+[00:30]. Vamos criar no nosso controlador de pessoas um novo método, vou colocar embaixo de apagaPessoa, vou criar um novo método e vou chamar de restauraPessoa, ele vai ser estático, async, e vai chamar restauraPessoa. Vai receber requisição e resposta como parâmetros.
+
+[01:00]. O que vamos precisar para restaurar uma pessoa? Do id. Então, const { id } = req.params. Já podemos fazer nosso try catch, catch error, ele só dá um retorno. Vou copiar a linha de retorno do erro que estamos usando por enquanto a mesma linha. No erro ele vai retornar o status de 500 e vai passar em um JSON error.message para sabermos o que está errado.
+
+[01:40]. No try vamos dar um await para esperar acontecer tudo que tem que acontecer no banco, database.Pessoas, como fizemos nos outros métodos, e o método que vamos usar é o restore. É o método do sequelize. O que temos que passar no restore para ele restaurar? Como parâmetro um where, então onde, abrimos outro objeto, passamos id igual, converte para número, id.
+
+[02:22]. Estou passando id como parâmetro para o sequelize poder montar a query sabendo qual o registro que ele tem que fazer o restore, que ele tem que restaurar, e depois de tudo feito podemos dar um return e res.status, passa 200 de ok, e depois concatena com um JSON e dentro desse JSON vou passar uma mensagem dizendo que deu tudo certo. Mensagem, id, passo o número do id no template string, é restaurado.
+
+[03:05]. Usamos o método restore do Sequelize, vai reverter o registro da situação de deletado no deletedAt. Vamos voltar no nosso terminal do SQL. Vou dar um select all from pessoas, onde temos o registro 1, que está deletado, e podemos agora restaurar ele.
+
+[03:30]. Antes de testar no Postman, temos que voltar no código e adicionar uma rota para conseguir fazer isso. Vamos no arquivo de rotas, pessoas.route, e adicionamos a rota, que vai ser uma rota do tipo post. Vamos colocar um .post, a rota vai ser pessoas/id/restaura, vai ser o primeiro parâmetro. Não é necessariamente um estudante, então não vou colocar estudanteId, só id, e restaura.
+
+[04:08]. O segundo parâmetro é o método que vai ser chamado, que é pessoaController.restauraPessoa. Já trouxemos a tabela com select. Vamos agora no Postman, nessa rota,/pessoas/id/restaura. Qual o id que tínhamos deletado? Id 1, então pessoas/1/restaura. Vou dar um post nessa rota. Vamos testar e ver o que acontece.
+
+[04:48]. Mensagem id 1 restaurado. Vamos voltar no terminal do SQL e vamos dar um select de novo from pessoas. Nosso Id 1 voltou a ser nulo, ou seja, ele foi restaurado. Se voltarmos no Postman e dermos um get em pessoas, um getAll, o id 1 voltou a fazer parte dos registros ativos. Ele não consta mais como deletado.
+
+[05:15]. Podemos adicionar esse método e essa rota para os modelos de níveis, turmas e matriculas, e o primeiro requisito da lista do nosso cliente, que é fazer uma exclusão que não exclua definitivamente do sistema, está feita, está finalizada.

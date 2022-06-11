@@ -1,0 +1,27 @@
+[00:00] Para este curso já temos um projeto encaminhado. Vou deixar um link para vocês baixarem ele do zero, mas se você está emendando este curso no curso anterior de Sequelize você pode continuar do mesmo projeto. As únicas alterações que foram feitas aqui são esse arquivo requisitos.md, que é onde eu incluí os requisitos que vamos trabalhar durante este curso que estamos trabalhando agora, e também foi adicionado um linter para fazer a checagem de estilo do código.
+
+[00:30] Se você nunca usou linter não tem problema, ele só está aqui para ver se a endentação está certa, se tem ponto e vírgula, essas coisas. Não vai fazer diferença no Sequelize, no banco de dados, nada.
+
+[00:40] Vamos dar uma olhada no projeto atual. Por enquanto temos uma API que reflete esse diagrama de banco que recebemos anteriormente no Curso 1. A partir desse diagrama montamos modelo, controladores, rotas, podemos até dar uma olhada.
+
+[00:55] Os modelos foram criados a partir do Sequelize, ele tem recursos e ferramentas para criar esses modelos automaticamente. Os controladores criamos, também as rotas para testar, tudo isso, está tudo funcionando, o CRUD básico que fizemos no curso 1, e o cliente pode utilizar o sistema.
+
+[01:14] Se viermos no Postman, nas rotas que fizemos no curso anterior e que estão disponíveis neste projeto, estão todas funcionando na porta 3000. Está tudo ok. O que acontece? Depois de um tempo, o cliente percebeu que algumas funcionalidades não tinham e ele precisava. O que vamos fazer neste curso é implementar essas funcionalidades que coloquei no arquivo requisitos.md.
+
+[01:40] Mas antes de começar realmente a trabalhar com isso vamos ter que lidar com uma coisa que aconteceu justamente entre o projeto anterior do curso 1 e esse aqui. O pessoal que desenvolve o Sequelize lançou uma atualização de versão. A versão que temos no nosso projeto é a 5.21, mas se viermos na documentação do Sequelize ele foi atualizado para a versão 6.
+
+[02:06] Até aí tudo bem, vamos fazer o que fazemos nesses casos, damos uma olhada no registro de modificações, no change log, isso é normal, toda documentação de ferramenta tem para dizer “dessa versão atualizamos tal coisa”, e vemos se tem alguma mudança importante que impacta no nosso projeto, porque sempre pode acontecer de alguns métodos serem descontinuados, e se atualizamos nosso projeto fica quebrado.
+
+[02:30] Se você está começando agora, está baixando o projeto do zero lá no link que vamos disponibilizar, não vai ter que se preocupar com isso, porque já vai vir ele todo atualizado.
+
+[02:41] No caso aqui da documentação do Sequelize, do registro de mudanças, já me adiantei e vi que o método sequelize.import foi removido. Esse método está sendo usado no projeto que tem para começar somente em um arquivo, que é o arquivomodels/index.js. Esse arquivo é um arquivo que o Sequelize cria automaticamente para gerenciarmos os modelos.
+
+[03:10] Ele criou isso para nós lá no início do projeto anterior. Vamos atualizar nosso projeto agora para a versão 6 para sempre trabalharmos com a versão mais recente, e já corrigimos esse problema.
+
+[03:22] Se viermos no terminal e digitarmos no terminal ‘npm outdated’ ele vai mostrar para nós que o Sequelize não está atualizado, e nem o sequelize-cli, que é a ferramenta de linha de comando do Sequelize. O que vamos fazer? Vou no package JSON, vou abrir o arquivo, atualizo a dependência do Sequelize de 5.21.7 para 6.3.0, que é a última versão até o momento em que este curso está sendo gravado. E o sequelize-cli vou atualizar também para a versão 6.2.0, que também é a última versão no momento em que estamos gravando este vídeo.
+
+[04:15] Se voltarmos no terminal agora e atualizarmos tudo com ‘npm update’, ele vai atualizar, vai demorar um pouco talvez, costuma ser rápido. Olha que interessante que aconteceu. Eu estava já com o projeto rodando, e o nodemon já percebeu, que ele vai vendo e escutando as alterações imediatamente, e percebeu que tem uma linha, justamente a linha que usa o import, que quebrou.
+
+[04:55] Aqui é onde vamos ter que consertar. Como eu já tinha dado uma olhada na documentação, eu já tinha visto onde temos que arrumar essa linha com import que está com problema. Só vamos trocar essa linha, vamos trocar onde está o sequelize.import por um código um pouco diferente, que vai ser um require(*path*.join(dirname, file))(sequelize, Sequelize.DataTypes).
+
+[05:50] Agora eu salvei o arquivo. Se voltarmos no terminator, pronto, ele já está rodando. Já consertou onde estava quebrado. Como atualizamos também o sequelize-cli para a versão 6, da próxima vez que você precisar criar qualquer coisa com o sequelize-cli, usar a linha de comando, essa linha de comando também vai estar atualizada, corrigida. Agora o servidor já voltou a rodar normalmente. Projeto revisado, atualizado. Agora podemos realmente começar a mexer no código.
