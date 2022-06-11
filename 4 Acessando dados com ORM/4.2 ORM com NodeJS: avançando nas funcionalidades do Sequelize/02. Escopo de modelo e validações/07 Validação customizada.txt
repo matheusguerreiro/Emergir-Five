@@ -1,0 +1,13 @@
+[00:00] Vamos aproveitar que estamos fazendo validações no modelo para adicionar mais algumas. No caso do nome, por exemplo, uma validação comum em nome é impedir a entrada de dados com menos de três caracteres. A pessoa tenta dizer que o nome dela é a e o sistema não deixa.
+
+[00:16] Dá para fazer isso usando um validador que já tem no Sequelize, que é o length, de tamanho da string, e aí você passa por parâmetro no valor uma array com tamanho mínimo e máximo da array de caracteres, mas também podemos criar uma função validadora um pouco mais específica, vamos ver como isso funciona.
+
+[00:42] Em nome, no atributo nome, onde está DataType.STRING como valor, vamos a princípio fazer o que fizemos no e-mail, abrir um objeto, o primeiro parâmetro vai ser type DataType.STRING, fizemos para validar o e-mail. E em seguida vou passar no validate também da mesma forma que fizemos no e-mail, vai receber como valor um objeto, e aqui podemos passar uma função validadora se quisermos fazer uma validação mais específica.
+
+[01:22] Vou mostrar para vocês como funcionaria isso. Damos um nome para essa função, vou chamar de funcaoValidadora, e é uma function, que vai receber o dado que queremos validar, abre e fecha chaves. Aqui dentro vou passar um if. Se o length, se o tamanho da minha string que estou tentando validar, que é a string do nome, for menor do que 3, eu vou lançar um erro, então posso dar um throw new Error. E passo nos parâmetros do erro o que quero voltar, o que quero jogar nesse novo erro, e vou passar uma mensagem mesmo, o campo nome deve ter mais de três caracteres.
+
+[02:40] Vamos testar com um nome fora do padrão. Venho no Postman, numa rota post, localhost:3000/pessoas com post, vou tentar mandar para o banco um novo registro com nome fora do padrão, com uma string de um caractere só. Dou um send no post. Erro de validação. Campo nome deve ter mais de três caracteres. Está funcionando.
+
+[03:11] Se eu voltar no meu corpo da requisição e refizer para Joana Carla, voltou a funcionar, criou um novo registro com nome, ativo, e-mail e role. A validação feita dessa forma via função validadora também está funcionando.
+
+[03:33] Os métodos de validação do Sequelize já cobrem grande parte dos casos, mas se você precisar e quiser usar uma coisa mais específica, é possível fazer isso com JavaScript puro, refinar, digamos assim, a validação, como fizemos usando um if e um operador de maior do que três, e a propriedade length de uma string. A parte de validação também agora já está feita e refinada inclusive.

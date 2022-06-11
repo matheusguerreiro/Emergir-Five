@@ -1,0 +1,21 @@
+[00:00] Vamos ver agora qual é o próximo requisito na nossa lista. Vou dar um ok no item anterior, porque já fizemos, já fizemos o primeiro requisito, que foi o soft delete. Agora o segundo. Para deixar a interface mais limpa, o cliente gostaria que na lista de pessoas por padrão fossem exibidos somente os usuários ativos, faz mais sentido para o sistema dele.
+
+[00:25] Temos que fazer com que a lista de pessoas seja exibida. Vamos vir no Postman. Já dei um get aqui. Vamos dar um get em pessoas. Ele quer que essa lista que vai ser exibida no front apareça só com os registros que tem ativo true. Por exemplo, o id 4 que o ativo é false não quer que apareça por padrão.
+
+[00:55] Ele quer que todo get que façamos através do método do Sequelize findAll seja feita, podemos dizer, a partir de um determinado escopo. Vamos ver o que o Sequelize tem a dizer para nós sobre escopos.
+
+[01:14] A documentação dá alguns exemplos, os escopos são usados para reutilizar código, ou seja, se tem um requisito como esse, eu quero que sempre as queries select sejam exibidas com determinado where, ou determinado include. Esse escopo serve para podermos reutilizar isso.
+
+[01:41] Ele dá alguns exemplos. O escopo por definição é declarado no modelo. Então, se vamos determinar um novo escopo padrão, que ele marca inclusive como escopo padrão, defaultScope, temos que fazer isso no nosso modelo de pessoas. Vou fechar a lista de requisitos, vamos nos modelos, modelo pessoas, porque é aqui nesse modelo que vamos definir onde vai entrar esse escopo padrão e o que vamos ter que declarar nele.
+
+[02:15] Se voltarmos na documentação, no primeiro objeto dentro do método que aqui estamos usando o define, então sequelize.define é um método e dentro vai o parâmetro. O primeiro parâmetro é o nome do modelo, segundo parâmetro é um objeto grande com todos os atributos desse modelo, nome, ativo, etc, e o terceiro é outro objeto onde estamos colocando opções.
+
+[02:44] Já temos uma opção, que é o paranoid true. Vamos adicionar outra opção depois de paranoid, colocar uma vírgula. Aqui vamos passar o escopo. Primeiro, paranoid true, depois vamos passar um escopo que vamos chamar de escopo padrão, ou seja, de defaultScope.
+
+[03:08] Essa é uma propriedade do sequelize. O escopo padrão. O que queremos que aconteça no get() padrão? Vamos passar um where. Quero que todos os meus selects só retornem registros que tenham o atributo ativo, que é uma das colunas do meu banco, true. Ou seja, no caso do nosso projeto, o id 4 da tabela de pessoas que é a Sandra, que o ativo dela é false, não tem que aparecer por padrão, e mais nenhum que seja false também.
+
+[03:52] Vou salvar. O que fizemos aqui foi passar esse escopo padrão. Agora por padrão o sequelize vai incluir esse where em todas as queries feitas no modelo pessoas. Já podemos vir no Postman e testar nosso get. Agora o id 1, que é a Sandra, não tem que aparecer na lista. Passa direto do 3 para o 5, ou seja, está funcionando. O único registro que temos ativo false não está aparecendo.
+
+[04:21] Se fizermos uma consulta na tabela pessoas usando o terminal do MYSQL, vou dar um use escola_ingles e se der um select * from pessoas, o registro continua no banco, o ativo é 0, 0 é falso, mas o Postman não está trazendo, então está tudo certo.
+
+[05:00] Essa parte teoricamente já está feita, mas pode ser que queiramos em algum momento sobrescrever essa regra. Como faço para sobrescrever um escopo padrão? É o que vamos ver em seguida.

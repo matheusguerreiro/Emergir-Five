@@ -1,0 +1,27 @@
+[00:00] Vamos aproveitar que estamos fazendo algumas alterações no modelo e ver mais o que tem nos requisitos. Uma das funcionalidades que está sendo pedida aqui, a primeira sobre o soft delete já foi feito, a segunda já adicionamos um escopo de modelo para exibir as pessoas ativas por padrão, e em seguida o terceiro é sobre validação, foram percebidas algumas falhas de validação nos formulários por parte do front, o que resultou em dados de e-mail inválidos no banco e é desejável que essa validação não seja responsabilidade exclusiva do front, o que está muito certo, inclusive.
+
+[00:35] Essas validações, pelo Sequelize podemos fazer direto no modelo. Na verdade, existem algumas formas de se fazer validação em uma aplicação. Podemos tratar os dados recebidos no body, e aí dá para fazer esse tratamento direto usando JavaScript. Mas também dá para fazer com SQL, que é um comando que chama check.
+
+[01:00] Por exemplo, quando criamos uma tabela, damos um CREATE TABLE podemos usar um comando que é o check, e no caso queremos verificar matrícula, podemos verificar se os status das matrículas ou escrevem confirmado ou escrevem cancelado. Qualquer outra coisa que se tente incluir, qualquer outra string que não tenha nenhum desses dois valores ele não deixa entrar, dá um erro de validação.
+
+[01:33] Isso aqui é o MYSQL em ação, funcionando. E se conseguimos fazer validações no SQL, é bem capaz que o sequelize também cubra essa funcionalidade, e ele cobre. Chamamos isso de validação, e a parte de validações, validations e constraints do sequelize é onde encontramos as informações sobre como usar essa funcionalidade.
+
+[02:00] Na documentação do sequelize ele fornece para nós uma lista grande de validações possíveis que já deixa pronto para nós. Dá para validar se dá match numa expressão regular, se é float, se é decimal, se é upper case, se é data. Tem inclusive uma das validações possíveis se is credit card, que dá para validar o número de cartão de crédito, se é válido ou não, sem que precisemos usar uma biblioteca para isso ou escrever o algoritmo. E se precisar fazer alguma validação mais personalizada dá para fazer utilizando um if do JavaScript.
+
+[02:38] Os requisitos que recebemos pedem validação do campo e-mail, então podemos usar a opção de validação pronta que ele tem, que é is e-mail true. Essa validação é feita no modelo de acordo como está na documentação.
+
+[02:55] Vamos no modelo pessoas, vou fechar os requisitos e abrir o modelo de pessoas, e onde incluímos essa validação? A validação não é passada no objeto de opções, como fizemos com o paranoid e com os escopos. Passamos a validação direto no atributo.
+
+[03:18] O modelo pessoas tem nome, ativo, e-mail, role, se é estudante ou se é docente. No e-mail, onde atualmente ele só tem o valor de DataType.STRING é onde vamos fazer as alterações. Ao invés de DataType.STRING vamos abrir um objeto, e aí sim a primeira propriedade desse objeto vai ser type, que DataType.STRING precisamos continuar passando o tipo de dado que vai nesse campo.
+
+[03:50] Em seguida, vamos passar validate. Dentro de validate vamos abrir um outro objeto onde vamos incluir as validações que queremos que sejam feitas para o campo e-mail. Só queremos que seja feita uma, que chama is e-mail, de acordo com a documentação do sequelize. A validação que queremos fazer é se isEmail é true.
+
+[04:22] Se mantivermos dessa forma, só validate e o objeto isEmail true dentro ele funciona, mas podemos também passar algumas informações a mais. Vamos fazer dessa forma,isEmail ao invés de ter valor true vai ter valor de outro objeto, e dentro dele vamos passar args true, e msg, que é outra propriedade que podemos passar aqui, que é justamente uma mensagem que podemos retornar em caso de erro. Vou dizer na mensagem que dados do tipo e-mail inválidos.
+
+[05:10] Se passamos a validação dessa forma ela fica um pouco mais completa, conseguimos dar uma informação sobre o que está acontecendo. Não passou na validação, mas o que aconteceu? É importante às vezes passar uma mensagem, dar um aviso de por que não passou, o que está acontecendo quando uma coisa do sistema não vai como esperamos.
+
+[05:30] Podemos agora testar no Postman. Vou na rota localhost:3000/pessoas com post e vou criar uma nova pessoa. Toda pessoa tem nome, ativo, e-mail e role. Podemos inclusive copiar para não precisar escrever de novo. Nome vai ser João Carlos, o ativo pode ser true, role estudante, e no campo e-mail vou passar só uma letra, só jo, e ver se a validação está funcionando.
+
+[06:22] Vou dar send no meu post. Validation error, dado do tipo e-mail inválido, então meu validador está funcionando, ele bateu, não reconheceu o que passei, o string que passei como e-mail como um formato e-mail, mas se eu voltar na minha requisição e preencher para jo@jo.com, que é um formato de e-mail conhecido, e der um novo send, ele criou certo uma nova pessoa no banco, aceitou.
+
+[07:00] Está tudo funcionando, nossa validação está validando. No caso, os e-mails. Então não vamos mais ter esse problema de e-mails em formato errado. Lembrando que isso não é uma validação de e-mail que existe, aí é outro processo que normalmente é feito mandando e-mail de confirmação, etc, mas quanto ao formato da string já conseguimos cobrir essa validação. Agora podemos passar para os próximos requisitos.

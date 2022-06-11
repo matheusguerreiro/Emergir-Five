@@ -1,0 +1,29 @@
+[00:00] A propriedade defaultScope, escope padrão, que incluímos agora, como o próprio nome diz, define um escopo padrão, ou seja, se não indicarmos nada o Sequelize sempre vai usar esse where que colocamos para montar a query, montar a query select dele. Mas dá para ter quantos escopos o projeto precisar. Então vamos adicionar mais um para sobrescrever essa regra padrão caso seja necessário trazer todos os registros, inclusive os que tem ativo false.
+
+[00:33] Temos uma propriedade aqui que é a defaultScope e vamos incluir em seguida uma outra propriedade que vai chamar scopes. Aqui dentro vamos abrir outro objeto e nesse objeto conseguimos passar quantos outros escopos forem necessários.
+
+[00:55] Vou criar outro escopo que vou chamar de todos e dentro dele abro outro objeto e passo outro where, só que nesse caso o where que vou passar vai ser um where vazio, mas aqui em seguida depois de todos podemos ter quantos precisarmos, com todas as restrições, os constraints que precisarmos passar.
+
+[01:22] Aqui só temos que prestar um pouco de atenção na sintaxe. Temos essa propriedade defaultScope que define o padrão, e em seguida temos outra onde colocamos os outros. O nome defaultScope é um nome dado pelo sequelize, esse não podemos mudar, mas onde escrevi todos foi um nome que eu dei e os outros escopos que não são o padrão vamos chamar pelo nome.
+
+[01:52] No todos só passei um where vazio. Vamos então fazer algumas modificações no controlador onde estamos chamando os métodos e nas rotas para poder usar os dois casos na nossa API. Vou fechar o modelo pessoas, abrir o controlador de pessoas, e aqui o primeiro método do nosso controlador de pessoas é um método que chama pegaTodasAsPessoas, que por enquanto está fazendo um findAll em tudo que tem no banco, no modelo pessoas.
+
+[02:36] Vou modificar o nome, porque agora ele não vai mais pegar todas as pessoas, ele vai pegar todas as pessoas que estão ativas. Eu vou, na verdade, copiar todo esse método pegaTodasAsPessoas, colar embaixo, e comentar por enquanto, porque vamos precisar adicionar outro método para usar o outro escopo que acabamos de criar, o escopo todos.
+
+[03:00] O método que chamava pegaTodasAsPessoas agora chama pegaPessoasAtivas, continua recebendo requisição resposta, e a const que é todasAsPessoas que foi criada onde vai receber o retorno vai chamar pessoasAtivas, continua indo na database, continua indo em pessoas. E o findAll não tem modificações, porque agora devido ao escopo padrão, o findAll vai trazer só as pessoas no banco que tem ativo true.
+
+[03:41] Na nossa rota de pessoas vamos ter que alterar também, então vamos no arquivo pessoasRoute. Agora pegaTodasAsPessoas virou pegaPessoasAtivas, e o get() é simples, /pessoas, sem nenhum outro parâmetro.
+
+[04:04] Podemos testar agora, ver se está funcionando. Vamos no Postman, dá um get() em 3000 pessoas, o id 4, que é nosso id que tem ativo falso, continua não aparecendo, por enquanto está tudo ok.
+
+[04:22] Agora vamos criar mais um método, vamos voltar em pessoaController para poder usar o outro escopo todos que criamos. Vou descomentar o método pegaTodasAsPessoas que eu tinha deixado comentado, porque agora sim vamos pegar todas as pessoas. O que antes era pegaTodasAsPessoas virou pegaPessoasAtivas, e agora o pegaTodasAsPessoas vai usar o escopo que criamos.
+
+[04:46] Onde incluímos, como o sequelize sabe qual escopo ele tem que usar? Na linha onde declaramos o método findAll, que é o método que vai no banco pegar todos os registros, antes dele passamos .scope. Vamos dar um await database.Pessoas.scope(‘todos’).findAll(). findAll aqui não precisa passar nenhum parâmetro porque queremos que ele pegue tudo do banco mesmo.
+
+[05:42] Voltamos em pessoasRoute e criamos uma nova rota get(), para poder pegar todas as pessoas. Vou criar um novo get aqui. Vou passar /pessoas/todos, para ficar o mesmo nome que colocamos no escopo. Em português temos gênero nas palavras, acaba ficando um pouco menos intuitivo do que no inglês.
+
+[06:30] Adicionei uma nova rota get( /pessoas/todos), e o método que vamos chamar nessa rota vai ser pegaTodasAsPessoas. Já podemos testar no Postman, dar um get() em localhost:3000/pessoas/todos, e vamos ver se vem todos os registros, inclusive o 4. Vieram todos, inclusive nosso registro que está ativo false, que é o id 4.
+
+[07:06] Quando queremos que o sequelize use um escopo específico passamos o nome desse escopo, o nome que damos como parâmetro do método .scope e já encadeamos com o método que estamos usando o findAll, mas poderia ser qualquer outro, como findOne, por exemplo.
+
+[07:25] Nosso escopo já está definido, já temos o requisito cumprido, inclusive adicionamos um método caso seja necessário passar por cima, digamos assim, desse escopo padrão, e já podemos passar para os nossos próximos requisitos de projeto.
