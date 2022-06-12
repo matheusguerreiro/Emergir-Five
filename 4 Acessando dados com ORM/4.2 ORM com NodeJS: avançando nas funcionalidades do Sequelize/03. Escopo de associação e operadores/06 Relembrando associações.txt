@@ -1,0 +1,18 @@
+Durante os últimos vídeos tivemos a oportunidade de ver um pouco como o Sequelize trabalha com escopos e associações. Usando o trecho de código abaixo, podemos afirmar que:
+
+Pessoas.hasMany(models.Matriculas, {
+ foreignKey: 'estudante_id'
+})
+
+
+Os escopos de associação são definidos nas instâncias de um modelo, ao contrário dos próprios escopos de modelo.
+  Alternativa correta! Se voltarmos ao código, podemos ver que o escopo de modelo é definido dentro do objeto Modelo. Já o de associação está ligado a uma instância desse modelo, como por exemplo Pessoas.hasMany(...).
+
+É possível refinar e incluir novos escopos caso necessário, utilizando a opção scope: { atributo: valor } e dando um nome a este escopo com a opção as: 'nomeDoEscopo'
+  Alternativa correta! Como fizemos no vídeo, é possível adicionar um escopo a uma associação e definir um nome pelo qual os métodos serão chamados. Os mixins serão criados a partir deste nome, por exemplo getNomeDoEscopo().
+
+O trecho acima não está utilizando nenhum escopo além dos já previstos nos mixins.
+  Alternativa correta! No trecho acima não é definido nenhum escopo, porém os mixins criados na associação entre modelos - por exemplo, Pessoas.getMatriculas(), ficam disponíveis.
+
+Os escopos de associação geram alguns métodos (ou mixins) que já fornecem operações comuns de banco, por exemplo Pessoas.getMatriculas(), Pessoas.createMatricula(), Pessoas.countMatriculas().
+  Alternativa correta! Como vimos do material extra do curso anterior, as associações feitas através dos métodos hasOne(), HasMany(), belongsTo() e belongsToMany() já disponibilizam estes métodos, independente de existir ou não um escopo de associação definido.

@@ -1,0 +1,31 @@
+[00:00] Acabamos de ver que é possível definir escopos na associação entre modelos. O Sequelize gera alguns métodos automaticamente a partir desses escopos. Na documentação dele, ele mostra que no caso, por exemplo, de usuario.hasManyProjects, então usuário tem muitos projetos, ele cria automaticamente alguns métodos, por exemplo, getProjects, e também mais alguns que vou deixar na documentação para vocês.
+
+[00:30] Isso é ótimo porque ele reduz a quantidade de código que teríamos que escrever do zero para fazer algumas queries. Vamos usar um desses métodos, também chamamos eles de mixins, para consultar todas as matrículas confirmadas referentes a um estudante de id X.
+
+[00:44] No controlador de pessoas onde já tínhamos começado a escrever o método pegaMatriculas, vamos adicionar então um desses métodos prontos. Só que aqui, ao invés de consultar a tabela de matrículas vamos fazer um pouco diferente. Vou apagar a linha onde criamos essa const matrículas e vou criar uma nova const, vou chamar de pessoa, e await.
+
+[01:16] O que vamos consultar? Pessoas. Então database.Pessoas.findOne({where: {id: Number(estudante_id)}}). Por enquanto é tudo que vimos no curso anterior. E aí após fazer isso precisamos pegar todas essas matrículas, precisamos fazer com que o sequelize percorra o banco e traga todas as matrículas confirmadas desse estudante.
+
+[02:15] Então vamos criar uma const matriculas = await pessoa, que é o retorno do findOne, que fomos no modelo pessoas. E olha o que vamos fazer. Vamos usar um método que chama getAulasMatriculadas, abro e fecho parênteses. O retorno desse await vai ser matrículas.
+
+[02:52] O que é esse getAulasMatriculadas? Vamos voltar no modelo pessoas, aulasMatriculadas é o nome que demos para o escopo. Esse é um comportamento que vemos em ORMs em geral, não é somente no sequelize. É a criação de métodos get, set, create, etc, a partir dos modelos e das associações.
+
+[03:12] Aqui estamos utilizando um desses métodos que o Sequelize cria automaticamente para nós. Ele pegou aulas matriculadas, que é o nome que definimos no escopo de associação, e criou automaticamente esse método, esse mixin, chamado getAulasMatriculadas, que como o próprio nome diz vai pegar todos os registros que estão de acordo com o escopo que passamos na associação que fizemos dentro do modelo pessoas, ou seja, tudo que tiver status confirmado.
+
+[03:40] Então vamos criar uma rota para testar se está tudo ok. Vamos abrir nosso arquivo de pessoasRoute, criar uma nova rota do tipo get. Vou organizar essas rotas todos os gets juntos, porque acho que fica mais organizado, e todos os puts, deletes, tudo junto, vou deixar mais organizado.
+
+[04:05] Vamos criar uma nova rota do tipo get, o primeiro parâmetro que vou passar é o endpoint, que vai ser pessoas/:estudanteId/matricula, e o segundo parâmetro é o método que vamos chamar nessa rota, que é PessoaController.pegaMatriculas. Vamos no Postman testar essa rota.
+
+[04:42] Vou copiar ela para não precisarmos escrever e vamos fazer um teste com o estudante de id 1, por exemplo. Vou em get no Postman, pessoas/1/matricula. Vamos ver se ele me retorna alguma coisa.
+
+[05:05] Ele retornou uma matrícula, só trouxe os registros do estudante 1 que tem status confirmado. É o id 1, o id de matrícula referente ao estudante id 1 que foi o estudante que buscamos.
+
+[05:16] Como sabemos que isso está certo? Podemos vir no terminal onde o node está exibindo as queries. Vou aumentar um pouco o texto. E olha a query que está sendo executada. No final da query dá para ver que ele procura todas as matrículas onde deletedAt é null, que já fizemos o soft delete, ele está buscando isso também, onde matriculas.status é igual a confirmado e matriculas estudante_id é igual a 1.
+
+[05:50] Se voltarmos no terminal do MYSQL e pedirmos para ele fazer um select * from matrículas, e pedir para ele exibir para nós, vamos ver que o estudante_id tem uma outra matrícula. No seu banco você pode ter feito outras inserções, pode estar um pouco diferente, mas no meu banco tenho outro registro no id 5 que se refere também ao estudante de id 1, mas ela está cancelada. Então o Postman não trouxe para mim essa matrícula, está tudo certo.
+
+[06:38] Dá para usar também esses métodos automáticos sem passar nenhum escopo para eles? Dá sim. Os mixins são criados a partir das associações. Todas as associações que fazemos nos modelos, e temos associações nos nossos quatro modelos do projeto, eles criam automaticamente esses métodos e são super úteis para usar com o escopo, mas pode ser usado também sem eles.
+
+[07:02] Vamos tirar o escopo. Vou só comentar a lista onde passamos o escope e o objeto com status confirmado, só para testar e ver se está funcionando. Podemos voltar no Postman, fazer a mesma requisição, e ele traz as duas matrículas referentes a estudante id 1, tanto a confirmada quanto a cancelada.
+
+[07:25] O requisito de ter uma rota que traga todas as matrículas confirmadas a respeito de certo estudante, estudante x, já está feita. Vou tirar o comentário porque o escopo está valendo, e já podemos passar para o próximo requisito do nosso projeto.

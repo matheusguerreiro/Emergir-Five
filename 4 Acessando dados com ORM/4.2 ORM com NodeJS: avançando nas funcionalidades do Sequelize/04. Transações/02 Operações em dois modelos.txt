@@ -1,0 +1,33 @@
+[00:00] De volta então aos requisitos, o último que trabalhamos foi agrupar matrículas por turma e saber se a turma está lotada ou não. Esse já fizemos. O próximo e último, o cliente gostaria que uma vez que o cadastro de estudante fosse desativado, todas as matrículas relativas a este estudante automaticamente passassem a contar como canceladas.
+
+[00:22] Como assim? Vamos dar uma olhada no terminal do SQL na tabela pessoas. Então, select * from pessoas, todas as pessoas têm uma coluna nessa tabela ativo que recebe true ou false. Tenho alguns estudantes que estão com 0 e outros com 1 que estão ativados ou desativados no sistema.
+
+[00:47] O que o cliente quer? Que toda vez que passemos um estudante de ativo true para ativo false em pessoas, automaticamente todos os registros relativos a este id de pessoas que estejam na tabela matrículas, então se viermos em select * from matrículas, na coluna estudanteId é a coluna que está fazendo a relação entre essas duas tabelas.
+
+[01:22] Se cancelamos, colocamos ativo false no estudante de id 1, onde na tabela matrículas está como 1, tudo que tem status confirmado, que é outra coluna que recebe cancelado ou confirmado, tenho automaticamente que passar para cancelado. Cancelou a pessoa na tabela pessoas, cancelou a matrícula na tabela de matrículas.
+
+[01:48] Vamos então escrever um método para isso no controlador de pessoas, que é o controlador onde estamos cuidando das nossas matrículas. Vou no final do método fazer o que temos feito das outras vezes, copiar o último método para reaproveitarmos um pouco de código, “Ctrl + C”, “Ctrl + V”, vou chamar esse método de cancelaPessoa, que vai receber requisição e resposta.
+
+[02:15] O que temos que passar como parâmetro para conseguirmos fazer isso acontecer? Vou passar o id de estudante, porque é a partir do cancelamento de estudantes que vou sair da tabela pessoas e ir percorrer a tabela matrículas procurando o estudante_id que for de número x.
+
+[02:36] Então, const {estudanteId} = req.params, como temos feito nos outros métodos, vamos receber isso por parâmetro da requisição. Vou apagar tudo que tem no try até antes do retorno, porque vamos reescrever.
+
+[02:55] O que temos que fazer aqui? Vamos em um método só ter que acessar duas tabelas através dos seus modelos e fazer alterações nela, fazer updates. Então vamos começar por pessoa, await database.Pessoas.update, que vai ser o método do sequelize que vamos usar.
+
+[03:16] O que o método update tem que receber por parâmetro para funcionar? Primeiro ele tem que receber as informações que vão ser atualizadas, que vão ser updated, e depois ele tem que receber um where para saber onde tem que atualizar. Quando usamos o update para atualizar matrículas e atualizar pessoas, recebemos o conteúdo, as informações para fazer a atualização através do corpo da requisição.
+
+[03:42] Dessa vez não precisamos fazer isso, porque é sempre a mesma informação que vai mudar, podemos passar ela como parâmetro mesmo. No caso de database.Pessoas temos que modificar a coluna de ativo true para ativo false. Toda vez que chamar o método cancelaPessoa, o primeiro parâmetro vai ser o que vai ser a informação a ser atualizada, vai ser sempre ativo igual a false, que aí passamos no objeto e ele já atualiza no registro.
+
+[04:16] E o segundo é o where, onde vamos passar onde vamos atualizar, então where: {id: Number(estudanteId)}}), essa é a primeira atualização que vamos fazer, vamos atualizar duas tabelas. A segunda é a tabela de matrículas, vamos acessar o modelo matrículas, await database.Matriculas.updated({ativo: false}, {where {id: Number(estudanteId)}}, é a mesma coisa da tabela de pessoas, não precisamos receber as alterações que vão ser feitas no registro através de parâmetro, porque é sempre a mesma alteração que vai ser feita.
+
+[05:20] O que temos que alterar? Temos que alterar para status: ‘cancelado' e é sempre isso que vamos passar para a linha que vamos alterar. Onde vamos alterar? Temos que alterar em estudante_id, porque é a coluna na tabela matrículas que relaciona com id da tabela pessoas. O que vamos receber como valor é Number(estudanteID), porque estudanteID que está sendo recebido é o parâmetro da requisição.
+
+[05:55] Os métodos update não retornam JSON, eles retornam sempre 0 ou 1, de aconteceu ou não aconteceu. No nosso JSON de retorno podemos só passar uma mensagem, então message: ‘matriculas ref. estudante ${estudanteId} canceladas. Sem esquecer a rota para fazer o teste.
+
+[06:35] Vamos em pessoas.route, essa vai ser uma rota do tipo post, não é uma rota do tipo put, então post(‘/pessoas/estudanteId/cancela’, PessoaController.cancelaPessoa), vamos testar no Postman essa rota. Essa é uma rota do tipo post, localhost:3000/pessoas/estudanteId, não esquecer dos dois pontos na rota para sabermos que isso é um parâmetro.
+
+[07:26] Vou passar 1, porque o estudante 1 tem alguns registros que coloquei na minha tabela de matrículas, para testarmos, e estudante de id 1 tem cinco registros como confirmados em turmas diferentes. Vamos testar com estudante 1 e ver se está funcionando.
+
+[07:46] A mensagem veio, matrículas referentes a estudante 1 canceladas. Vamos no banco pegar a tabela atualizada. Todos os registros referentes a estudante id 1 cancelado. E se voltarmos na tabela pessoas nosso estudante 1 agora tem ativo false, ativo 0 na tabela de pessoas.
+
+[08:14] Aqui está feito, basicamente já cumprimos o requisito, mas o que acontece se der qualquer problema no banco enquanto tudo isso é feito? Ele atualiza uma tabela, atualiza tudo? Para de atualizar? Bota uma mensagem? É aí que entra o que vamos ver agora, que são as transações.

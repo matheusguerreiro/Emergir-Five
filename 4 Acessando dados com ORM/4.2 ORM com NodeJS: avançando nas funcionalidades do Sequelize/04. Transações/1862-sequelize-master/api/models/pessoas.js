@@ -1,3 +1,5 @@
+// 02 Escopos de associações
+
 'use strict'
 module.exports = (sequelize, DataTypes) => {
   const Pessoas = sequelize.define('Pessoas', {
@@ -35,7 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'docente_id'
     }) 
     Pessoas.hasMany(models.Matriculas, {
-      foreignKey: 'estudante_id'
+      foreignKey: 'estudante_id',
+      /* 02.1 */
+      scope: {status: 'confirmado'},
+      as: 'aulasMatriculadas'
+      /* 02.1 */
     })
 
   }

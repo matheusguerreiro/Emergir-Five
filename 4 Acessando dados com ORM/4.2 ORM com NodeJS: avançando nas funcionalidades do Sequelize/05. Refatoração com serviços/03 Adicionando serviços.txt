@@ -1,0 +1,37 @@
+[00:00] Agora que temos um serviço para fazer a interface com o banco, vamos pensar em outros métodos que estão sendo usados por todos os controladores e que podemos passar para cá. Por exemplo, async pegaUmRegistro, para pegarmos um registro só, que seria o findOne, ele receberia um id e colocaríamos o código aqui dentro.
+
+[00:30] Que outros métodos são comuns para todos os modelos? criaRegistro, por exemplo, então async criaRegistro passando os dados que usaríamos para criar esse registro. Outro seria para atualizar um registro, então async atualizaRegistro recebendo os dados atualizados e o id, estou escrevendo id, mas seria o where, onde passaríamos as informações que ele ia usar para achar no banco. E por último apagaRegistro, são os métodos que precisaríamos. Receberia um id também, um where.
+
+[01:18] São os métodos que todos os nossos modelos têm em comum, que são os métodos do CRUD, afinal, que são usados em todos os controladores. Esses métodos podemos passar para um serviço, digamos assim, geral, entre aspas. Vamos alterar só o controlador de níveis, da mesma forma que fizemos o de pessoas, para testarmos se realmente está tudo certo.
+
+[01:36] Controlador de níveis também não precisamos comentar a linha onde faz a importação dos modelos, e vamos criar, instanciar um novo serviço, então const Services = require(‘../services/Services’) e aí instanciamos um novo serviço em const niveisServices = new Services(‘Niveis’), que é o nome do nosso modelo. E dentro do método pegaTodosOsNiveis vamos substituir database.niveis por niveisServices e o findAll vamos substituir por pegaTodosOsRegistros, que é o mesmo método que usamos no controlador de pessoas.
+
+[02:40] Vamos no Postman para testar, localhost:3000/níveis, get, está tudo funcionando. Tem alguns métodos que não são comuns para todos os controladores. Se viermos no controlador de pessoas, por exemplo, temos o método pegaTodasAsPessoas que está usando um escopo específico, o escopo todos. E aí colocamos tudo dentro do serviços geral?
+
+[03:11] Essa ideia não me parece muito boa, já que estamos tentando justamente separar as coisas, e não juntar tudo de novo. Então vamos fazer o contrário. Vamos separar ainda mais criando um serviço para cada separador. Na pasta services vamos criar alguns arquivos, vou criar o primeiro, chamar de pessoasServices.js, e aqui dentro vou importar o arquivo geral de serviços, então const Services = require(‘./Services’).
+
+[03:55] Essa classe que vou criar aqui dentro que vai chamar pessoasServices, então class pessoasServices extends, ou seja, ela vai herdar métodos de serviços. Desse método de serviço geral que criamos para fazer o CRUD. O constructor não precisa receber nenhum parâmetro, porque ele vai receber só super. O que ele vai receber de super? Pessoas, já posso passar o nome do modelo que vamos trabalhar.
+
+[04:26] Por enquanto não tenho nenhum método para colocar aqui dentro, mas vai ser onde vamos criar, por exemplo, métodos específicos do controlador de pessoas. Vou exportar, mas por enquanto não vamos escrever nenhum método, vou só exportar isso, module.exports = pessoasServices, e vou fazer a mesma coisa com os outros controladores que temos, por exemplo, turmas e níveis.
+
+[05:10] Vou só copiar o arquivo, renomear ele como turmasServices. Onde está pessoas vai ser turmas, e a mesma coisa vamos fazer com níveis. É o mesmo arquivo, porém onde está turmas vai ser níveis, porque todos eles vão usar, vão estender a partir do arquivo de serviços mais geral.
+
+[05:50] O super está recebendo o modelo níveis que vem do construtor de serviços, e etc. Agora cada serviço estende, herda a partir do serviço principal, e se algum controlador precisar de um serviço específico adicionamos somente no arquivo correspondente. O método especial para tratarmos o escopo de pessoas vamos ter somente aqui, em pessoasServices não vai precisar ir para o arquivo geral, por exemplo.
+
+[06:15] Por enquanto os controladores não sabem que esses arquivos existem, então vamos nos controladores, vou fechar alguns arquivos, para colocarmos. Antes de importar todos esses serviços nos controladores, vamos fazer mais uma alteração. Vou criar dentro da pasta services um arquivo chamado index.js, e aí sim esse arquivo vai ser da mesma forma que fizemos no arquivo de rotas o ponto de entrada da parte de serviços.
+
+[06:50] Dentro do arquivo services/index.js vamos importar todos os arquivos de services que criamos, então pessoasServices = require(‘./pessoasServices’), a mesma coisa para níveis e para turmas. Então, turmasServices = require(‘./turmasServices’) e niveisServices = require(‘./niveisServices’).
+
+[07:25] Por enquanto só vamos exportar isso com module.exports = {pessoasServices: pessoasServices, turmasServices: turmasServices, niveisServices: niveisServices}. Por enquanto só estamos usando esse arquivo, esse index.js como ponto de entrada mesmo que vai distribuir os arquivos conforme eles foram chamados.
+
+[08:11] Agora atualizamos o controlador de pessoas para que a chamada que estávamos fazendo no service geral seja feita no arquivo pessoasService.js. Então require aqui só precisa ser feito em services, porque agora vamos chamar services/index.js. Lembrando que se o nome do arquivo é index não precisamos colocar ele aqui, podemos colocar só o nome da pasta.
+
+[08:47] E a const pessoasServices vai agora ter um new pessoasServices. Tenho que importar ele aqui. Minha const vou abrir um objeto, vai se chamar somente pessoasServices. E vou criar uma nova instância de pessoasServices, não preciso mais passar o nome do meu modelo pessoas como parâmetro.
+
+[09:12] PessoasServices está vindo do arquivo index.js, e estou só instanciando um novo pessoasServices, ele não recebe mais por parâmetro o meu nome de modelo, porque pessoasService está recebendo do super, está vindo já daqui.
+
+[09:32] Se testarmos no Postman, localhost:3000/pessoas, método get, funciona, a rota continua funcionando, pessoasService está herdando os métodos da classe services.
+
+[09:46] O que fizemos aqui? Só para retomarmos. Criamos um ponto de entrada, um entry point, chamado index, que só chama o arquivo correspondente. Chama turmasServices, pessoasServices, e assim todas as chamadas que recebermos dos controladores para os serviços podem ser direcionadas para esse arquivo index e aí distribuídas, entre aspas, porque sempre lembrando que dividimos bastante os arquivos porque nossa aplicação sempre pode crescer. E aí cada vez que cresce, quanto mais cresce mais coisa tem em cada arquivo, fica mais difícil mexer.
+
+[10:24] Por isso estamos separando ainda mais os serviços, para que cada serviço consuma os métodos do serviço principal, por isso ele está herdando, estendendo, herdando da classe serviços, que foi a primeira que criamos, mas também para que possamos criar métodos específicos, que são relacionados, por exemplo, a pessoas de acordo com o que for necessário, com o que o controlador pedir, e é o que vamos fazer agora.

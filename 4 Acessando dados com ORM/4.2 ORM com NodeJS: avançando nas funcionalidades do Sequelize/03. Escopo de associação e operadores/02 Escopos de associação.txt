@@ -1,0 +1,32 @@
+[00:00] Vamos ver o próximo requisito da nossa lista. O último que lidamos foi a respeito de falhas de validação, que já está ok. O próximo que temos que tratar agora é que o cliente achou importante poder consultar todas as matrículas confirmadas referentes a um estudante de id X, de forma rápida.
+
+[00:18] Vamos pensar então em como fazemos isso. A primeira coisa que me ocorre é ir direto no controlador de pessoas e criar um método novo para isso. Podemos aproveitar o método apagaMatricula, que vai ser um pouco parecido. Vou copiar todo o método apagaMatricula, vou colar ele no final da classe pessoaController.
+
+[00:45] Esse método vai chamar pegaMatriculas, ao invés de apagaMatricula. Vai receber requisição e resposta. O que vamos receber aqui então nos parâmetros da requisição? Vai ser o id de estudante. Vai ser estudanteId, porque a partir do id de estudante é que vamos pedir lá na tabela de matrículas para ele filtrar todas as matrículas referentes a um estudante.
+
+[01:08] Dentro do nosso try vamos acessar database.Matriculas.findAll, e dentro do findAll vamos passar um where. Nesse where vai ter estudante_id e o valor dele vai ser o valor que vamos trazer do parâmetro da requisição, que é estudanteId.
+
+[01:30] O que é esse estudante_id que estamos declarando no where? Vamos voltar no diagrama de banco que usamos para criar nossas tabelas. Estudante_id é uma coluna da tabela matrículas, é a coluna que liga a tabela matrículas à tabela pessoas através de uma chave estrangeira. Seria algo nessa linha, ele retornaria ao invés de uma mensagem um JSON com valor de matrículas, então aqui eu teria que criar uma const, que vou chamar de matrículas, para guardar os resultados desse findAll, e o JSON do retorno traria o conteúdo dessa variável matrículas.
+
+[02:18] Essa é uma forma de fazer. Mas tem outro jeito de fazer isso sem ficar passando where no findAll? Tem. A partir de um recurso que chamamos de escopo de associação. Se voltarmos no modelo pessoas, lembrando do curso anterior, nos modelos definimos algumas associações. Vamos ver como está essa parte de associações que é logo depois do código que escrevemos para definir os atributos do modelo e etc.
+
+[02:52] No modelo pessoas temos duas associações que já deixamos feitas, já trouxemos feitas do curso anterior. Tem pessoas.hasMany, que é uma associação de um para muitos de pessoas para turmas. E pessoas.hasMany, que é uma associação de pessoas com matrículas.
+
+[03:11] Por enquanto está dessa forma. A associação da tabela pessoas no modelo pessoas com turmas é a partir da coluna docente_id, e de pessoas com matrículas é através da coluna estudante_id, que foi a coluna que vimos no diagrama de banco.
+
+[03:30] Podemos a partir daí passar uma instrução nessa parte falando que já que esses dois modelos estão associados, conseguimos fazer eles se cruzarem? Por exemplo, uma função do tipo cruzar matrículas com pessoas, etc? Sim, conseguimos. Para fazer isso que servem justamente os escopos de associação.
+
+[03:52] Na documentação do Sequelize ele tem a parte de escopo de associação, é similar ao que fazemos anteriormente no escopo de modelo, só que aqui ao invés de definirmos o escopo dentro do próprio modelo, como fizemos anteriormente, se voltarmos um pouco no código, dentro do método define, que é o método onde definimos o modelo, passamos o nome dele e em seguida um objeto com os atributos, é dentro aqui desses parâmetros que passamos o escopo de modelo.
+
+[04:25] O escopo de associação definimos no trecho do código onde justamente declaramos todas as associações que são feitas com esse modelo. Vamos escrever para entender melhor o que está acontecendo. O que queremos associar é uma associação de pessoas com matrículas. Logo depois que escrevo foreignKey: estudante_id vou adicionar mais duas propriedades nesse objeto.
+
+[04:50] A primeira propriedade vai ser scope, de escopo mesmo, o valor dela é um objeto. Dentro desse objeto vou passar justamente o escopo. Qual é o escopo dessa associação que quero fazer? É status confirmado.
+
+[05:07] O que é status confirmado, só lembrando? Se voltarmos no diagrama de banco, status é uma coluna da tabela matrículas e ele recebe confirmado ou cancelado. Como queremos nesse caso só filtrar os registros que tiverem status confirmado, passamos ele no escopo, e vamos passar outra propriedade, que é as, e ela vai ter um valor que vou passar como string que é o nome que quero dar para esse escopo também.
+
+[05:34] Vou dar para esse escopo o nome de aulasMatriculadas. Então, pessoas nesse trecho de código, pessoas.associate é uma instância do modelo pessoas que foi definido um pouco acima do código, a partir da linha 3.
+
+[06:00] O que acabamos de fazer é adicionar um escopo de associação passando duas informações. A primeira é o escopo que queremos trabalhar, que na verdade é a condição que vai ser passada no where quando o sequelize montar o array para nós, e em segundo o nome que queremos usar. E vamos usar esse nome para chamar esses tais métodos automáticos que fiquei me perguntando se o sequelize tem.
+
+[06:25] Vamos usar alguns desses métodos que ele cria para nós. Os nomes desses métodos são mixins. Também tem na documentação, vou deixar para vocês, como alguns casos de usos desses tais métodos que o Sequelize cria para nós a partir das associações. Vamos lá fazer esse escopo funcionar no controlador de pessoas.
+

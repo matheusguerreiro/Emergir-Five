@@ -1,0 +1,27 @@
+[00:00] Fez o desafio de tentar separar os métodos dos controladores e dos serviços? Eu fiz o meu, vamos dar uma olhada em como ficaram algumas coisas depois dessa refatoração. A primeira coisa que eu já queria mostrar é que para manter a organização de ter somente um controlador acessando seu próprio serviço, decidi por separar os métodos que acessavam o modelo matrículas, no próprio controlador de matrículas.
+
+[00:25] Antes os métodos relacionados ao modelo matrículas estavam no controlador de pessoas, por uma qu estão de regra de negócio, mas para termos um apanhado melhor do que está acontecendo aqui no projeto, na aplicação, fiz essa separação.
+
+[00:38] Vamos aproveitar já essa separação para dar uma olhada em um dos métodos que estão aqui dentro, que é o pegaMatriculasPorTurma, que é um método que criamos algumas aulas atrás, utilizando alguns agregadores, como limite, ordenação, e etc, e que o sequelize usa para montar a query.
+
+[00:58] Como ficou no controlador? No método pegaMatriculasPorTurma eu substituí todos os updates, tudo que tinha aqui dentro por um método que chamei de encontraEContaRegistros, ficou meio trava-língua falando, foi o método que eu criei, e coloquei esse método no serviço js.
+
+[01:22] O que esse método encontraEContaRegistros recebe? Dois parâmetros. O primeiro é o where, onde que ele vai encontrar as coisas, e o segundo passo os agregadores que usamos para montar essa query. Qual o método interno do sequelize que está sendo usado aqui? O método find and count all.
+
+[01:44] Se voltarmos na documentação do sequelize, o método find and count all recebe dois parâmetros. O primeiro parâmetro é um where, onde ele vai localizar os registros, e em seguida ele recebe todos os agregadores, as opções de paginação e todas as outras opções que podemos querer passar para refinar a nossa query, é exatamente da forma que está sendo passado no método que criei, primeiro está passando o where com o spread e em seguida faço um spread dos agregadores que estão sendo enviados através do método pegaMatriculasPorTurma.
+
+[02:25] Na linha 69 estou passando o where e na segunda linha estou passando um objeto com cada um dos agregadores que estamos utilizando. O que sempre temos que conferir é se o método interno do sequelize, no caso o find and count all, está recebendo os parâmetros que ele precisa de acordo com a documentação, se você tiver alguma dúvida.
+
+[02:45] A partir daí montamos o objeto e passamos como parâmetro desde o controlador, passamos como parâmetro do método que criamos dentro do controlador, passamos isso para o serviço.
+
+[03:00] Basicamente, o que o controlador está fazendo aqui é receber a requisição, ele recebe os parâmetros da requisição e corpo da requisição, o que tiver quando enviamos dados, faz uma atualização ou cria um registro novo, por exemplo, e passa tudo isso para o serviço de uma forma compreensível, entre aspas. Compreensível para o código.
+
+[03:25] Com o método pegaTurmasLotadas, que é o outro método que criei dentro de matriculasController, está acontecendo exatamente a mesma coisa, inclusive ambos os métodos estão utilizando o mesmo serviço, que é o encontraEContaRegistros, só que passando em cada um deles informações diferentes, porém encontraEContaRegistros está recebendo o que ele espera receber, que é where e agregadores em seguida, e só montamos o objeto de forma que o método está esperando resolver.
+
+[03:56] Aproveitei, fui em services.js e lá no primeiro método, o mais básico do get, que é o getAll, que é o método pega todos os registros, aproveitei para incluir uma opção de where no findAll, porque o findAll anteriormente, quando criamos esse método lá no começo dessa aula era só um findAll sem receber parâmetro nenhum, só que isso daria alguns problemas, porque no caso do método pegaTodasAsTurmas, utilizaríamos esse findAll, que é o pegaTodosOsRegistros, e aqui estamos passando um where para ele.
+
+[04:38] Então precisei fazer essa alteração para que o método findAll recebesse ou não parâmetros, por exemplo um where, se não receber nada ele dá só o findAll sem parâmetro nenhum, e se receber o where, ele trabalha com where.
+
+[04:51] Como em qualquer outra aplicação, ainda tem muito refinamento que podemos fazer aqui nessa aplicação. Por exemplo, diversas outras validações de banco. Se o registro já existe, se estudante x já tem uma matrícula, etc, podemos fazer tudo isso, mas agora que já vimos uma quantidade muito boa de recursos do sequelize e quero frisar que ainda não vimos todos, tem bastante coisa que o sequelize é bastante completo, mas já vimos bastante coisa, já entendemos como faz para interpretar a documentação, e agora você pode implementar o que você precisa de acordo como seu projeto.
+
+[05:28] Já vimos também um pouco sobre como organizar uma aplicação, para que ela tenha uma manutenção mais fácil e melhor entendimento, e a partir do que vimos aqui você já pode evoluir e criar as suas APIs, suas aplicações, de acordo com o que o seu projeto precisa.

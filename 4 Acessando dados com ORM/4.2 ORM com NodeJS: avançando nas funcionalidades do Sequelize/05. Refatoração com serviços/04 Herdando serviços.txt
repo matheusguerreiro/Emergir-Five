@@ -1,0 +1,23 @@
+[00:00] Voltando ao controlador de pessoas, tem um método, o método pegaTodasAsPessoas, que está usando um escopo específico, é o escopo que chamamos de todos no modelo de pessoas e está encadeado com findAll. Não estamos utilizando o escopo em nenhum outro modelo, então teoricamente isso só existe para pessoas. Precisa então passar isso para o arquivo services geral onde vamos fazer o CRUD que vai servir para todos os modelos? Não precisa.
+
+[00:30] Vamos ver como passamos então essa responsabilidade direto de pessoaController para pessoasServices. Dentro de pessoasServices ele está já herdando ou vai herdar de serviços toda a parte de CRUD que vamos escrever, mas também podemos criar métodos que são específicos de pessoas.
+
+[00:51] O primeiro vai ser um método async, vou chamar ele de pega registros ativos. Como parâmetro vou passar where e vou iniciar esse where como um objeto vazio. O que vai me retornar esse método então? return database[this.nomeDoModelo]findAll, no findAll vou abrir um objeto, passar dentro dele where, outro objeto, spread where.
+
+[01:28] Por que fazemos isso? Agora findAll vai funcionar tanto se where não tiver nada, for um objeto vazio, vai funcionar da mesma forma que se não estivesse passando parâmetro nenhum, mas agora posso utilizar esse método para passar parâmetros dentro do findAll como where, coluna x tem tal valor, etc.
+
+[01:48] Esse método fica aqui tanto para funcionar com where sem parâmetros como passando qualquer informação no where. Database não posso esquecer de importar, lá no começo do arquivo services precisamos importar database, então const database = require(‘../models’). Agora também está importado o database.
+
+[02:22] Vamos criar um outro método, que vai ser async e vou chamar ele de pegaTodosOsRegistros. E vou passar também um where iniciando como objeto vazio, como parâmetro desse método. O que ele vai me retornar? return database[this.nomeDoModelo]scope(‘todos’).findAll({where: {... where} } ). Se recebeu where, qualquer tipo de informação de dado para ele selecionar ele vai receber, senão vai funcionar findAll com where vazio.
+
+[03:15] No controlador esses métodos ficam da seguinte forma. Primeiro temos o método pegaPessoasAtivas, que está indo em pessoasServices, e ao invés de pegaTodosOsRegistros ele vai pegar registros ativos. E vai retornar o JSON.
+
+[03:42] O método, que é o pegaTodasAsPessoas vai ao invés de database.pessoas, porque ainda não tínhamos feito essa correção, vai em pessoasServices e vai acessar o método pegaTodosOsRegistros que acabamos de criar.
+
+[04:02] Podemos usar a herança de classe nos nossos serviços. Os métodos que são só para pessoas não precisam estar junto dos services principal, mas podemos usar herança para estender os métodos principais e usar em pessoasServices. Vamos então atualizar as rotas para testar. Vamos dar uma olhada como estão as rotas agora.
+
+[04:25] Temos uma rota get pessoas onde ele está pegando só pessoas ativas. Vamos fazer um get/pessoas vai continuar pegando pessoas, todas as pessoas, então aqui vai para pessoaController.pegaTodasAsPessoas, e vamos passar aqui ao invés de todos, vou passar /pessoas/ativas, e vou chamar nessa rota o método pessoaController.pegaPessoasAtivas.
+
+[05:12] Agora podemos testar tanto a rota pessoas quanto a rota pessoas/ativas. Vamos no Postman, localhost:3000/pessoas, tem que trazer todas as pessoas, inclusive as que estão ativo igual false. Id 1 ativo false, id 2 ativo false, etc, está trazendo todo mundo, mas se trago pessoas/ativas e dou um get, ele vai trazer somente os que estão true. No caso do meu banco começam realmente no id 6. Todos aqueles ids que estavam com ativo false não estão aparecendo.
+
+[05:50] Gostei. Achei bacana. Vamos fazer mais um método e ver como passamos para a frente parâmetros recebidos pelo controlador, por exemplo, corpo de requisição, etc, para que o serviço consiga receber esses dados e utilizar fazendo a interface com o modelo.

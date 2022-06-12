@@ -1,0 +1,39 @@
+terminal NPM
+  npm outdated - ver se algum pacote está desatualizado
+    ex.
+      trocar "sequelize": "^5.21.0" para "sequelize": "^6.3.0" em package.json
+      depois npm update para atualizar
+
+------------------------------------------------------------------------------
+
+mais colunas com migrações
+  adicionar arquivos em migrations
+    ex.
+      20220610201200-addcolumn-pessoas.js
+        'use strict'
+        module.exports = {
+          up: (queryInterface, Sequelize) => {
+            return queryInterface.addColumn('Pessoas', 'deletedAt', {
+              allowNull: true,
+              type: Sequelize.DATE
+            })
+          },
+          down: (queryInterface) => {
+            return queryInterface.removeColumn('Pessoas', 'deletedAt')
+          }
+        }
+      depois rodar o comando ./node_modules/.bin/sequelize-cli db:migrate para criar a coluna deletedAt nas tabelas
+
+Restaurando registros
+  PessoaController.js
+    static async restauraPessoa(req, res) {
+      const {id} = req.params
+      try {
+        await database.Pessoas.restore({where: {id: Number(id)}})
+        return res.status(200).json(`Pessoa id: ${id} restaurada com sucesso!`)
+      } catch (error) {
+        res.status(500).json(error.message)
+      }
+    }
+  pessoasRoute.js
+    .post('/pessoas/:id/restaura', PessoaController.restauraPessoa)

@@ -1,0 +1,15 @@
+[00:00] Ainda tem vários melhoramentos que podemos fazer nesse projeto. Podemos melhorar os tratamentos de erro no catch, podemos fazer mais validações de entrada, fizemos algumas, mas tem várias outras que são importantes que podemos ser adicionadas, entre alguns outros detalhes que você pode ter pensado enquanto trabalhávamos no projeto.
+
+[00:20] Um desses melhoramentos é relativo à arquitetura e organização do projeto e é o que vamos mostrar um pouco na próxima aula, mas antes disso, vamos voltar no terminal do nodemon, porque tem um aviso no terminal que eu queria mostrar para você.
+
+[00:35] É um aviso de depreciação, um warning de depreciação. Sempre que vemos esses avisos é bom dar uma olhada neles. Esse aqui se refere a operatorAliases. Vamos na documentação do sequelize. Ele tem essa parte de operatorAliases, já trabalhamos com operadores.
+
+[00:55] Essa é uma opção de versões anteriores, onde era possível usar operadores com aliases, apelidos, uma tradução bem solta, e usar operações sem a notação de colchetes que utilizamos.
+
+[01:10] Esse aviso que está no terminal do nodemon é bem chato, porque aparece mesmo que você não esteja utilizando os tais operatorAliases. Não estamos usando mesmo, porque isso vai ser descontinuado, como está sendo avisado aqui, mas tem um único lugar no nosso código inteiro onde essa palavra chave aparece e é no arquivo de configuração, que está em API, pasta "config.json".
+
+[01:35] Cada um dos objetos aqui onde temos as configurações de desenvolvimento, teste, produção, tem uma linha operatorAliases false. O aviso de depreciação diz que foi passado um valor booleano e que tem que ser removido. No caso o que ele está dizendo aqui é que podemos trocar o false por 0, se eu trocar isso e voltar no terminal do nodemon ele já deixou de exibir o erro.
+
+[02:06] Ou como é uma opção que vai ser depreciada, podemos também deletar essa linha, não tem problema. Se eu deletar a linha, voltar no terminal do nodemon ele deixou de exibir o erro para nós. Agora sim, esse erro é bem chato, ficou no projeto inteiro, mas não quer dizer que não estamos olhando.
+
+[02:30] Agora sim podemos trabalhar um pouco na organização do projeto e nossos endpoints já podem ser inclusive testados no front.

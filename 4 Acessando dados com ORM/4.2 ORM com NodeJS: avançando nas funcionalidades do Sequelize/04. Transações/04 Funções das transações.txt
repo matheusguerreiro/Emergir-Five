@@ -1,0 +1,13 @@
+Como vimos, é muito importante garantir a integridade dos dados que são inseridos ou alterados no banco. Conforme um projeto cresce em complexidade, também ficam mais complexas as operações feitas na base de dados a cada interação - por exemplo, quando fazemos uma compra online ou postamos algo em uma rede social.
+
+Sobre transações, é possível afirmar que:
+
+
+Transações servem para garantir a consistência dos dados em um banco; no fim de cada transação, todos os dados devem estar em um estado consistente.
+  Alternativa correta! Uma transação sempre mantém o banco em um estado válido/consistente, o que inclui dados válidos (de acordo com as restrições) e impede registros incorretos no banco; por exemplo, uma tabela não pode ter FKs que não existam na tabela de origem da chave.
+
+O gerenciamento de transações pode ser feito pelo Sequelize através do método .transaction().
+  Alternativa correta! O Sequelize por definição não inclui transações nas operações de banco; elas devem ser implementadas conforme necessário.
+
+Uma transação é uma única operação e deve ser completada com todas as modificações de dados, ou nenhuma modificação é feita.
+  Alternativa correta! O princípio da transação é garantir que todas as alterações nos dados sejam integralmente efetuadas (e concluídas com COMMIT) ou todos os dados envolvidos serão revertidos para o estado anterior (o chamado ROLLBACK).

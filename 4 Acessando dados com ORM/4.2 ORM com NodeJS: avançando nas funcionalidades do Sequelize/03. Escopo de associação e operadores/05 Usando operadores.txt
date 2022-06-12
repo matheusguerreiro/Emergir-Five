@@ -1,0 +1,57 @@
+[00:00] Passando então para o próximo requisito, as matrículas confirmadas referentes à estudante x já fizemos, então vou dar um ok. O próximo é que o cliente gostaria de poder consultar turmas abertas por intervalo de data, assim ele não recebe informações desnecessárias, como turmas antigas.
+
+[00:15] Pensando bem, isso é bem útil, pensando que um escola em alguns anos pode ter uma quantidade grande de turmas, nem sempre quer receber informações de turmas que passaram faz tempo.
+
+[00:25] Nós então precisamos passar um intervalo de datas para a API pegar esse intervalo de datas e fazer um filtro. Como fazemos isso? Passar um intervalo de datas. Uma forma muito usada para passar esse tipo de informação, digamos assim, mais supérflua, por exemplo, só um filtro que queremos usar, é através de parâmetros de query, as chamadas query strings.
+
+[00:50] No próprio endpoint de turmas vamos dar um get em localhost:3000/turmas. Podemos passar aqui as datas para nossa API. Para fazer via query strings começamos abrindo as queries com um ponto de interrogação e vamos concatenando quantos parâmetros quisermos.
+
+[01:10] Por exemplo, vou passar um que vou chamar de data_inicial, e aí colocamos o nome que quisermos, igual, vou passar uma data, por exemplo, 2020-01-01, que é primeiro de janeiro de 2020. Vamos adicionando outras separadas por um &, vou passar meu outro parâmetro que vou chamar de data_final, igual a 2020-03-01, que seria primeiro de março de 2020.
+
+[01:40] Estamos passando via query strings duas datas. A data inicial, primeiro de janeiro de 2020, data final, primeiro de março de 2020. Essa é a forma que vamos fazer para passar essa informação que é só um filtro para nossa API.
+
+[01:58] Como fazemos para a API pegar isso e usar em um where para filtrar e limitar os resultados de um get? Para casos como esse podemos usar operadores. Operadores são palavras reservadas do SQL mesmo, que usamos principalmente em where e de forma similar a outras linguagens. Temos operadores maior que, menor que, de comparação, módulo, para somar, dividir, são os operadores normais que usamos em outras linguagens, ele verifica a condição, usamos da mesma forma.
+
+[02:30] A lista que estou mostrando na tela agora vou deixar o link para vocês, é a lista de operadores do MYSQL, e se existe no SQL existe no sequelize? Existe sim no sequelize uma lista de operadores prontos que ele traz para facilitar nossa vida. Na parte da documentação do sequelize de operadores podemos ver alguns deles.
+
+[02:47] Ele tem alguns operadores básicos, se é, se não é, por exemplo, operadores de número, e tem maior que, menor que, menor que ou igual, maior que ou igual, etc. Operadores que funcionam com strings, com rejects, e etc.
+
+[03:02] Se o caso aqui é pegar um intervalo entre duas datas, tem dois operadores de números que podemos usar. Maior ou igual a que, menor ou igual a que, e conseguimos estabelecer um intervalo entre. Podemos usar o between também.
+
+[03:16] Vamos usar no nosso caso o maior que e o menor que para podemos usar dois e ver como funciona. A documentação também diz na parte de cima, no começo do código de exemplo que op precisa ser importado. O que vamos fazer agora é ir no controlador de turma, no início, nas primeiras linhas do controlador onde fazemos todas as importações, vamos importar via ‘const Sequelize = require(‘sequelize’). E aqui posso importar const Op = Sequelize.Op.
+
+[04:10] Agora os operadores do sequelize ficam disponíveis para utilizarmos. Vamos então reescrever o método principal do meu controlador de turma, que é o pegaTodasAsTurmas, que podemos fazer ele funcionar, fazer o get em todas as turmas, com um filtro de datas ou sem, porque ele precisa funcionar passando datas ou não, ou pego realmente todas as turmas ou passo o intervalo de datas via parâmetro.
+
+[04:36] Do jeito que está agora o controlador ele só faz uma consulta em database.turmas através do método findAll, então database.Turmas.findAll e findAll não está recebendo nenhum parâmetro. Então aqui, teoricamente, passaríamos um where, para ele ter parâmetros de busca.
+
+[04:55] Vamos começar criando uma const que vou chamar de where e vou passar como valor um objeto vazio. Esse where vai para dentro do findAll como parâmetro, também dentro de um objeto. Agora findAll está recebendo um where que por enquanto é só um objeto vazio.
+
+[05:20] Podemos vir no Postman. Vou apagar as datas que colocamos. Deixar só turmas. O get tem que continuar funcionando. Continua funcionando normal. Está pegando todas as turmas. Agora que já temos um where, temos que pegar os parâmetros da requisição.
+
+[05:42] Logo na primeira linha depois que abrimos o método pegaTodasAsTurmas vou criar uma const, vou chamar de data_inicial, data_final, no objeto ele vai ser descontruído, igual a req.query, porque aí vamos pegar via query strings o todos os parâmetros que estão descritos com esses dois nomes que escolhemos, data_inicial e data_final, que são os nomes que passamos na rota.
+
+[06:21] Agora temos que passar esses parâmetros para o where, se eles forem formados. O lance é dizer para o JavaScript que se tiver parâmetro de data, ele adiciona no where. Se não tiver, ele deixa quieto. Vou montar aqui logo abaixo do método só um modelo de como tem que ficar esse objeto where, porque vamos criar um where e dentro dele passar alguns parâmetros, isso tem que ser montado em forma de objeto.
+
+[06:50] Vamos abrir chaves, o nosso where vai receber como valor outro objeto, e aqui dentro do where, inclusive se voltarmos na documentação do sequelize na parte de operadores, ele dá um exemplo de como funciona o where dentro do findAll. O where recebe um objeto e dentro desse objeto vou passando as colunas onde quero que esse where seja aplicado.
+
+[07:18] A coluna onde queremos que o where seja aplicado é a coluna chamada data_inicio. O que é data_inicio? Lembrando no diagrama de banco que usamos, a tabela de turmas tem uma coluna que chama data_inicio, que é onde estamos passando justamente a data de início de cada uma das turmas, isso fizemos no projeto passado.
+
+[07:44] O where é um objeto e dentro dele a propriedade data_inicio, é o nome da coluna que queremos aplicar o where, e o valor dela também é um objeto. Dentro desse objeto vamos passar os operadores que queremos usar. Vamos usar dois operadores, passamos os dois entre colchetes. O primeiro é Op.gte, "gte" vem de greater than or equal, maior que ou igual, e o valor dele vai ser uma data, uma data qualquer que vamos passar.
+
+[08:20] O outro operador que vamos usar é Op.lte, lower than or equal, menor que ou igual. Ele vai receber uma data também. Essas duas datas que vamos passar são justamente as datas final e inicial que vamos receber por parâmetros.
+
+[08:42] Vou comentar esse trechinho de código, porque ele é só um modelo para seguirmos e montar o objeto do jeito certo. E agora é passar isso para o código. Se ter data ou não ter data inicial é uma condição, podemos fazer alguns ifs dentro do nosso método pegaTodasAsTurmas para passar isso ou não para dentro do where.
+
+[09:08] O primeiro if que vamos fazer é data_inicial || data_final e vou criar alguns ifs ternários aqui. Esse primeiro data_inicial ou data_final vai verificar se existe algum desses dois parâmetros. Se existir, vou no meu objeto where, que por enquanto o valor dele é um objeto vazio, e vou criar uma propriedade chamada data_inicio, é o nome da coluna, lembrando bem. Vou passar como valor de data_inicio igual a um outro objeto vazio.
+
+[09:42] Se não tiver nada, vou passar null. E agora vamos levar esses dados que vamos receber para dentro desse objeto. Então, data_inicial existe? Coloco a interrogação. É true? Se for true vamos passar para dentro do objeto where que criamos. Então, where.data_inicio, o nome da coluna, e aqui vou usar a notação de colchete para passar Op.gte como uma propriedade dentro do objeto data_inicio. O valor dessa propriedade vai ser o valor que vamos receber de data_inicial. Se não tiver nada, null.
+
+[10:30] Em seguida vamos fazer a mesma coisa para data_final. Se existir, se recebermos um parâmetro com data_final, é true? Interrogação. Vamos dentro do objeto where que criamos, dentro de data_inicio, e vamos passar com a notação de colchete uma nova propriedade chamada Op.lte e o valor dessa propriedade vai ser o valor que vamos pegar do parâmetro data_final. Se não tiver nada, null.
+
+[11:11] Vou salvar e vamos testar das duas formas no Postman. Primeiro vou testar localhost:3000/turmas com um get normal. As turmas continuam vindo. E agora vou testar com a interrogação, passando data_inicial igual 2020-01-01 e com & data_final igual 2020-03-01. Vou dar um novo get. Ele continua funcionando.
+
+[11:50] Acabou trazendo todas porque quando criei no meu banco criei todas com a mesma data de início, 2020, primeiro de fevereiro, então ele continua trazendo tudo, mas vou passar a data final como 2020-01-31. Vamos ver se ele vai trazer.
+
+[12:10] Ele não traz nada, porque todas as minhas turmas começam em fevereiro. É capaz de que no banco de vocês quando vocês tiverem feito vários testes vocês tenham outras informações e vocês podem modificar. Vou fazer um último teste, voltar a data final para 2020-03-01, vou passar a data inicial para 2020-02-01, e ele continua trazendo todos os registros que tem no meu banco.
+
+[12:41] Nosso filtro está funcionando, já podemos passar para o próximo requisito do projeto.

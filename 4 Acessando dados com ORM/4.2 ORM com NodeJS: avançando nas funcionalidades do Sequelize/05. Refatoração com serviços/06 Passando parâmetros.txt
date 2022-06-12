@@ -1,0 +1,58 @@
+[00:00] Vamos ver, por exemplo, como ficaria essa refatoração do controlador para o serviço no método cancelaPessoa, que foi o último método que criamos dentro de pessoaController. Por que justamente esse? Porque além dele estar chamando update em duas tabelas diferentes, ainda envolvemos tudo com uma transação, então como vamos fazer para tirar isso tudo do controlador e passar para um serviço mais genérico, digamos assim?
+
+[00:22] A primeira coisa é criar esses serviços. Dentro de services.js já tinha deixado separado um espaço para preenchermos com o método atualizaRegistro, que faz o update básico do CRUD de um registro através do id. Então, chama pelo id apenas um registro, faz o update disso.
+
+[00:40] Vamos então escrever esse método. Ele vai retornar database[this.nomeDoModelo]update. O que é update, o método update do sequelize recebe? Primeiro parâmetro que ele recebe é dadosAtualizados. O segundo é onde, no caso é o id, então aqui passamos como um where, abro um objeto where e o valor dele vai ser id:id. E além disso vou passar para atualizaRegistro um parâmetro que vai ser transação, iniciando com um objeto vazio, e dentro de update vou passar como terceiro parâmetro transação.
+
+[01:25] O que vai acontecer aqui? Vamos conseguir usar atualizaRegistro com ou sem transação, porque se não tiver nenhuma transação o sequelize não vai passar isso para frente e se tiver ele vai passar com as informações que ele vai receber do call-back de sequelize.transaction.
+
+[01:42] Além desse método atualizaRegistro que atualiza um registro baseado no id, vamos precisar também de um um pouco mais específico, que receba um where e aí faça alteração de todas as linhas onde where se aplica. Vou copiar o método atualizaRegistro e vou colar embaixo, que o outro vai ser bem parecido, vou chamar de atualizaRegistros, porque ao invés de um id único ele vai receber um where. Então vou passar o where como parâmetro.
+
+[02:06] A única alteração que vamos fazer no update é que ao invés do where receber um id:id ele vai receber um spread de where. Como vamos usar esse método? Vamos passar como parâmetro do where o objeto onde ele vai montar as condições do where onde ele vai procurar os registros nas tabelas e fazer as atualizações.
+
+[02:33] Essa parte acho que já está certa. Vamos dar uma olhada então em como está no controlador. Se olharmos a primeira linha depois do try tudo está dentro dessa função database.sequelize.transaction. Lembram que falamos sobre tirar do controlador todo contato com o modelo, inclusive meu VSC já está reclamando que ele não encontra mais database, justamente porque cortamos, comentamos a linha no começo do método, o contato do controlador de pessoas com o modelo. Então ele não encontra mais.
+
+[03:08] E tem um outro detalhe aqui também. O método atualmente está chamando database.pessoas e database.matriculas. Uma coisa sobre os serviços é que tudo bem, um serviço pode se conectar com outro, é normal, mas o ideal é que um controlador só tenha contato com seu próprio serviço, ou seja, o controlador de pessoas só ter contato com o serviço de pessoas, porque senão começa a ficar muito bagunçado.
+
+[03:33] Então o que temos que fazer aqui? Vamos ter que ir em pessoasService e criar mais um método específico de pessoasService para fazer toda essa transação ao mesmo tempo em que aproveitamos código que criamos para o serviço geral, que vai ser compartilhado entre todos os controladores.
+
+[03:52] Como fazemos isso? Aqui dentro de pessoasService vamos ter que chamar tanto o modelo de pessoas quanto o modelo de matrículas, só que matrículas ainda não criamos um serviço para eles, vamos fazer isso agora.
+
+[04:04] Criar o arquivo matriculasServices podemos fazer tanto do niveisServices quanto turmasServices. Eu vou simplesmente dar “Ctrl + C” “Ctrl + V” no arquivo turmasServices e vou trocar o nome dele para matriculasServices, e dentro do arquivo onde está escrito turmas vou trocar para matrículas, porque de resto esses arquivos por enquanto são bem parecidos, a estrutura deles é igual.
+
+[04:35] Sem esquecer de atualizar também tanto a importação quanto a exportação de services. Adicionamos uma linha para importar matriculasServices e exportar matriculasServices. No ponto de entrada dos serviços. Já está importado e exportado, podemos fechar o arquivo index, e vamos escrever nosso método pessoasServices.
+
+[05:06] A primeira coisa que estávamos falando é sobre o construtor de pessoasServicesestar recebendo através do super o que vem do construtor de services.js, que por enquanto o construtor só recebe um nome do modelo, está trabalhando com um modelo por vez.
+
+[05:25] Como faço então aqui para trabalhar com dois modelos? Não só recebendo o que veio do super, que está herdando tudo que vem de services? Podemos adicionar uma linha chamando this.matriculas = new Services (‘Matriculas’). Agora usamos o modelo pessoas vindo do construtor de serviços, que está herdando, mas também podemos criar uma nova instância de services aqui dentro e passo como parâmetro para o construtor matrículas. Agora podemos usar os dois modelos juntos.
+
+[06:12] Vamos escrever nosso método. Vai ser um método async, como todos os outros, vou chamar ele de cancelaPessoaEMatriculas. O que ele tem que receber? A mesma coisa que por enquanto o método cancelaPessoa está recebendo no controlador, que é só estudanteId, porque através do estudanteId fazemos todas as outras alterações.
+
+[06:38] E aí o que tem dentro desse método? O que ele vai precisar retornar? Ele vai retornar a transação inteira e dentro dela o que temos que fazer. Vou copiar a linha onde está escrito a transação. Ele vai return database.sequelize.transactin(async transacao =>, vamos substituir esses updates pelos métodos que criamos dentro de services.js, atualizaRegistro e atualizaRegistros.
+
+[07:11] A primeira coisa é fazer a atualização na tabela de pessoas, então await super.atualizaRegistro, e os parâmetros que vamos passar são parecidos com os que já estão sendo passados no controlador.
+
+[07:24] O primeiro é o que vai ser alterado, que é ativo um objeto contendo ativo false. O segundo é onde vai ser alterado, que podemos passar só como estudanteId, e o terceiro é um objeto contendo transaction: transacao, que é como estamos avisando no controlador que esse update faz parte de uma transação, ele está envolvido, está dentro de uma transação e faz parte de uma operação só.
+
+[08:00] Já atualizamos na tabela pessoas, para atualizar em seguida na tabela matrículas await this.matriculas, que é como estamos recebendo matrículas lá no construtor, e atualizaRegistros.
+
+[08:14] Novamente, os parâmetros de atualizaRegistros vão ser parecidos com o que já estamos usando no controlador atualmente, que primeiro é o que vai ser alterado, status cancelado. Where, só que não precisamos escrever where e dentro do where passar. Podemos passar só o objeto estudante_id, que é o nome da coluna, igual a estudanteId, que estamos recebendo por parâmetro.
+
+[08:45] Nós vamos montar o where dentro de atualizaRegistros só passando o conteúdo dele. Não precisamos escrever where, só precisamos escrever o que vai dentro dele.
+
+[08:56] O terceiro parâmetro é também avisar que tem uma transação rolando aqui com transaction:transacao. Nosso método está criado, faltou só fechar os parênteses do meu método. E agora refatorar o controlador, o método cancelaPessoa no controlador de pessoas passando o que acabamos de criar dentro de serviços. Substituindo todos esses updates pelo que acabamos de fazer.
+
+[09:30] Vou deletar tudo que tem dentro do try menos o retorno, porque o retorno continua sendo responsabilidade do controlador, e o que vamos retornar? O await pessoasServices.cancelaPessoaEMatriculas, o que precisamos passar para esse método? Somente estudanteId, então number para converter para número, e estudanteId, que estamos recebendo através dos parâmetros da requisição.
+
+[09:56] Vamos no Postman testar na rota que já tínhamos. Já tinha feito algumas alterações no meu banco para podemos testar, então alterei praticamente todo mundo para ativo true e coloquei todas as matrículas como confirmadas, menos do id 1. Podemos passar estudante 2, que estudante 2 no meu banco tem algumas matrículas confirmadas.
+
+[10:30] Vamos passar estudante 2. Em localhost:3000/pessoas/2/cancela, tipo post, vamos dar um send. A mensagem veio ok, matrículas estudante 2 canceladas, vamos conferir no MYSQL. Primeiro conferi select from pessoas. Estudante 1 ok, ele passou a ser false, e na tabela de matrículas tudo que tem na coluna estudante id 2 status passou a ser cancelado, tudo certo.
+
+[11:02] Última coisa é virmos no terminal no node e conferir se foi feita a transação. Transação iniciou. Começou a transação, fez o primeiro update. Fez o segundo update, comitou a transação, deu tudo certo. Agora, já sabemos como passar parâmetros e informações dos controladores, tirar do controlador.
+
+[11:26] Dá para ver inclusive que tanto o método no controlador quanto no serviço estão mais claros, é mais rápido de entender, de visualizar o que tecendo em cada um deles, ficou tudo mais separado. É isso sempre que temos que buscar quando fazemos esse tipo de refatoração e quando fazemos a separação entre serviços, controladores, separar entre arquivos, etc.
+
+[11:55] O que vamos fazer agora? Vou deixar para você o desafio de criar por sua conta o restante dos serviços que estão atualmente nos controladores de pessoas, de níveis, etc. Lembrando que a maior parte destes serviços vão estar em services.js, vão estar na parte de serviços gerais, entre aspas, porque vão ser métodos que vão ser compartilhados entre controladores. Create, update, delete, etc.
+
+[12:22] Vou deixar esse desafio para você. Depois voltamos aqui para ver o que foi feito e finalizamos nosso curso.
+

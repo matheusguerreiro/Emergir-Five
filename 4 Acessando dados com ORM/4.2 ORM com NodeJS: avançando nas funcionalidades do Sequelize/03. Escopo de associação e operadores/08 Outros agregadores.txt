@@ -1,0 +1,43 @@
+[00:00] Para finalizar esse requisito, vamos precisar de algo um pouco mais específico, que é contar quantos registros temos da mesma turma, numa matrícula. Se voltarmos no terminal do MYSQL, temos que contar quantas matrículas temos referentes ao mesmo id de turma, então no meu banco, por exemplo, tenho duas confirmadas na turma de id 1, comparar com o número máximo que se pode ter de turmas com matrículas confirmadas, que precisamos passar isso, e exibir só os registros que passem dessa comparação.
+
+[00:33] Se uma turma lotada for uma turma com duas matrículas, tenho que exibir só o que passa. Primeiro, vamos criar um método, voltamos no nosso controlador de pessoas, que é onde estamos trabalhando com matrículas, com o modelo de matrículas. Vou copiar o último método, que é o pegaMatriculasPorTurma e vou colar de novo por último para podermos trabalhar em cima.
+
+[00:56] Esse método que vamos criar vou passar o nome dele como pegaTurmasLotadas, vai receber requisição e resposta. Vou apagar o que tem no try, para podermos reescrever. O try catch pode deixar. O que vamos passar primeiro? Primeiro temos que passar justamente a quantidade de registros que fazem com que uma turma seja lotada.
+
+[01:25] Então vou criar uma const chamada lotacaoTurma, vou passar um valor como 2, por exemplo. Uma turma com 2 matrículas é uma turma lotada. O método que vamos usar é o mesmo que usamos, é o find and count all, porque o sequelize vai ter que fazer isso mesmo, vai ter que ir no banco, encontrar registros e contar quantos tem.
+
+[02:00] Vou criar uma const turmasLotadas, igual await database.Matriculas.findAndCountAll(), aqui dentro o que vamos passar? Vamos passar de novo um where. Vou jogar para a linha de baixo para ficar mais fácil de ver.
+
+[02:40] O que vamos passar dentro desse where? status: ‘confirmado’, que só queremos que traga as matrículas que têm status confirmado. O retorno já deixo pronto também, res.status(200).json(turmasLotadas), vai devolver o que estiver dentro dessa variável.
+
+[03:08] Se já criarmos uma rota para teste podemos ir vendo o que vamos receber. Vamos em pessoasRoute, mais uma rota do tipo get, então aí ser router.get(‘/pessoas/matricula/lotada’), porque dessa vez não precisamos passar nenhum parâmetro, porque não vou passar qual turma que quero consultar, quero que o banco, o sequelize consulte o banco e traga o que tem de informação sobre turmas lotadas.
+
+[03:42] O segundo parâmetro é o método PessoaController.pegaTurmasLotadas. Já está pronto. Vamos ver o que retornamos aqui no Postman. Vou copiar a rota /pessoas/matricula/lotada, get, vamos ver o que aparece. Ele já trouxe todas as turmas confirmadas e contou quantas turmas têm, lembrando que por enquanto não estamos falando nada de lotação ainda, a única coisa que fizemos no nosso método foi criar uma const que ainda não está sendo usada que passa a lotação de turma.
+
+[04:28] Quantas turmas tenho no banco com registro, com status confirmado? Tenho 4, ele contou para nós. Vamos precisar de mais alguns recursos do SQL, porque vamos precisar agrupar os registros que têm o mesmo valor, ou seja, que tem o valor de confirmado, e contar os registros.
+
+[04:50] Se você já viu um pouco mais sobre queries com SQL vamos precisar de duas palavras-chave que são group e having, que são agrupar e ter. Se tem no SQL, mesma coisa de sempre, vamos na documentação do Sequelize, porque conseguimos bem provavelmente fazer direto com o Sequelize.
+
+[05:11] Na documentação ele tem uma documentação sobre agrupamento, sobre group, então podemos usar o que tem na documentação, que é passar dentro de um objeto a propriedade group e por onde. Vamos no where, embaixo de status confirmado, depois de where.
+
+[05:32] Da mesma forma que fizemos vídeo passado, depois de where vamos passar como segunda propriedade desse objeto, a primeira propriedade é where, o segundo vou passar attributes: [‘turma_id’], e vou passar também uma outra propriedade, que é group: [‘turma_id’].
+
+[06:14] Primeiro, o que estamos fazendo? Passando em attributes só o atributo do modelo que queremos trabalhar, e em seguida falamos qual é o atributo que vamos usar para agrupar, ou seja, junte os resultados checando o valor desta coluna, da coluna turma_id.
+
+[06:35] Vamos ver o que então está acontecendo no Postman. Vou dar um send. Ele já está contando. Está quase lá. Ele está contando, está trazendo a turma_id, count tenho duas matrículas na turma_id já confirmadas. Na turma de id 2 tenho uma e na turma de id 3 tenho outra. E aqui ele está trazendo só os rools que tem turma_id, porque são os atributos que queremos trabalhar. Pedimos para trabalhar só com o atributo turma_id e é só isso que ele está retornando.
+
+[07:10] Está quase lá. Ele trouxe a quantidade de registros. Só falta contar e comparar. Aqui vamos precisar fazer uma coisa que foi inédita até agora neste projeto, que é realmente escrever SQL, porque batemos numa coisa que o Sequelize não consegue fazer para nós sem SQL.
+
+[07:30] Como fazemos para inserir queries de SQL, palavras-chave dentro do Sequelize, do node através do sequelize? Vamos usar um método que chama sequelize.literal.
+
+[07:44] A primeira coisa que vamos ter que fazer é vir nas primeiras linhas do controlador de pessoas, porque vamos precisar importar sequelize para poder usar esse método, então const Sequelize = require(‘sequelize’). Agora podemos voltar no método e passar depois de group uma quarta propriedade, que é having, que tem, tendo.
+
+[08:30] E aí, having: Sequelize.literal(‘count(turma_id) >== ${lotacaoTurma}’). O que estou fazendo? Estou pedindo para ele contar quantos resultados de turma_id são maiores, então quantas matrículas de uma certa turma, de um certo id de turma que tem uma quantidade maior do que o número que passei na const lotacaoTurma, que por enquanto eu passei dois.
+
+[09:35] Vamos testar? Vou voltar no Postman, send, ele não trouxe nada, porque tem que ser maior ou igual, passei dois e ele tem dois registros no banco. Agora deve voltar. Na turma_id de número 1 tenho duas turmas e ele está retornando isso para nós. Ou seja, para fazer esse where alinhado, entre várias aspas, passamos como SQL mesmo, e pedimos para incluir na conta apenas os registros de turma_id, com quantidade de registros maior ou igual do que o inteiro que passamos na const lotacaoTurma.
+
+[10:17] Vamos voltar no terminal onde o node está mostrando as queries para nós e vamos mostrar essa query, vamos ver qual foi a query que o Sequelize montou para nós. Ele está agrupando por turma_id tendo um count, está montando exatamente com o que pedimos, ele agrupou por turma_id e podemos ver que ele passou a palavra-chave count do jeito que fizemos para ser incluído na query.
+
+[10:51] O ideal aqui então é devolver esse JSON somente com o count, que é o que queremos. Queremos passar a quantidade de ids que estão lotados. Podemos voltar, se quisermos, e passar em turmasLotadas.count no retorno, ele vai trazer para nós só uma array com a quantidade de turmas que está lotada. Como só temos uma turma, ele só traz um registro, mas vai colocando todos os registros que tiver.
+
+[11:20] Agora já sabemos como fazer para incluir, fazer contagem de registros, e também como incluir literais do SQL dentro do sequelize para fazer coisas um pouco mais complexas.

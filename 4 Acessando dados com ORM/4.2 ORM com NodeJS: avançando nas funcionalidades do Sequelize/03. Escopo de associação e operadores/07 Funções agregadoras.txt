@@ -1,0 +1,41 @@
+[00:00] Partindo então para a próxima solicitação do cliente, a última que fizemos foi fazer uma espécie de filtro de data utilizando ordenadores e datas que recebíamos por query, esse já está feito. O próximo é que o cliente quer poder consultar as matrículas por turma e saber quais delas estão lotadas para organizar melhor as matrículas.
+
+[00:20] Supondo que passemos um número, por exemplo, a partir de quatro estudantes uma turma está lotada, precisamos voltar a isso do banco para o sistema. Vamos pensar primeiro no primeiro caso, o cliente quer poder consultar as matrículas por turma. Vamos ver isso primeiro.
+
+[00:40] Vamos então no controlador de pessoas. No controlador de pessoas porque é neste controlador que estão sendo escritos os métodos de matrícula, porque o que temos que consultar, se voltarmos no diagrama de banco, é a tabela matrículas e ver quantas matrículas tenho em uma turma através da coluna turma_id, que é a coluna que liga a tabela de turmas com a tabela de matrículas.
+
+[01:05] O último método do nosso pessoaController é o pegaMatriculas, vou copiar ele e colar por último o método para reaproveitarmos um pouco do que já escrevemos. Vou chamar esse novo método de pegaMatriculasPorTurma. E o que vamos precisar receber dos parâmetros? Vamos precisar receber turmaId, porque, queremos checar quantas matrículas tenho por id de turma.
+
+[01:35] Vou apagar por enquanto tudo que está dentro do try, porque vamos escrever novamente. E como fazemos isso? Eu poderia usar só um findAll, por exemplo, database.Matriculas.findAll, e passo o findAll, ele traz todos os registros, passo dentro do where o turma_id, ele traz todos os registros que tem com aquela turma na tabela de matrículas, e posso deixar o front fazer essa contagem de registros.
+
+[02:11] Eu posso, mas não é a melhor prática, uma vez que o SQL tem recursos para fazer esse tipo de operação, e ele faz de forma mais performática. Então, já que o SQL oferece recursos para fazermos contagem de registros, soma de registros, etc, vemos se o sequelize tem alguma coisa parecida.
+
+[02:28] Ele tem. Na verdade, o que queremos é um método tipo find, um método encontrador, além dos que já usamos. Usamos o findAll, usamos o findOne, além disso tem o findByPk, que encontra por uma chave primária, e tem o findOrCreate, se você precisar de algum registro que seja único, por exemplo, um id, checa se tem um id ou username no banco, se não tiver ele cria.
+
+[02:52] E temos um que parece promissor, que chama findAndCountAll, encontre e conte todos. Esse parece que vai ser bom para nós. Vamos aproveitar no nosso método. Vou voltar onde começamos a escrever o método pegaMatriculasPorTurma, vou criar uma const para salvar os resultados que vamos trazer do banco, vou chamar de todasAsMatriculas, ela vai ser await database.Matriculas.findAndCountAll, esse é o método que vamos usar.
+
+[03:38] O método findAndCountAll vamos passar um where para ele como parâmetro, para podermos dizer para ele que queremos que ele veja tais turmas, etc. Dentro do where, o que temos que passar primeiro no findAndCountAll? A primeira coisa que vamos ter que passar é, vou abrir um objeto, a propriedade where, o valor dela é um outro objeto onde passamos o que queremos colocar no onde, no where.
+
+[04:05] O primeiro vai ser turma_id, porque turma_id é nome da coluna lá no diagrama de banco, e o que vou passar no turma_id? Vai ser number, para converter para número, turmaId, e esse turmaId é o turmaId que estamos recebendo dos parâmetros.
+
+[04:26] Vou passar mais uma coisa nesse where. Vou passar status: ‘confirmado’. O que é esse status confirmado? Se voltarmos no diagrama de banco, status é uma outra coluna na tabela matrículas, e ele recebe uma string confirmado ou cancelado, porque o cliente quer que tragamos todas as matrículas que estão confirmadas em determinada turma, então não podemos nos esquecer dessa parte.
+
+[04:55] A última coisa que vou colocar é um return, para podermos mandar esses dados para a frente. Então, return res.status(200).json(todasAsMatriculas). Agora esqueci de adicionar uma rota para esse teste, então vamos na pasta de rotas, na rota de pessoas, vai ser uma rota do tipo get, então router.get (‘/pessoas/matricula/:turmaId/confirmadas’, PessoaController.pegaMatriculasPorTurma).
+
+[06:16] Vou copiar essa rota para testarmos ela no Postman. Vamos lá no Postman, get localhost:3000/pessoas/matricula/, preciso passar um id de turma. Vamos dar uma olhada no terminal do MYSQL para ver o que podemos colocar como teste. Vou pedir então select * from Matriculas.
+
+[06:50] Na turma 1, no meu banco, que o de vocês pode estar um pouco diferente, tenho duas matrículas confirmadas na turma de id 1, do estudante 1 e do estudante 2. Vamos no Postman dar um get e ver se ele vai retornar na turma 1, que é a turma que tem duas matrículas confirmadas.
+
+[07:20] pessoas/matricula/1/confirmadas. Ele me trouxe as duas matrículas, a matrícula de id 1 e de id 2, ambas referentes à turma 1. Id de estudante 1, e id de estudante 2. Olha que interessante, olha o que o JSON está retornando para mim. Ele está retornando um objeto com duas propriedades. A primeira chama count, e ela tem um valor número de 2, e a segunda chama rows, de linhas, e o valor dela é uma array contendo os resultados que bateram com o where.
+
+[07:52] Ele primeiro conta todos os registros, ele contou, trouxe para nós que são dois registros, e em seguida ele trouxe um array com esses registros. Podemos voltar no nosso método para fazer um teste e pedir para o JSON retornar todas as matrículas .count. Aí vamos no get de novo no Postman. Ele trouxe só o valor que tem dentro de count.
+
+[08:16] Também podemos adicionar como parâmetro do findAndCountAll algumas outras opções. Vou adicionar duas para testar. Uma que é o limit. O limit é bem útil para fazer paginação. Podemos limitar a quantidade de registros que são trazidos por vez do banco.
+
+[08:37] Não vou colocar 20, que é o mais padrão, porque só temos dois registros no banco. Vou colocar um registro só para testarmos. Vamos voltar ao Postman, vou dar um send de novo aqui. No count ele contou que tem dois registros, mas ele trouxe na array de resultados só um, só o primeiro.
+
+[08:58] Podemos usar o limit quando tivermos vários registros e quisermos limitar a quantidade de registros que vêm de uma vez. Vou deixar 20 só para ter guardada essa opção. E uma outra opção que podemos trazer também é ordenar, order. Com order ordenamos os resultados. Passamos a forma como queremos ordenar dentro de duas arrays e vou passar aqui dentro, no primeiro índice, a coluna que quero ordenar, pela qual quero ordenar. Vou ordenar por estudante, estudante_id é a coluna que quero usar para ordenar.
+
+[09:33] O outro índice dessa array é se quero ordenar de forma ascendente ou descendente. Se colocar as letras ASC vou ordenar por ordem ascendente. No meu retorno não vai fazer diferença, porque estudante 1 e estudante 2 estão logo em seguida um do outro. Mas se eu trocar por DESC e pedir os resultados de novo no Postman, ele trocou, primeiro traz o estudante de id 2 e depois o de id 1.
+
+[10:05] Já vimos como utilizamos alguns outros métodos do tipo finder, e como podemos passar algumas outras opções além do where para organizar melhor os resultados que mandamos para frente, que trazemos com a nossa API.
