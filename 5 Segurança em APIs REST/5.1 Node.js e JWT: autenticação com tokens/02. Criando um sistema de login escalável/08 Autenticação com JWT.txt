@@ -1,0 +1,5 @@
+Das opções abaixo, quais são as características corretas em relação a um sistema de autenticação com JSON Web Token?
+
+
+Mesmo que o processo de criação de um token JWT possa ser público, a senha secreta guardada no servidor impede que um token válido seja forjado por um atacante.
+  Isso! A senha é essencial para garantir a segurança da autenticação. Portanto, ela deve ser mantida em segurança, mesmo que o processo de construção do token seja público.

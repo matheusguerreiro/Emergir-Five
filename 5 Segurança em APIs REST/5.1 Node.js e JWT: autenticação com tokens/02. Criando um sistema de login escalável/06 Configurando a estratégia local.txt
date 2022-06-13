@@ -1,0 +1,35 @@
+[00:00] Para iniciar a implementação do nosso sistema de login, a primeira coisa que precisamos fazer é configurar nossa primeira estratégia de autenticação, a estratégia local, que é estratégia onde recebemos o e-mail e senha do nosso cliente. Para facilitar a criação dos Middlewares de autenticação usaremos dois módulos que é o passport e o passport-local.
+
+[0:25] Primeiro para começar, vamos no nosso projeto e vamos instalar esses dois pacotes. Então npm install passport@0.4.1, nesse caso estamos usando a versão “0.4.1” do passport. Agora vamos instalar o passport-local, então npm install passport-local@1.0.0, nesse caso, estamos usando a versão “1.0.0”. Agora com esses dois pacotes instalados vamos começar a configurar a nossa estratégia de autenticação.
+
+[01:19] Para isso vamos na pasta, clicando do lado superior esquerdo em “BLOG-DO-CODIGO > node_modules > src > posts > usuários”, e vamos criar o arquivo estratégias-autenticacao.js. Então vai ser nesse arquivo que vamos configurar todas as nossas estratégias de autenticação. Para isso, vamos começar importando passport, const passport = require( ‘passport’ ) e a estratégia local const LocalStrategy = require( ‘passport-local’ ).Strategy.
+
+[02:12] Agora, a primeira coisa que precisamos fazer é configurar a nossa nova estratégia. Para isso usamos o método passport, passport.use( new LocalStrategy). Esse método LocalStrategy vai receber dois argumentos, o primeiro é um objeto opcional com algumas opções de modificação, e o segundo vai ser o nossa função de verificação da estratégia local.
+
+[02:45] Então o que colocamos nesse objeto opcional que vai ser o nosso primeiro argumento? Como não usamos os nomes padrões do passport, teremos que fazer algumas modificações como usarnameField, que em vez de usar username, estamos usando e-mail. Como não usamos passport, no campo passportField, colocamos senha.
+
+[03:22] Além disso como agora nosso sistema de login vai ser sistema de login sem sessões também precisamos configurar session: false. Pronto, e é isso o objeto de configurações. Agora vamos criar a nossa função de verificação, essa função de verificação recebe três argumentos, nesse caso, o e-mail, senha da requisição que o cliente envia para nós, e uma função done, que vai ser a função call-back do passport authenticate.
+
+[04:03] E qual que é o objetivo dessa função? O objetivo dessa função é, se as credenciais do usuário estiverem válidas, essa função devolve o usuário para a função call-back do passport authenticate. Já que precisamos do nosso usuário, a primeira coisa que devemos fazer é importar ele no nosso arquivo.
+
+[04:30] Então para isso, aqui no começo do código vai ser const Usuario = require(‘./usuários-modelo), agora já temos o nosso model, então só vamos buscar o nosso usuário a partir do e-mail, então const usuário = Usuario.buscaPorEmail(email) que vai receber o e-mail que o cliente mandou na requisição.
+
+[05:06] Como esse método devolve uma promise. Vamos só colocar essas qwords assim: asynce await, ai conseguimos usar essas estruturas de código. Certo, recebemos nosso usuário. O que mais precisamos fazer? O que acontece se essa busca der errado? Precisamos tratar desse erro, então vamos usar um try catch para encapsular todo esse bloco de código.
+
+[05:39] Então vamos colocar a busca do usuário no try, e no catch do erro vamos chamar função done, enviando o erro que aconteceu. Certo, agora tratamos do caso em que a busca falhou, e o que acontece se a busca retorna nulo? Que nesse caso não existe usuário com esse e-mail na base, e precisamos de alguma função para verificar se usuário existe ou não.
+
+[06:10] Então vamos fazer uma função chamada “verifique o usuário”, na linha 6, vamos fazer: function verificaUsuario (usuario), que vai receber nosso usuário. O que ela vai fazer? Se o usuário for nulo, ou seja, if (!usuario), ele vai jogar um erro, ou seja throw new Error(). Nesse caso, jogar um erro genérico não é tão informativo para toda nossa aplicação, e para resolver esse problema, nossa aplicação já tem erros customizados implementados.
+
+[06:55] Então para resolver isso podemos importar um dos nossos erros customizados, que é InvalidArgumentError que é o erro de argumento inválido, que vai importar do diretório anterior, o arquivo “erros”. Certo, então substituindo o nosso erro genérico, criamos um novo InvalidArgumentError e na mensagem do erro podemos dizer “Não existe usuário com esse e-mail”.
+
+[07:42] Então agora para verificar o usuário, podemos ir debaixo da busca por e-mail e chamar a função verificaUsuario(usuario). Então se o usuário não existir, ele vai jogar um erro, e se existir ele continua a lógica do programa normalmente. Então tudo bem, a partir desse ponto do programa, a sabemos que o usuário existe, só que não temos certeza se a senha que ele enviou é a senha desse mesmo usuário.
+
+[08:18] Então para isso precisamos criar uma outra função chamada verifica senha, então aqui em baixo vamos criar uma nova function verificaSenha(senha, senhaHash) que vai receber a senha que um cliente enviou e a senha hash do usuário que acabamos de buscar. Então como conseguimos fazer a comparação da senha, com a senha hash? Para isso temos o método do bcrypt, chamado bcrypt compare.
+
+[08:53] Então vamos importar ele na linha 7 const bcrypt = require(‘bcrypt’) agora vamos conseguir usar o método bcrypt compare, que vai retornar se a senha é válida ou não. Então const senhaValida = bcrypt.compare(senha, senhaHash). Um ponto importante, esse bcrypt compare retorna uma promise. Então vamos usar await e async dessa função.
+
+[09:43] Certo, e o que acontece se a senha não for válida, retornamos um novo erro. Então throw new InvalidArgumentError(‘E-mail ou senha inválidos’), pronto. Dessa forma conseguimos fazer nossa função de verificação da senha, e para isso só precisamos chamar ela embaixo de verificaUsuario(usuário);, verificaSenha(senha, usuário.senhaHash);, enviando a senha que o cliente enviou na requisição e a senha hash do usuário que acabamos de buscar.
+
+[10:36] Então depois de todas as verificações de usuário e de senha, temos certeza que as credenciais que o cliente enviou na requisição dele, são válidas. E para isso só precisamos chamar o done(null, usuário), que vai receber no argumento de erros caso, que nesse caso não teve nenhum. E o usuário que acabamos de buscar, mostrando que esse cliente que fez a requisição está autentificado.
+
+[11:04] Então é dessa forma que configuramos a nossa primeira estratégia de autenticação e mais pra frente, veremos como inserir essa estratégia dentro das rotas da nossa aplicação.

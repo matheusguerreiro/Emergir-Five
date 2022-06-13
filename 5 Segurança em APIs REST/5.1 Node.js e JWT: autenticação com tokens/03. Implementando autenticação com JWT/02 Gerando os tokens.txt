@@ -1,0 +1,29 @@
+[00:00] Até agora temos três rotas que queremos proteção, que são: “adicionar post”, “efetuar login” e “deletar usuário”. E anteriormente implementamos o nosso middleware de autenticação local, que usuário tem que enviar o e-mail e senha para poder se autenticar. Só que deixamos agora duas rotas desprotegidas, “adicionar post” e “deletar usuário”.
+
+[00:26] Como podemos garantir autenticação do nosso usuário sem que ele tenha que enviar e-mail e senha toda hora? Como eu já falei anteriormente, ele vai realizar esse tipo de autenticação por meio de Tokens, então o que precisamos fazer agora, é uma estratégia muito parecida com a que estamos fazendo na estratégia local.
+
+[00:49] Agora, em vez de usar e-mail e senha, nosso cliente terá que enviar um Token para gente, onde que ele vai conseguir esse Token? No momento que ele se autentica com a estratégia local, ele vai receber um Token de volta, ele vai ter que guardar de alguma forma e enviar para gente nas próximas requisições.
+
+[01:10] Então precisamos implementar a criação desse Token e o envio dele para o usuário, para isso vamos usar o pacote JSON WEB TOKEN. Vamos agora então instalar o módulo do JSON WEB TOKEN na nossa aplicação. Então vamos abrir a nossa pasta do projeto: npm install jsonwebtoken@8.5.1. Está funcionando, tudo certo.
+
+[01:48] Conseguimos instalar, agora vamos implementar a criação do nosso token jwt. Para isso vamos fazer uma função, criaTokenJWT(usuario), que vai receber o usuário. Para fazer a criação do Token, a primeira coisa que precisamos fazer é criar o Payload, já que o cabeçalho já é gerado automaticamente, e assinatura é baseada nesses outros dois.
+
+[02:24] Então vamos criar o nosso Payload,const payload = ele vai ser um objeto. Dentro do Payload vamos colocar uma informação do usuário que nesse caso é o ID. Então vamos fazer id: usuario.id. É assim que criamos um Payload, e agora vamos gerar todo o nosso Token JWT a partir desse Payload.
+
+[02:54] Para isso, vamos precisar de um método JSON WEB TOKEN. Então vamos importar o JSON WEB TOKEN com const jwt = require(‘jsonwebtoken’). Que método vamos precisar usar no JSON WEB TOKEN? Esse pacote tem um método chamado sign que ele vai gerar um Token e assinar ele, baseado no Payload e na senha secreta do nosso servidor.
+
+[03:36] Para isso vamos receber o nosso Token, ele vai ser gerado com esse const token = jwt.sign(payload, ‘senha-secreta’); de assinar. Ele vai receber o payload e nossa senha secreta. Nesse caso vamos colocar senha-secreta, apenas uma string em texto puro aqui no nosso código. Gerado o Token, nós apenas retornamos o Token, e é assim que é a função de criação do Token JWT.
+
+[04:12] Feito isso, vamos agora na função de login, na linha 42, antes de enviarmos a nossa página, nossa resposta, vamos criar o nosso Token gerado, que vai chamar a função: criaTokenJWT(req.user), que vai receber o user que está dentro da requisição. Esses user é colocado no momento em que o passport authentication é finalizado.
+
+[04:53] A partir desse momento que o req passa a ter o atributo user como o nosso usuário, que buscamos na nossa estratégia local. Temos agora nosso Token e precisamos enviar esse Token de alguma forma para o nosso usuário. Enviar ele no corpo da nossa resposta é uma alternativa, só que não é muito indicada.
+
+[05:18] O método mais usado pra esse tipo de coisa é colocarmos nos cabeçalho da nossa resposta, não em qualquer cabeçalho, no cabeçalho authorization. Para fazer isso, podemos usar o método set da resposta, que vai receber uma string, dizendo em qual cabeçalho você quer colocar. Nesse caso é Authorization, que é uns cabeçalhos padrões para esse tipo de coisa e vamos enviar o Token.
+
+[05:57] Ou seja, no momento da resposta, quando o usuário for observar dentro dos cabeçalhos, vai ter o cabeçalho Authorzation com o Token. Então é dessa forma que conseguimos colocar o header com o nosso Token e enviar para o usuário. Aliás, o código 204, que colocamos na linha 44, não só diz que a página de resposta, é uma página em branco mas também que os cabeçalhos podem ser úteis.
+
+[06:28] Então já nosso próprio status http, já indicamos que usuário vai ter que olhar o headers para encontrar o Token, para fazer os próximos requisições. Então vamos abrir no “Insomnia” e testar para ver se está funcionando tudo certinho. Primeiro vamos rodar aqui no servidor, npm start. Está tudo funcionando. Abrindo o “Insomnia”, vamos corrigir a nossa requisição e fazer uma requisição de login para o servidor.
+
+[07:05] Ok, código 204, deu tudo certo. No header, temos em Authorization o nosso Token. Você consegue ver no cabeçalho o Payload e a nossa assinatura.
+
+[07:26] Então é dessa forma que conseguimos fazer todo esse processo de geração do Token, e é com esse Token que nosso usuário vai ter que enviar as próximas requisições que fizer.

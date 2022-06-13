@@ -1,0 +1,3 @@
+No vídeo anterior, alteramos as tabelas do banco de dados para armazenar apenas o hash da senha do usuário. Por isso, é importante remover a versão antiga do banco (db.sqlite) antes de prosseguir. Caso contrário, você poderá encontrar problemas ao interagir com o banco, como adicionar usuários.
+
+Assim, na próxima vez que iniciarmos nosso servidor um novo arquivo db.sqlite será gerado com as novas tabelas.

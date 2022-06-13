@@ -1,0 +1,3 @@
+A Auth0 possui uma plataforma chamada jwt.io que permite a decodificação, verificação e geração de um JWT através de uma interface gráfica. Lá é possível criar tokens com diferentes cabeçalhos, payloads, algoritmos de assinatura e senhas secretas.
+
+https://caelum-online-public.s3.amazonaws.com/1665-nodeauth/aula2-ex3-img1.png
