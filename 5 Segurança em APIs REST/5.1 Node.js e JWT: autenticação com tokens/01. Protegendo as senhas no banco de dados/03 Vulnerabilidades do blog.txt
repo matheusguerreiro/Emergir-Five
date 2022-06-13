@@ -1,0 +1,27 @@
+[00:00] Agora, vamos olhar mais de perto como é que nossa aplicação funciona. Primeiro, vamos abrí-lo em um editor de texto. Nesse caso, estou usando o “Vscode”. Então, abrindo “Vscode” vamos abrir a pasta do nosso projeto, que é “Blog do Código”. Carregando e pronto.
+
+[00:23] Esse é o nosso projeto. Está com um terminal aqui aberto na pasta, vamos rodá-lo para ver se está tudo funcionando. Com npm start. Tudo certo. Ele está rodando na port 3000. E agora como conseguimos fazer a interação com ele?
+
+[00:43] Como a nossa aplicação é uma API rest, todas as interações que fazemos com ele são feitas por meio de protocolos http. Então, para isso, eu vou usar um programa “Insomnia” que, na atividade anterior, estará explicado como se faz para instalar e usar. E se esse nas aulas anteriores, nos cursos anteriores, você já viu outros programas como Postman, ele funciona da mesma forma. Eu acho um pouquinho mais didático de fácil de usar.
+
+[01:11] Então vamos abrir aqui nosso programa, o “Insomnia”. Vou aumentar um pouquinho a tela para ficar mais fácil de ver. Aqui, eu já tenho algumas requisições prontas. Eu vou fazer uma junto com você para entendermos melhor como mexer nesse programa.
+
+[01:29] Então vamos fazer um “New Request”, lado superior esquerdo na seta. Essa requisição, vamos chamar de “Criar usuário”. Essa requisição vai ser uma requisição com método post e como corpo, um formulário.
+
+O endereço dessa requisição vai ser http://localhost:3000/usuário. E, no corpo da requisição, vamos enviar um nome. Neste caso, vou colocar meu nome, Andrew, um e-mail, neste caso, andrew@alura.com.br e uma senha. Como na nossa aplicação a senha tem uma restrição de tamanho máximo e mínimo, eu vou colocar 123123123 que já abrange e fica tudo certo.
+
+[02:26] Vamos enviar e pronto, usuário foi criado e recebemos o código 201. Então o que mais que nossa aplicação vai conseguir fazer? Além de criar um usuário, podemos listar usuários. Ok , temos usuários listados, tudo certinho. Podemos deletar usuários que temos na base. Pronto, deletado. No caso, ali deu erro porque o id está errado. Vamos colocar o id: 1 que, como vimos anteriormente, o iddo nosso usuário era 1.
+
+[03:01] Pronto, deu tudo certo. Além de trabalhar com usuários, conseguimos criar e listar posts. Então vamos criar um novo post que vai receber o título e o conteúdo. Tudo certo, criamos o post. E podemos listar os posts que temos na base.
+
+[03:19] Vamos criar mais um post aqui, “Autenticação 2”. E agora, vamos testar os dois posts que temos na base. Temos este post com a id: 1 e o post que acabamos de criar, o id:2.
+
+[03:34] Então tudo isso que conseguimos fazer agora nessa aplicação, ela é bem simples. Agora, vamos ver um pouquinho mais de perto sobre como guardamos os nossos usuários. Em “Listar Usuários” de novo, vemos que guardamos um ID, guardamos um nome, e-mail, e guardamos a senha.
+
+[03:51] Só que a senha, guardamos em texto puro, na base de dados, sem nenhuma proteção. Então, de alguma forma, se um atacante conseguisse pegar a nossa base de dados ele teria acesso tanto aos e-mails, quanto às senhas dos nossos usuários, e isso é uma falha de segurança bem grave. Precisamos de alguma proteção nessas senhas. E de que forma conseguimos fazer isso?
+
+[04:16] O que precisamos é de alguma função que receba a nossa senha e transforme para algo aparentemente aleatório. De forma que esse resultado da função, não dê nenhuma informação sobre a senha original. E, além disso, tendo o resultado dessa função, você não consegue recuperar a senha original depois.
+
+[04:40] E outra coisa que precisamos se tivermos a senha original, conseguimos comparar com o resultado da função. Então podemos apenas guardar o resultado da função na base, e temos certeza de que vamos conseguir comparar com a senha que o nosso usuário for dar no momento de login. Então que tipo de função é essa? Uma função que tem essas propriedades é chamada de “Função de Espalhamento” ou “Função de Hashing”.
+
+[05:11] Agora que sabemos o que é “Função de Espalhamento” ou “Função de Hashing”, que tipo de funções são adequadas para o nosso uso?

@@ -1,0 +1,60 @@
+Quando trabalhamos projetos com Node.JS, precisamos em algum momento usar funções assíncronas, principalmente se tratando de entrada e saída de dados (I/O - Input/Output). E para isso podemos utilizar as promises, porém elas podem deixar nosso código complexo e verboso, então podemos usar o async e await e deixar nosso código mais simples e bonito, e é isso que vamos ver neste artigo.
+
+Processamento síncrono e assíncrono?
+Precisamos entender esses dois conceitos: o processamento síncrono é aquele que acontece em sequência e ordenado, seguindo uma fila, e o outro processamento assíncrono só começa após o atual ser concluído. Isso acontece nos navegadores que fazem o carregamento dos arquivos e recursos de forma ordenada, onde um carregamento só começa após o outro ter sido concluído.
+
+Já o processamento assíncrono é quando os processos são executados ao mesmo tempo, sem nada que impeça de outro começar enquanto o que foi iniciado anteriormente termine. Assim um processo pode iniciar mesmo que outro esteja em execução. Isso acontece muito no enviado de mensagens ou emails, podemos enviar uma mensagem, porém a mesma ai nem tenha chegado ao destino e mesmo assim podemos já criar e mandar outra mensagem.
+
+O Node.JS usa o processamento assíncrono, e isso pode ser um tanto difícil de entender se compararmos a outra linguagem como PHP por exemplo. Poderíamos usar o seguinte código para fazer um SELECT, INSERT, UPDATE, ou qualquer outra coisa no banco:
+
+$resultado = $connection->query('SELECT * FROM nome_da_databela');
+
+echo $resultado;
+
+<restante do código>
+Desta forma o “restante do código” só vai ser executado depois que o SELECT na tabela for realizado, no Node.JS precisamos usar algo como:
+
+connection.query('SELECT * FROM nome_da_databela', function (error, resultados) {
+    console.log(resultados);
+});
+
+<restante do código>
+O “restante do código” seria executado logo, “antes” do SELECT ser completado, mas precisamos sempre fechar a conexão quando o processamento terminar. Mas, afinal, quando vai terminar? Não sabemos, então temos um problema!
+
+Usando promises (promessas)
+Podemos usar as promises (promessas, em tradução livre). Ou seja: vamos fazer uma promessas que em algum momento será comprida e teremos retorno, ou poderemos fazer alguma coisa quando a mesma for concluída.
+
+Presumindo que nossa conexão com o banco de dados já retorne uma promise, poderíamos fazer algo como:
+
+connection.query('SELECT * FROM nome_da_databela').then(linhas => {
+    console.log(resultados);
+});
+
+<restante do código>
+E usando promises seria fácil resolver nosso problema de fechar a conexão quando o SELECT for concluído, podemos simplesmente encadear outro then, da seguinte forma:
+
+connection.query('SELECT * FROM nome_da_databela').then(linhas => {
+    console.log(resultados);
+}).then(rows => connection.close());
+
+<restante do código>
+Se precisarmos encadear várias promises seguidas, teremos um problema para ler o código e entender como vai ser realmente este processamento.
+
+Melhorando o código com async e await
+Para resolver esse outro problema, podemos usar um o async e await que está presente no Node.JS desde a versão 7.6. Com ele podemos deixar nosso código simples e de fácil entendimento.
+
+Se tivermos a ideia que o código deve ser compreendido com facilidade, isso pode não ser tão simples usando as promises, porém as funções assíncronas tornam esta tarefa mais fácil, já que vai funcionar como no PHP, por exemplo, o “restante do código” só vai ser executado quando tiver sido completado o SELECT.
+
+Podemos ter o seguinte código:
+
+async listar() {
+const resultado = await connection.query('SELECT * FROM nome_da_databela');
+
+<restante do código>
+};
+Pronto! Usamos uma função assíncrona ( async), e dentro dela o “restante do código” só vai ser executado quando connection.query('SELECT * FROM nome_da_databela') terminar, ou seja a variável resultado vai receber o resultado que está “aguardando” (await) do SELECT no banco de dados.
+
+Conclusão
+Simples, rápido! Usar o async e await torna a usabilidade, escrita e a leitura fáceis de entender. É tão legal que quando começamos a usar o async e await dificilmente queremos voltar a usar as promises.
+
+Gostou do artigo e quer saber mais sobre Node.JS e suas funções? Aqui na Alura temos a Formação de Node.JS, para você aprender e se desenvolver em Node.
