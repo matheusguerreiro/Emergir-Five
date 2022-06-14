@@ -1,0 +1,17 @@
+Rogério está testando o projeto do curso e, para fazer algumas requisições, efetuou login na API e recebeu um token. Depois de alguns minutos, ele usou esse token para efetuar logout da API. Em seguida, efetuando o logout novamente com o mesmo token, ele recebe uma resposta, de código 401, com
+
+{
+    "erro": "Token inválido por logout!"
+} COPIAR CÓDIGO
+Entretanto, no dia seguinte, ele usou o mesmo token e recebeu uma resposta diferente.
+
+O que aconteceu?
+
+
+Quando Rogério usou o token no dia seguinte, ele já tinha sido removido automaticamente da blacklist pelo Redis, devido a seus 15 minutos de tempo de vida. Dessa forma, não estava mais inválido por logout, e sim expirado, resultando na resposta:
+
+{ 
+    "erro": "jwt expired"
+}
+
+  Isso! Ao passar o tempo de expiração, não precisamos mais rejeitar um token por logout, pois ele já estará inválido por tempo. Assim, o erro é disparado pelo jwt.verify() ao receber o token expirado.

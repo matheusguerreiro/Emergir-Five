@@ -1,0 +1,17 @@
+Para sistemas operacionais baseados no Unix, como Linux e macOS, a instalação pode ser feita a partir do código-fonte do Redis que está disponível em: http://redis.io/download.
+
+Uma outra opção seria realizar a instalação por um gerenciador de pacotes, como o HomeBrew do macOS ou o apt-get do Debian e seus derivados. Mas nos exemplos a seguir vou utilizar a instalação através do código-fonte, pois isso pode ser realizado facilmente por qualquer sistema operacional baseado no Unix.
+
+Veja a seguir como fazer a instalação a partir do código-fonte:
+
+wget http://download.redis.io/releases/redis-3.0.6.tar.gz
+tar xzf redis-3.0.6.tar.gz
+cd redis-3.0.6
+make
+
+No bloco de comandos anterior, o download do Redis é feito utilizando o programa de linha de comando wget. O x é o número do release, lembre-se de substituí-lo. Assim que o download estiver concluído, o arquivo é descompactado com o comando tar na pasta redis-3.0.x e, após a sua descompactação, é necessário realizar a compilação do código-fonte do Redis utilizando o comando make. A compilação pode demorar um pouco para terminar, mas após o fim da execução desse comando, o Redis já está pronto para o uso e os arquivos binários gerados estarão acessíveis através da pasta src.
+
+O programa wget não existe nativamente no macOS, e para resolvermos isso podemos substituí-lo pelo programa curl, que consegue fazer o download de um arquivo pela linha de comando da seguinte forma:
+
+curl http://download.redis.io/releases/redis-3.0.6.tar.gz  -o
+redis-3.0.6.tar.gz

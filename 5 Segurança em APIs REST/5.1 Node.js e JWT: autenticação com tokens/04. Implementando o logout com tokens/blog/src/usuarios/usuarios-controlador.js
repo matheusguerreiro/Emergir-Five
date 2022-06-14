@@ -1,24 +1,17 @@
 const Usuario = require('./usuarios-modelo');
 const { InvalidArgumentError, InternalServerError } = require('../erros');
 
-// 3.3 senha segura para o jwt
-// 3.3.1
-// terminal
-//  node -e "console.log(require('crypto').randomBytes(256).toString('base64'))"
-// 3.3.1
-// 3.3.2 -> .env
+const jwt = require('jsonwebtoken');
+const blacklist = require('../../redis/manipula-blacklist');
 
-// 3.2 gerando tokens
-// 3.2.1
-const jwt = require('jsonwebtoken')
 function criaTokenJWT(usuario) {
   const payload = {
     id: usuario.id
-  }
-  const token = jwt.sign(payload, process.env.chave_jwt)
-  return token
+  };
+
+  const token = jwt.sign(payload, process.env.CHAVE_JWT, { expiresIn: '15m' });
+  return token;
 }
-// 3.2.1
 
 module.exports = {
   adiciona: async (req, res) => {
@@ -47,11 +40,19 @@ module.exports = {
   },
 
   login: (req, res) => {
-    // 3.2.2
-    const token = criaTokenJWT(req.user)
-    res.set('Authorization', token)
-    // 3.2.2
-    res.status(204).send()
+    const token = criaTokenJWT(req.user);
+    res.set('Authorization', token);
+    res.status(204).send();
+  },
+
+  logout: async (req, res) => {
+    try {
+      const token = req.token;
+      await blacklist.adiciona(token);
+      res.status(204).send();
+    } catch (erro) {
+      res.status(500).json({ erro: erro.message });
+    }
   },
 
   lista: async (req, res) => {

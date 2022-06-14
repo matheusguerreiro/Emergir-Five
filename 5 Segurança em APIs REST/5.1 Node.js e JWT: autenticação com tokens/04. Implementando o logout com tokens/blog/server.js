@@ -1,10 +1,9 @@
-// 3.3.3
 require('dotenv').config()
-// 3.3.3
 
 const app = require('./app');
 const port = 3000;
 const db = require('./database');
+require('./redis/blacklist');
 
 const routes = require('./rotas');
 routes(app);

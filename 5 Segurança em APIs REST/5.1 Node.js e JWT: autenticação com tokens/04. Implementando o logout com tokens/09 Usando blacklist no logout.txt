@@ -1,0 +1,41 @@
+[00:00] Agora que já temos as funções para fazer a manipulação na Blacklist, podemos começar a implementar o logout. Então em “BLOG-DO-CODIGO > SRC > usuários > usuarios-controlador.js” temos que criar a função de logout do controlador. Então abaixo do login, criamos a função logout, que vai receber a requisição, a resposta e vai realizar o processo de logout.
+
+[00:24] O que precisamos fazer nessa função? Como já tínhamos discutido, no processo de logout, o usuário vai dar o Token para nós, e o que devemos fazer é adicionar esse Token na Blacklist. Onde temos esse Token? Em nenhum momento recebemos ele explicitamente, o máximo que temos é ele nos headers da requisição, de uma forma nem um pouco bem formatada.
+
+[00:55] O jeito fácil de conseguirmos esse Token, é a partir da estratégia de autenticação. Se formos em “BLOG-DO-CODIGO > SRC > usuários > estratégia-autenticacao.js”, ele do header da autenticação, faz [ININTELIGÍVEL] do header, e recupera o Token para nós. O que podemos fazer, é a partir dessa parte, irmos passando até chegar em nosso controlador.
+
+[01:23] Então a primeira coisa que fazemos é enviar o Token para o middleware de autenticação, o passport.authenticate. Para enviarmos, colocamos um terceiro parâmetro na função done, que é um objeto de informações adicionais, o terceiro argumento da função call-back do passport authenticate.
+
+[01:52] Nesse objeto, criamos um atributo Token, que vai receber o Token da estratégia. Feito isso, podemos ir em “BLOG-DO-CODIGO > SRC > usuários > middlewares-autenticacao.js”, na estratégia bearer e recuperar o Token que está no terceiro argumento, que está como atributo de info. O que podemos fazer para conseguirmos recuperar o Token no controlador, podemos inserir ele na requisição.
+
+[02:31] Então criamos um novo atributo na requisição, req.token, e inserimos o Token que está no info, então: info.token. Dessa forma inserimos o Token na requisição. Agora podemos voltar em “BLOG-DO-CODIGO > SRC > usuários > usuarios-controlador.js”, e aqui temos um acesso mais fácil para o Token, então: const token = req.token.
+
+[02:59] Agora conseguimos recuperar o Token e adicioná-lo na blacklist, mas como fazemos isso? Precisamos primeiro importar as funções de manipulação da blacklist. Se formos na linha “5”, fazemos: const blacklist = require(‘../../redis/manipula-blacklist’). Feito isso, para adicionar o Token na lista, conseguimos fazer apenas: blacklist.adiciona(token).
+
+[03:47] Como esse blacklist.adiciona retorna uma promise, colocamos await para esperar a execução dele e async na chamada da função do logout. Se conseguirmos adicionar o Token na blacklist, fazermos uma resposta com status(204) de página vazia, e enviamos uma página vazia ao usuário.
+
+[04:18] Se não der certo, por exemplo, se der algum erro no ato de adicionar o “redis”, o que podemos fazer é encapsular tudo em um bloco de try catch. No try, colocamos tudo isso que acabamos de escrever, no catch retornamos uma resp.status(500) e no corpo, um json({ erro: erro.message}). Dessa forma que implementamos a função de logout.
+
+[05:08] Agora podemos ir em “BLOG-DO-CODIGO > SRC > usuários > usuarios-rotas.js”, e criar a rota de logout. Embaixo da rota de login criamos app.route(‘/usuario/logout’).get(usuariosControlador.logout). Como queremos que usuários estejam autenticados para fazer isso, pois queremos o Token deles para realizar o logout, colocamos como argumento do middleware de autenticação a estratégia bearer.
+
+[06:03] Então na linha “11” enviamos o middleware de autenticação com a estratégia bearer e o Controlador.logout. Vamos testar para ver se está tudo funcionando. Então com nosso servidor funcionando, vamos no “Insomnia” criar nossa requisição de logout. Então em New Request colocamos “Efetua logout”, é uma requisição de método get e isso vai ser para localhost:3000/usuario/logout.
+
+[06:49] Fazendo a requisição, recebemos “401” de não autorizado, porque não estamos autenticados, em nenhum momento colocamos nossa autenticação. Então para isso precisamos fazer login primeiro, efetuando o login conseguimos recuperar o Token, que está no servers, copiamos, e em autenticação, fazemos uma autenticação da forma bearer token, e enviamos nosso Token que acabamos de fazer o login.
+
+[07:21] Enviando, deu tudo certo. A requisição deu certo com código “204”, só que ele adicionou o Token na blacklist, mas ainda não verificamos se em outra requisição, o Token do cliente está na blacklist ou não. Então se, por exemplo, eu fizer uma requisição de criar post enviando o Token que eu acabei de fazer logout, ele deixa eu criar, porque ele ainda não tem a verificação de se o Token foi invalidado por logout ou não.
+
+[07:59] Então temos que voltar para nosso projeto e implementarmos essa verificação, onde conseguimos fazer isso? Se voltarmos agora para “BLOG-DO-CODIGO > SRC > usuários > estratégia-autenticacao.js”, teremos que criar uma nova verificação nela. Para fazer essa verificação, vamos criar uma nova função: function verificaTokenNaBlacklist(token).
+
+[08:36] O que vamos fazer? Primeiro, recebendo o Token, vamos querer saber o resultado, se o Token está na blacklist ou não, para isso importamos nossa funções de manipulação da lista. Então na linha “12” vamos importar: const blacklist = require(‘../../manipula-blacklist’). Então fazemos a verificação: blacklist.contemToken(token). Se a blacklist não contém o Token, queremos retornar um erro, esse erro jogamos com throw new jwt.JsonWebTokenError.
+
+[09:57] Esse é o mesmo erro que pegamos nos middlewares de autenticação, que é um erro de jwt. Então conseguimos especificar uma mensagem de erro dizendo “Token inválido por logout!”. Então invés de usar um erro personalizado nosso, nós usamos um erro personalizado do jwt, um erro JsonWebTokenError, esse erro é um Token inválido por logout.
+
+[10:31] Só que ainda tem uma coisa, blacklist.contemToken devolve uma promise, então o que devemos fazer é modularizar isso, colocando em uma outra variável, por exemplo: tokenNaBlacklist = await blacklist.contemToken(token), então invés de fazer a verificação da aplicação da função, fazemos a verificação com o Token da blacklist e colocamos async na função da linha “20”.
+
+[11:16] Com isso podemos voltar na estratégia de autenticação bearer e fazer a verificação, fazemos: verificaTokenNaBlacklist(token), como ele devolve uma promise, colocamos await no início da linha “59”. Tudo certo, é assim que verificamos se o Token está na blacklist ou não antes de continuar o processo. O que podemos fazer agora, é testar para ver se está tudo funcionando.
+
+[11:50] Nosso servidor está ligado, então vamos para o “Insomnia” tentar fazer logout de novo. Vamos tentar fazer login, feito o login, pegamos o Tokens, enviamos o Token para realizar o logout, colamos o Token que acabamos de copiar e deu errado de novo.
+
+[12:16] Isso foi uma falha de implementação nossa, porque a verificação que fazemos é se o Token não está na blacklist, damos o erro, mas é o contrário, é se o Token está na blacklist, significa que ele foi inválido por logout, então temos que dar o erro.
+
+[12:35] Agora podemos tentar fazer de novo, e realizar o logout que dá certo. O que acontece se tentarmos realizar o logout de novo? Agora temos certeza que o Token está inválido, se clicarmos de novo, ele dá o erro que estamos esperando. É dessa forma que conseguimos criar um sistema de logout, usando Tokens.
