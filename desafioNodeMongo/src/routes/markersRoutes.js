@@ -9,4 +9,5 @@ router
   .get('/markers/:id', markersController.listMarker)
   .put('/markers/:id', markersController.updateMarker)
   .delete('/markers/:id', markersController.deleteMarker)
+  .delete('/markers', markersController.deleteMarkers)
 module.exports = router

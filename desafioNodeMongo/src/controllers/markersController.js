@@ -14,9 +14,9 @@ class MarcadorController {
     const marker = new markers(req.body)
     marker.save((error) => {
       if (error) {
-        res.status(500).send(error.message)
+        res.status(500).json({message: 'Erro ao criar Marker!'})
       } else {
-        res.status(201).send(marker.toJSON())
+        res.status(201).json(marker.toJSON())
       }
     })
   }
@@ -24,7 +24,7 @@ class MarcadorController {
     const {id} = req.params
     markers.findById(id, (error, marker) => {
       if (error) {
-        res.status(500).json(error.message)
+        res.status(404).json({message: `Marker id: ${id} não encontrado!`})
       } else {
         res.status(200).json(marker)
       }
@@ -34,7 +34,7 @@ class MarcadorController {
     const {id} = req.params
     markers.findByIdAndUpdate(id, {$set: req.body}, (error) => {
       if (error) {
-        res.status(500).json(error.message)
+        res.status(500).json({message: `Erro ao atualizar Marker id: ${id}`})
       } else {
         res.status(200).json({message: `Marker id: ${id} atualizado com Sucesso!`})
       }
@@ -47,6 +47,15 @@ class MarcadorController {
         res.status(500).json(error.message)
       } else {
         res.status(200).json({message: `Marker id: ${id} apagado com Sucesso!`})
+      }
+    })
+  }
+  static deleteMarkers = (req, res) => {
+    markers.deleteMany({}, (error) => {
+      if (error) {
+        res.status(500).json(error.message)
+      } else {
+        res.status(200).json({message: 'Markers apagados com Sucesso!'})
       }
     })
   }

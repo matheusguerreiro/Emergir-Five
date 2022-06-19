@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const {Schema} = require('mongoose')
 
-let date = new Date()
 
 const markerSchema = new Schema(
   {
@@ -10,15 +9,21 @@ const markerSchema = new Schema(
       lng: {type: Number, required: true}
     },
     date: {
-      type: Date,
-      default: Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0)
+      type: String,
+      default: new Date()
     },
     draggable: {
       type: Boolean,
       default: false
     }
   },
-  {versionKey: false}
+  {
+    versionKey: false
+    /*
+    timestamps: true
+    */
+  }
+    
 )
 
 const markers = mongoose.model('markers', markerSchema)
