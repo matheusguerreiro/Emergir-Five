@@ -27,7 +27,7 @@ describe('routes', () => {
     const res = await request(app)
     .post('/markers')
     .send({position: {lng: -35.5353}})
-    expect(res.statusCode).toEqual(500)
+    expect(res.statusCode).toEqual(422)
   })
 
   it('post/markers, deve retornar status 201.', async () => {
@@ -41,7 +41,7 @@ describe('routes', () => {
     const res = await request(app)
     .put('/markers/idInválido')
     .send({position: {lat: -35.5353, lng: -15.5151}})
-    expect(res.statusCode).toEqual(500)
+    expect(res.statusCode).toEqual(404)
   })
   
   it('put/markers/id, deve retornar status 200.', async () => {

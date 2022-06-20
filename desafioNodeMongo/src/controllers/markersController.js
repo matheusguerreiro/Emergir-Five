@@ -14,7 +14,7 @@ class MarcadorController {
     const marker = new markers(req.body)
     marker.save((error) => {
       if (error) {
-        res.status(500).json({message: 'Erro ao criar Marker!'})
+        res.status(422).json({message: 'Erro ao criar Marker!'})
       } else {
         res.status(201).json(marker.toJSON())
       }
@@ -34,7 +34,7 @@ class MarcadorController {
     const {id} = req.params
     markers.findByIdAndUpdate(id, {$set: req.body}, (error) => {
       if (error) {
-        res.status(500).json({message: `Erro ao atualizar Marker id: ${id}`})
+        res.status(404).json({message: `Erro ao atualizar Marker id: ${id}`})
       } else {
         res.status(200).json({message: `Marker id: ${id} atualizado com Sucesso!`})
       }
